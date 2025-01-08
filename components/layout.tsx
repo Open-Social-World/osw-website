@@ -1,4 +1,3 @@
-// components/Layout.tsx
 import Head from 'next/head';
 import { FrontMatter } from '@/types/article'
 import Header from './header';

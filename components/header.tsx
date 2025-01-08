@@ -1,5 +1,5 @@
-// components/Header.tsx
 import Link from 'next/link';
+import Image from 'next/image';
 import { FrontMatter } from '@/types/article';
 
 interface HeaderProps {
@@ -7,13 +7,21 @@ interface HeaderProps {
 }
 
 export default function Header({ frontMatter }: HeaderProps) {
+  const formattedDate = frontMatter?.publishedDate 
+    ? new Date(frontMatter.publishedDate).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+    : null;
+
   return (
     <header>
       {/* Top Navigation Bar */}
       <nav className="bg-gray-900 text-white">
         <div className="max-w-screen-xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <Link href="/" className="text-xl font-semibold hover:text-gray-300">
+            <Link href="/" className="text-sm md:text-xl font-semibold hover:text-gray-300">
               Open Social World
             </Link>
             <div className="flex space-x-6">
@@ -31,9 +39,11 @@ export default function Header({ frontMatter }: HeaderProps) {
         </div>
       </nav>
 
-      {/* Article Header */}
+      {/* Article Header with Hero Image */}
       {frontMatter && (
         <div className="bg-white border-b">
+          
+          
           <div className="max-w-screen-xl mx-auto px-4 py-12">
             <div className="grid grid-cols-1 lg:grid-cols-[2fr,1fr] gap-8">
               {/* Title and Description */}
@@ -46,14 +56,30 @@ export default function Header({ frontMatter }: HeaderProps) {
                     {frontMatter.description}
                   </p>
                 )}
-                {frontMatter.publishedDate && (
+                {formattedDate && (
                   <p className="mt-4 text-gray-500">
-                    Published: {new Date(frontMatter.publishedDate).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
+                    Published: {formattedDate}
                   </p>
+                )}
+                {frontMatter.image && (
+                  <div className="w-full mt-4">
+                    <div className="max-w-screen-xl mx-auto px-4">
+                      <div className="relative aspect-[21/9] w-full">
+                        <Image
+                          src={frontMatter.image.url}
+                          alt={frontMatter.image.alt || frontMatter.title}
+                          fill
+                          priority
+                          className="object-contain"
+                        />
+                      </div>
+                      {frontMatter.image.caption && (
+                        <p className="text-sm text-gray-600 mt-2 text-center pb-4">
+                          {frontMatter.image.caption}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 )}
               </div>
 

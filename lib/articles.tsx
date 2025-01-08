@@ -35,6 +35,7 @@ export async function getArticleBySlug(slug: string) {
     authors: data.authors,
     publishedDate: data.publishedDate,
     doi: data.doi,
+    image: data.image,
     katex: data.katex
   };
 
