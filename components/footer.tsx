@@ -19,7 +19,7 @@ export default function Footer({ frontMatter }: FooterProps) {
                 <h3 className="text-lg font-semibold mb-4">Cite this article</h3>
                 <div className="text-gray-400 text-sm">
                   {frontMatter.authors?.map(author => author.name).join(', ')} 
-                  ({new Date(frontMatter.publishedDate || '').getFullYear()})
+                  {" "} ({new Date(frontMatter.publishedDate || '').getFullYear()})
                   <br />
                   {frontMatter.title}
                   <br />
