@@ -13,32 +13,7 @@ export default function Footer({ frontMatter }: FooterProps) {
       {frontMatter && (
         <div className="border-b border-gray-800">
           <div className="max-w-screen-xl mx-auto px-4 py-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {/* Citation Information */}
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Cite this article</h3>
-                <div className="text-gray-400 text-sm">
-                  {frontMatter.authors?.map(author => author.name).join(', ')} 
-                  ({new Date(frontMatter.publishedDate || '').getFullYear()})
-                  <br />
-                  {frontMatter.title}
-                  <br />
-                  Open Social World 
-                  {frontMatter.doi && (
-                    <div className="mt-2">
-                      DOI: <a 
-                        href={`https://doi.org/${frontMatter.doi}`}
-                        className="text-blue-400 hover:underline"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {frontMatter.doi}
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </div>
-
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* Download Options */}
               <div>
                 <h3 className="text-lg font-semibold mb-4">Downloads</h3>
@@ -79,6 +54,29 @@ export default function Footer({ frontMatter }: FooterProps) {
                   </a>
                 </div>
               </div>
+
+              {/* RSS & Social */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Follow</h3>
+                <div className="space-y-2">
+                  <a 
+                    href="https://twitter.com/academic_journal"
+                    className="block text-sm text-gray-400 hover:text-white"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Twitter
+                  </a>
+                  <a 
+                    href="https://github.com/academic_journal"
+                    className="block text-sm text-gray-400 hover:text-white"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GitHub
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -86,7 +84,7 @@ export default function Footer({ frontMatter }: FooterProps) {
 
       {/* Main Footer */}
       <div className="max-w-screen-xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* About */}
           <div>
             <h3 className="text-lg font-semibold mb-4">About</h3>
@@ -118,35 +116,6 @@ export default function Footer({ frontMatter }: FooterProps) {
               >
                 Submit
               </Link>
-            </div>
-          </div>
-
-          {/* RSS & Social */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Follow</h3>
-            <div className="space-y-2">
-              <a 
-                href="/rss.xml"
-                className="block text-sm text-gray-400 hover:text-white"
-              >
-                RSS Feed
-              </a>
-              <a 
-                href="https://twitter.com/academic_journal"
-                className="block text-sm text-gray-400 hover:text-white"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Twitter
-              </a>
-              <a 
-                href="https://github.com/academic_journal"
-                className="block text-sm text-gray-400 hover:text-white"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GitHub
-              </a>
             </div>
           </div>
 

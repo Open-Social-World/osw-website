@@ -9,6 +9,8 @@ import { Figure } from '@/components/article/figure';
 import { Citation } from '@/components/article/citation';
 import { Code } from '@/components/article/code';
 import { Bibliography } from '@/components/article/bibliography';
+import { Footnote, FootnotesList, FootnotesProvider } from '@/components/article/footnotes';
+import { ArticleCitation } from '@/components/article/article-citation';
 import { getAllArticleSlugs, getArticleBySlug } from '@/lib/articles';
 import { getCitationsForArticle, sortCitations } from '@/lib/bibliography';
 import { Citation as CitationType } from '@/types/article';
@@ -96,12 +98,19 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
   return (
     <Layout frontMatter={article.frontMatter}>
-      <article className="max-w-none prose lg:prose-lg mx-auto">
-        <MDXRemote 
-          source={article.content}
-          components={components}
-        />
-      </article>
+      <FootnotesProvider>
+        <article className="max-w-none prose lg:prose-lg mx-auto">
+          <MDXRemote 
+            source={article.content}
+            components={{
+              ...components,
+              Footnote
+            }}
+          />
+          <FootnotesList />
+          <ArticleCitation frontMatter={article.frontMatter} />
+        </article>
+      </FootnotesProvider>
     </Layout>
   );
 }
