@@ -105,16 +105,16 @@ export default function Footer({ frontMatter }: FooterProps) {
                 Archive
               </Link>
               <Link 
-                href="/about"
+                href="/"
                 className="block text-sm text-gray-400 hover:text-white"
               >
-                About
+                Home
               </Link>
               <Link 
-                href="/submit"
+                href="/team"
                 className="block text-sm text-gray-400 hover:text-white"
               >
-                Submit
+                Team
               </Link>
             </div>
           </div>
@@ -123,22 +123,8 @@ export default function Footer({ frontMatter }: FooterProps) {
           <div>
             <h3 className="text-lg font-semibold mb-4">Legal</h3>
             <div className="space-y-2">
-              <Link 
-                href="/terms"
-                className="block text-sm text-gray-400 hover:text-white"
-              >
-                Terms of Use
-              </Link>
-              <Link 
-                href="/privacy"
-                className="block text-sm text-gray-400 hover:text-white"
-              >
-                Privacy Policy
-              </Link>
               <p className="text-sm text-gray-400 mt-4">
-                © {new Date().getFullYear()} Academic Journal.
-                <br />
-                All rights reserved.
+                CC-BY 4.0 SA © 2025 Open Social World
               </p>
             </div>
           </div>
