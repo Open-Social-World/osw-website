@@ -25,8 +25,8 @@ export default function Header({ frontMatter }: HeaderProps) {
               Open Social World
             </Link>
             <div className="flex space-x-6">
-              <Link href="/archive" className="hover:text-gray-300">
-                Archive
+              <Link href="/articles" className="hover:text-gray-300">
+                Articles
               </Link>
               <Link href="/about" className="hover:text-gray-300">
                 About

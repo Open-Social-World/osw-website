@@ -5,12 +5,15 @@ export interface Author {
   affiliationURL?: string;
 }
 
+export type ArticleType = 'PEER-REVIEWED' | 'EDITORIAL';
+
 export interface FrontMatter {
   title: string;
   description?: string;
   authors?: Author[];
   publishedDate: string;
   doi?: string;
+  type?: ArticleType;
   katex?: {
     [key: string]: any;
   };
