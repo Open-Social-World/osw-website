@@ -41,14 +41,29 @@ const supabase = createClient(
 );
 
 const VideoGridVisualizer = () => {
-  const [videos, setVideos] = useState([]);
+  // const [videos, setVideos] = useState([]);
+  type Video = {
+    id: string;
+    high?: string;
+    low?: string;
+    taxonomy?: string | null;
+    description?: string;
+    video_url?: string;
+    thumbnail_url?: string;
+    behaviors?: string[];
+    correct_behavior?: number;
+    justifications?: string[];
+  };
+  const [videos, setVideos] = useState<Video[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [totalVideos, setTotalVideos] = useState(0);
   const [matchingCount, setMatchingCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedVideo, setSelectedVideo] = useState(null);
+  // const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+  // const [selectedVideo, setSelectedVideo] = useState(null);
+  const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [idSearch, setIdSearch] = useState("");
   const [categorySearch, setCategorySearch] = useState("");
   const [categoryType, setCategoryType] = useState("high");
@@ -91,7 +106,8 @@ const VideoGridVisualizer = () => {
       }));
 
       setVideos(processedData || []);
-      setTotalPages(Math.ceil(filteredCount / VIDEOS_PER_PAGE));
+      // setTotalPages(Math.ceil(filteredCount / VIDEOS_PER_PAGE));
+      setTotalPages(Math.ceil((filteredCount ?? 0) / VIDEOS_PER_PAGE));
       setMatchingCount(filteredCount || 0);
       setTotalVideos(totalCount || 0);
     } catch (err) {
@@ -109,9 +125,12 @@ const VideoGridVisualizer = () => {
     fetchData();
   }, [currentPage, idSearch, categorySearch, categoryType, fetchVideos]);
 
-  const handleVideoClick = (video) => {
+  const handleVideoClick = (video: Video) => {
     setSelectedVideo(video);
   };
+  // const handleVideoClick = (video) => {
+  //   setSelectedVideo(video);
+  // };
 
   const handleCloseVideo = () => {
     setSelectedVideo(null);
