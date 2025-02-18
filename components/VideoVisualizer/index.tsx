@@ -32,10 +32,18 @@ const LOW_LEVEL_CATEGORIES = [
   "Food and Dining"
 ];
 
+const NEXT_PUBLIC_SUPABASE_URL="https://ockebqxgdcybuerqphqp.supabase.co"
+const NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ja2VicXhnZGN5YnVlcnFwaHFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk4Mjk0MDQsImV4cCI6MjA1NTQwNTQwNH0.azu_Oi1O2ib56T6V4u210DxqjCNTYAHkBcPYbA6zPvo"
+
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  NEXT_PUBLIC_SUPABASE_URL,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
+
+// const supabase = createClient(
+//   process.env.NEXT_PUBLIC_SUPABASE_URL,
+//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+// );
 
 const VideoGridVisualizer = () => {
   const [videos, setVideos] = useState([]);
@@ -337,7 +345,7 @@ const VideoGridVisualizer = () => {
                           }`}
                         >
                           <div className="text-lg mb-2">
-                            {String.fromCharCode(65 + index)}. {behavior || "None of the other options is correct"}
+                            {String.fromCharCode(65 + index)}. {behavior || "None of the other options is correct."}
                           </div>
                           {selectedVideo.taxonomy?.[index] && behavior && (
                             <p className="text-gray-600 text-sm">
@@ -366,7 +374,7 @@ const VideoGridVisualizer = () => {
                           }`}
                         >
                           <div className="text-lg">
-                            {String.fromCharCode(65 + index)}. {justification || "None of the other options is correct"}
+                            {String.fromCharCode(65 + index)}. {justification || "None of the other options is correct."}
                           </div>
                         </div>
                       ))}
