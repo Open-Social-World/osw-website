@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 const VIDEOS_PER_PAGE = 30;
-const VIDEOS_PER_ROW = 3;
 
 const HIGH_LEVEL_CATEGORIES = ["Lifestyle", "Professional", "Living/Commute", "Art/Culture", "Shopping"];
 const LOW_LEVEL_CATEGORIES = [
@@ -51,7 +50,7 @@ const VideoGridVisualizer = () => {
   const [categorySearch, setCategorySearch] = useState("");
   const [categoryType, setCategoryType] = useState("high");
 
-  const fetchVideos = async () => {
+  const fetchVideos = useCallback(async () => {
     try {
       setIsLoading(true);
       const from = (currentPage - 1) * VIDEOS_PER_PAGE;
@@ -73,13 +72,12 @@ const VideoGridVisualizer = () => {
         }
       }
 
-      const { data, error, count: filteredCount } = await baseQuery
+      const { data, error: filteredError, count: filteredCount } = await baseQuery
         .range(from, to)
         .order('id');
 
-      if (error) throw error;
+      if (filteredError) throw filteredError;
 
-      // Get total number of videos (without filters)
       const { count: totalCount } = await supabase
         .from('videos')
         .select('*', { count: 'exact', head: true });
@@ -99,11 +97,14 @@ const VideoGridVisualizer = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [currentPage, idSearch, categorySearch, categoryType]);
 
   useEffect(() => {
-    fetchVideos();
-  }, [currentPage, idSearch, categorySearch, categoryType]);
+    const fetchData = async () => {
+      await fetchVideos();
+    };
+    fetchData();
+  }, [currentPage, idSearch, categorySearch, categoryType, fetchVideos]);
 
   const handleVideoClick = (video) => {
     setSelectedVideo(video);
@@ -190,7 +191,11 @@ const VideoGridVisualizer = () => {
         </div>
       </div>
 
-      {isLoading ? (
+      {error ? (
+        <div className="w-full p-6 text-center text-red-600 bg-red-50 rounded-lg">
+          {error}
+        </div>
+      ) : isLoading ? (
         <div className="w-full p-6 text-center">Loading videos...</div>
       ) : (
         <>
