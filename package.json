@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.48.1",
     "@types/react-syntax-highlighter": "^15.5.13",
     "bibtex-parse-js": "^0.0.24",
     "class-variance-authority": "^0.7.1",

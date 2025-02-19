@@ -14,6 +14,7 @@ import { ArticleCitation } from '@/components/article/article-citation';
 import { getAllArticleSlugs, getArticleBySlug } from '@/lib/articles';
 import { getCitationsForArticle, sortCitations } from '@/lib/bibliography';
 import { Citation as CitationType } from '@/types/article';
+import VideoVisualizer from '@/components/VideoVisualizer';
 
 interface HTMLComponentProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
@@ -47,6 +48,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
     ),
     Code,
     Bibliography: () => <BibliographyWrapper citations={citations} />,
+    VideoVisualizer,
     h1: ({ children, className, ...props }: HTMLComponentProps) => (
       <h1 className={`text-4xl font-bold mt-8 mb-4 ${className || ''}`} {...props}>
         {children}
