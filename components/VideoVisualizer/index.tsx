@@ -410,15 +410,15 @@ const VideoGridVisualizer = () => {
                 {selectedVideo.behaviors && (
                   <div className="border-b pb-4">
                     <h3 className="font-serif text-xl font-bold mb-4">Actions</h3>
-                    <div className="pl-4 border-l border-gray-200 space-y-4">
+                    <div className="pl-4 border-l border-gray-200">
                       {selectedVideo.behaviors.map((behavior, index) => (
                         <div
                           key={index}
-                          className={`${
+                          className={`border-b border-gray-400 last:border-b-0 ${
                             index === selectedVideo.correct_behavior
-                              ? 'border-l-4 border-green-500 -ml-4 pl-4'
+                              ? 'border-l-4 border-l-green-500 -ml-4 pl-4 bg-green-50'
                               : ''
-                          }`}
+                          } py-4 first:pt-0 last:pb-0`}
                         >
                           <div className="text-lg mb-2 flex items-center gap-2">
                             <span>{String.fromCharCode(65 + index)}. {behavior || "None of the other options is correct."}</span>
@@ -446,15 +446,15 @@ const VideoGridVisualizer = () => {
                 {selectedVideo.justifications && (
                   <div className="border-b pb-4">
                     <h3 className="font-serif text-xl font-bold mb-4">Justifications</h3>
-                    <div className="pl-4 border-l border-gray-200 space-y-4">
+                    <div className="pl-4 border-l border-gray-200">
                       {selectedVideo.justifications.map((justification, index) => (
                         <div
                           key={index}
-                          className={`${
+                          className={`border-b border-gray-400 last:border-b-0 ${
                             index === selectedVideo.correct_behavior
-                              ? 'border-l-4 border-green-500 -ml-4 pl-4'
+                              ? 'border-l-4 border-l-green-500 -ml-4 pl-4 bg-green-50'
                               : ''
-                          }`}
+                          } py-4 first:pt-0 last:pb-0`}
                         >
                           <div className="text-lg mb-2">
                             {String.fromCharCode(65 + index)}. {justification || "None of the other options is correct."}
