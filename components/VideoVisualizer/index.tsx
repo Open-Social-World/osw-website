@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { createClient } from '@supabase/supabase-js';
 
 const VIDEOS_PER_PAGE = 9;
@@ -51,6 +52,30 @@ const TAXONOMY_COLORS: Record<TaxonomyType, string> = {
   'communication/legibility': '#EA772F'
 };
 
+type ModelPrediction = {
+    behavior: number;
+    justification: number;
+};
+
+type PredictionData = {
+    [key: string]: ModelPrediction;
+};
+
+type Video = {
+    id: string;
+    high?: string;
+    low?: string;
+    taxonomy?: string | null;
+    description?: string;
+    video_url?: string;
+    thumbnail_url?: string;
+    frame_url?: string;
+    behaviors?: string[];
+    correct_behavior?: number;
+    justifications?: string[];
+    prediction?: PredictionData;
+};
+
 const NEXT_PUBLIC_SUPABASE_URL="https://ockebqxgdcybuerqphqp.supabase.co"
 const NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ja2VicXhnZGN5YnVlcnFwaHFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk4Mjk0MDQsImV4cCI6MjA1NTQwNTQwNH0.azu_Oi1O2ib56T6V4u210DxqjCNTYAHkBcPYbA6zPvo"
 
@@ -59,38 +84,29 @@ const supabase = createClient(
   NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
-// Component for rendering individual taxonomy badges
+const Badge = ({ text, color }: { text: string; color: string }) => (
+  <span 
+    className="inline-block rounded px-2 py-1 text-xs font-medium mr-2 mb-2"
+    style={{
+      backgroundColor: color,
+      color: '#FFFFFF'
+    }}
+  >
+    {text}
+  </span>
+);
+
 const TaxonomyBadge = ({ taxonomy }: { taxonomy: string }) => {
   const normalizedTaxonomy = taxonomy.toLowerCase() as TaxonomyType;
   const color = TAXONOMY_COLORS[normalizedTaxonomy] || '#666666';
-  
-  return (
-    <span 
-      className="inline-block rounded px-2 py-1 text-xs font-medium mr-2 mb-2"
-      style={{
-        backgroundColor: color,
-        color: '#FFFFFF'
-      }}
-    >
-      {taxonomy}
-    </span>
-  );
+  return <Badge text={taxonomy} color={color} />;
+};
+
+const ModelBadge = ({ model }: { model: string }) => {
+  return <Badge text={model} color="#000000" />;
 };
 
 const VideoGridVisualizer = () => {
-  type Video = {
-    id: string;
-    high?: string;
-    low?: string;
-    taxonomy?: string | null;
-    description?: string;
-    video_url?: string;
-    thumbnail_url?: string;
-    behaviors?: string[];
-    correct_behavior?: number;
-    justifications?: string[];
-  };
-
   const [videos, setVideos] = useState<Video[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -150,7 +166,8 @@ const VideoGridVisualizer = () => {
 
       const processedData = data.map(video => ({
         ...video,
-        taxonomy: video.taxonomy ? JSON.parse(video.taxonomy) : null
+        taxonomy: video.taxonomy ? JSON.parse(video.taxonomy) : null,
+        prediction: video.prediction ? JSON.parse(video.prediction) : null
       }));
 
       setVideos(processedData || []);
@@ -273,14 +290,15 @@ const VideoGridVisualizer = () => {
                 onClick={() => handleVideoClick(video)}
               >
                 <div className="aspect-video relative h-72">
-                  <video
-                    className="w-full h-full object-cover"
-                    poster={video.thumbnail_url}
-                  >
-                    <source src={video.video_url} type="video/mp4" />
-                  </video>
+                  <Image
+                    src={video.frame_url || ''}
+                    alt={`Preview for ${video.id}`}
+                    fill
+                    className="object-cover rounded-t-lg"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
                   <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                    <span className="text-white text-lg">Click to view</span>
+                    <span className="text-white text-lg">Click to view video</span>
                   </div>
                 </div>
                 <div className="p-3 space-y-1">
@@ -371,6 +389,12 @@ const VideoGridVisualizer = () => {
                   {selectedVideo.low && (
                     <div className="mb-4">
                       <h3 className="font-serif text-xl font-bold mb-2">Low Level Activity</h3>
+                      <p className="text-gray-800">{selectedVideo.low}</p>
+                    </div>
+                  )}
+                  {selectedVideo.high && (
+                    <div>
+                      <h3 className="font-serif text-xl font-bold mb-2">High Level Activity</h3>
                       <p className="text-gray-800">{selectedVideo.high}</p>
                     </div>
                   )}
@@ -396,12 +420,21 @@ const VideoGridVisualizer = () => {
                               : ''
                           }`}
                         >
-                          <div className="text-lg mb-2">
-                            {String.fromCharCode(65 + index)}. {behavior || "None of the other options is correct."}
+                          <div className="text-lg mb-2 flex items-center gap-2">
+                            <span>{String.fromCharCode(65 + index)}. {behavior || "None of the other options is correct."}</span>
+                            {selectedVideo.taxonomy?.[index] && behavior && (
+                              <div className="flex flex-wrap">
+                                {renderTaxonomyDisplay(selectedVideo.taxonomy[index])}
+                              </div>
+                            )}
                           </div>
-                          {selectedVideo.taxonomy?.[index] && behavior && (
-                            <div className="mt-2">
-                              {renderTaxonomyDisplay(selectedVideo.taxonomy[index])}
+                          {selectedVideo.prediction && Object.entries(selectedVideo.prediction).some(([, pred]) => pred.behavior === index) && (
+                            <div className="mt-2 flex flex-wrap gap-1">
+                              {Object.entries(selectedVideo.prediction).map(([model, pred]) => (
+                                pred.behavior === index && pred.behavior !== -1 && (
+                                  <ModelBadge key={model} model={model} />
+                                )
+                              ))}
                             </div>
                           )}
                         </div>
@@ -423,9 +456,18 @@ const VideoGridVisualizer = () => {
                               : ''
                           }`}
                         >
-                          <div className="text-lg">
+                          <div className="text-lg mb-2">
                             {String.fromCharCode(65 + index)}. {justification || "None of the other options is correct."}
                           </div>
+                          {selectedVideo.prediction && Object.entries(selectedVideo.prediction).some(([, pred]) => pred.justification === index) && (
+                            <div className="mt-2 flex flex-wrap gap-1">
+                              {Object.entries(selectedVideo.prediction).map(([model, pred]) => (
+                                pred.justification === index && pred.justification !== -1 && (
+                                  <ModelBadge key={model} model={model} />
+                                )
+                              ))}
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
