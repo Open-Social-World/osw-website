@@ -48,29 +48,6 @@ type: EDITORIAL
 * We propose a benchmark for evaluating frontier models' understanding of physical social norms through videos.
 * Our findings indicate **a significant gap** between current models and human understanding of physical social norms.
 
-## Dataset Viewer
-
-The PSN dataset contains egocentric videos with annotations for high-level and low-level activities. You can explore the full dataset using the interactive viewer below:
-
-<a
-  href="http://localhost:3000/psn"
-  target="_blank"
-  rel="noopener noreferrer"
-  style={{
-    padding: '10px 20px',
-    backgroundColor: '#0070f3',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    textDecoration: 'none',
-    display: 'inline-block',
-    fontSize: '16px',
-    cursor: 'pointer',
-  }}
->
-  EgoNormia Dataset Viewer
-</a>
-
 ## Introduction
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Here's an inline 
@@ -100,3 +77,11 @@ Here's an example code block:
 Our findings indicate significant patterns in the data.
 
 <Bibliography />
+
+import VideoVisualizer from '@/components/VideoVisualizer';
+
+## Dataset Viewer
+
+<div className="bg-gray-100 py-8 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
+  <VideoVisualizer />
+</div>
