@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
-const VIDEOS_PER_PAGE = 30;
+const VIDEOS_PER_PAGE = 9;
 
 const HIGH_LEVEL_CATEGORIES = ["Lifestyle", "Professional", "Living/Commute", "Art/Culture", "Shopping"];
 const LOW_LEVEL_CATEGORIES = [
@@ -179,7 +179,7 @@ const VideoGridVisualizer = () => {
               setCategorySearch('');
               setCurrentPage(1);
             }}
-            className="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 flex items-center appearance-none bg-white"
           >
             <option value="high">High Level Activity</option>
             <option value="low">Low Level Activity</option>
