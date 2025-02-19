@@ -68,6 +68,7 @@ type Video = {
     taxonomy?: string | null;
     description?: string;
     video_url?: string;
+    video_during_url?: string;
     thumbnail_url?: string;
     frame_url?: string;
     behaviors?: string[];
@@ -360,7 +361,7 @@ const VideoGridVisualizer = () => {
 
       {selectedVideo && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg w-full max-w-6xl max-h-[90vh] overflow-y-auto">
             <div className="p-4 flex justify-between items-center border-b">
               <h2 className="font-serif text-2xl font-bold">Video Details</h2>
               <button
@@ -371,14 +372,32 @@ const VideoGridVisualizer = () => {
               </button>
             </div>
             <div className="p-6">
-              <video
-                className="w-full aspect-video mb-6"
-                controls
-                autoPlay
-                key={selectedVideo.video_url}
-              >
-                <source src={selectedVideo.video_url} type="video/mp4" />
-              </video>
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div>
+                  <h4 className="font-serif text-lg font-semibold mb-2">Before</h4>
+                  <video
+                    className="w-full aspect-video"
+                    controls
+                    playsInline
+                    preload="metadata"
+                    key={selectedVideo.video_url}
+                  >
+                    <source src={selectedVideo.video_url} type="video/mp4" />
+                  </video>
+                </div>
+                <div>
+                  <h4 className="font-serif text-lg font-semibold mb-2">During</h4>
+                  <video
+                    className="w-full aspect-video"
+                    controls
+                    playsInline
+                    preload="metadata"
+                    key={selectedVideo.video_during_url}
+                  >
+                    <source src={selectedVideo.video_during_url} type="video/mp4" />
+                  </video>
+                </div>
+              </div>
 
               <div className="space-y-6">
                 <div className="border-b pb-4">
