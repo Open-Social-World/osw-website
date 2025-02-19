@@ -32,6 +32,16 @@ const LOW_LEVEL_CATEGORIES = [
   "Food and Dining"
 ];
 
+const TAXONOMY_COLORS = {
+  'safety': '#246D63',
+  'privacy': '#5C4C99',
+  'proxemics': '#D87CA6',
+  'politeness': '#356ABC',
+  'cooperation': '#C65B4E',
+  'coordination/proactivity': '#E6A700',
+  'communication/legibility': '#EA772F'
+};
+
 const NEXT_PUBLIC_SUPABASE_URL="https://ockebqxgdcybuerqphqp.supabase.co"
 const NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ja2VicXhnZGN5YnVlcnFwaHFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk4Mjk0MDQsImV4cCI6MjA1NTQwNTQwNH0.azu_Oi1O2ib56T6V4u210DxqjCNTYAHkBcPYbA6zPvo"
 
@@ -40,8 +50,24 @@ const supabase = createClient(
   NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
+// Component for rendering individual taxonomy badges
+const TaxonomyBadge = ({ taxonomy }: { taxonomy: string }) => {
+  const color = TAXONOMY_COLORS[taxonomy.toLowerCase()] || '#666666';
+  
+  return (
+    <span 
+      className="inline-block rounded px-2 py-1 text-xs font-medium mr-2 mb-2"
+      style={{
+        backgroundColor: color,
+        color: '#FFFFFF'
+      }}
+    >
+      {taxonomy}
+    </span>
+  );
+};
+
 const VideoGridVisualizer = () => {
-  // const [videos, setVideos] = useState([]);
   type Video = {
     id: string;
     high?: string;
@@ -54,19 +80,31 @@ const VideoGridVisualizer = () => {
     correct_behavior?: number;
     justifications?: string[];
   };
+
   const [videos, setVideos] = useState<Video[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [totalVideos, setTotalVideos] = useState(0);
   const [matchingCount, setMatchingCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  // const [error, setError] = useState(null);
   const [error, setError] = useState<string | null>(null);
-  // const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [idSearch, setIdSearch] = useState("");
   const [categorySearch, setCategorySearch] = useState("");
   const [categoryType, setCategoryType] = useState("high");
+
+  const renderTaxonomyDisplay = (taxonomyList: string | string[] | null) => {
+    if (!taxonomyList) return null;
+    
+    const taxonomies = Array.isArray(taxonomyList) ? taxonomyList : [taxonomyList];
+    return (
+      <div className="flex flex-wrap">
+        {taxonomies.map((taxonomy, idx) => (
+          <TaxonomyBadge key={idx} taxonomy={taxonomy} />
+        ))}
+      </div>
+    );
+  };
 
   const fetchVideos = useCallback(async () => {
     try {
@@ -106,7 +144,6 @@ const VideoGridVisualizer = () => {
       }));
 
       setVideos(processedData || []);
-      // setTotalPages(Math.ceil(filteredCount / VIDEOS_PER_PAGE));
       setTotalPages(Math.ceil((filteredCount ?? 0) / VIDEOS_PER_PAGE));
       setMatchingCount(filteredCount || 0);
       setTotalVideos(totalCount || 0);
@@ -128,9 +165,6 @@ const VideoGridVisualizer = () => {
   const handleVideoClick = (video: Video) => {
     setSelectedVideo(video);
   };
-  // const handleVideoClick = (video) => {
-  //   setSelectedVideo(video);
-  // };
 
   const handleCloseVideo = () => {
     setSelectedVideo(null);
@@ -326,75 +360,60 @@ const VideoGridVisualizer = () => {
                 <div className="border-b pb-4">
                   {selectedVideo.low && (
                     <div className="mb-4">
-                      <h3 className="font-serif text-xl font-bold mb-2">Low Level Activity</h3>
-                      <p className="text-gray-800">{selectedVideo.low}</p>
+                      <h3 className="font-serif text-xl font-bold mb-2">Description</h3>
+                      <p className="text-gray-800">{selectedVideo.description}</p>
                     </div>
                   )}
-                  {selectedVideo.high && (
-                    <div>
-                      <h3 className="font-serif text-xl font-bold mb-2">High Level Activity</h3>
-                      <p className="text-gray-800">{selectedVideo.high}</p>
+
+                  {selectedVideo.behaviors && (
+                    <div className="border-b pb-4">
+                      <h3 className="font-serif text-xl font-bold mb-4">Actions</h3>
+                      <div className="pl-4 border-l border-gray-200 space-y-4">
+                        {selectedVideo.behaviors.map((behavior, index) => (
+                          <div
+                            key={index}
+                            className={`${
+                              index === selectedVideo.correct_behavior
+                                ? 'border-l-4 border-green-500 -ml-4 pl-4'
+                                : ''
+                            }`}
+                          >
+                            <div className="text-lg mb-2">
+                              {String.fromCharCode(65 + index)}. {behavior || "None of the other options is correct."}
+                            </div>
+                            {selectedVideo.taxonomy?.[index] && behavior && (
+                              <div className="mt-2">
+                                {renderTaxonomyDisplay(selectedVideo.taxonomy[index])}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedVideo.justifications && (
+                    <div className="border-b pb-4">
+                      <h3 className="font-serif text-xl font-bold mb-4">Justifications</h3>
+                      <div className="pl-4 border-l border-gray-200 space-y-4">
+                        {selectedVideo.justifications.map((justification, index) => (
+                          <div
+                            key={index}
+                            className={`${
+                              index === selectedVideo.correct_behavior
+                                ? 'border-l-4 border-green-500 -ml-4 pl-4'
+                                : ''
+                            }`}
+                          >
+                            <div className="text-lg">
+                              {String.fromCharCode(65 + index)}. {justification || "None of the other options is correct."}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
-
-                {selectedVideo.description && (
-                  <div className="border-b pb-4">
-                    <h3 className="font-serif text-xl font-bold mb-2">Description</h3>
-                    <p className="text-gray-800">{selectedVideo.description}</p>
-                  </div>
-                )}
-
-                {selectedVideo.behaviors && (
-                  <div className="border-b pb-4">
-                    <h3 className="font-serif text-xl font-bold mb-4">Actions</h3>
-                    <div className="pl-4 border-l border-gray-200 space-y-4">
-                      {selectedVideo.behaviors.map((behavior, index) => (
-                        <div
-                          key={index}
-                          className={`${
-                            index === selectedVideo.correct_behavior
-                              ? 'border-l-4 border-green-500 -ml-4 pl-4'
-                              : ''
-                          }`}
-                        >
-                          <div className="text-lg mb-2">
-                            {String.fromCharCode(65 + index)}. {behavior || "None of the other options is correct."}
-                          </div>
-                          {selectedVideo.taxonomy?.[index] && behavior && (
-                            <p className="text-gray-600 text-sm">
-                              Taxonomy: {Array.isArray(selectedVideo.taxonomy[index]) 
-                                ? selectedVideo.taxonomy[index].join(' & ') 
-                                : selectedVideo.taxonomy[index]}
-                            </p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {selectedVideo.justifications && (
-                  <div className="border-b pb-4">
-                    <h3 className="font-serif text-xl font-bold mb-4">Justifications</h3>
-                    <div className="pl-4 border-l border-gray-200 space-y-4">
-                      {selectedVideo.justifications.map((justification, index) => (
-                        <div
-                          key={index}
-                          className={`${
-                            index === selectedVideo.correct_behavior
-                              ? 'border-l-4 border-green-500 -ml-4 pl-4'
-                              : ''
-                          }`}
-                        >
-                          <div className="text-lg">
-                            {String.fromCharCode(65 + index)}. {justification || "None of the other options is correct."}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           </div>
