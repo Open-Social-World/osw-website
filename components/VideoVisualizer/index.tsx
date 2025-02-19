@@ -32,7 +32,16 @@ const LOW_LEVEL_CATEGORIES = [
   "Food and Dining"
 ];
 
-const TAXONOMY_COLORS = {
+type TaxonomyType = 
+  | 'safety'
+  | 'privacy'
+  | 'proxemics'
+  | 'politeness'
+  | 'cooperation'
+  | 'coordination/proactivity'
+  | 'communication/legibility';
+
+const TAXONOMY_COLORS: Record<TaxonomyType, string> = {
   'safety': '#246D63',
   'privacy': '#5C4C99',
   'proxemics': '#D87CA6',
@@ -52,7 +61,8 @@ const supabase = createClient(
 
 // Component for rendering individual taxonomy badges
 const TaxonomyBadge = ({ taxonomy }: { taxonomy: string }) => {
-  const color = TAXONOMY_COLORS[taxonomy.toLowerCase()] || '#666666';
+  const normalizedTaxonomy = taxonomy.toLowerCase() as TaxonomyType;
+  const color = TAXONOMY_COLORS[normalizedTaxonomy] || '#666666';
   
   return (
     <span 
@@ -360,60 +370,67 @@ const VideoGridVisualizer = () => {
                 <div className="border-b pb-4">
                   {selectedVideo.low && (
                     <div className="mb-4">
-                      <h3 className="font-serif text-xl font-bold mb-2">Description</h3>
-                      <p className="text-gray-800">{selectedVideo.description}</p>
-                    </div>
-                  )}
-
-                  {selectedVideo.behaviors && (
-                    <div className="border-b pb-4">
-                      <h3 className="font-serif text-xl font-bold mb-4">Actions</h3>
-                      <div className="pl-4 border-l border-gray-200 space-y-4">
-                        {selectedVideo.behaviors.map((behavior, index) => (
-                          <div
-                            key={index}
-                            className={`${
-                              index === selectedVideo.correct_behavior
-                                ? 'border-l-4 border-green-500 -ml-4 pl-4'
-                                : ''
-                            }`}
-                          >
-                            <div className="text-lg mb-2">
-                              {String.fromCharCode(65 + index)}. {behavior || "None of the other options is correct."}
-                            </div>
-                            {selectedVideo.taxonomy?.[index] && behavior && (
-                              <div className="mt-2">
-                                {renderTaxonomyDisplay(selectedVideo.taxonomy[index])}
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {selectedVideo.justifications && (
-                    <div className="border-b pb-4">
-                      <h3 className="font-serif text-xl font-bold mb-4">Justifications</h3>
-                      <div className="pl-4 border-l border-gray-200 space-y-4">
-                        {selectedVideo.justifications.map((justification, index) => (
-                          <div
-                            key={index}
-                            className={`${
-                              index === selectedVideo.correct_behavior
-                                ? 'border-l-4 border-green-500 -ml-4 pl-4'
-                                : ''
-                            }`}
-                          >
-                            <div className="text-lg">
-                              {String.fromCharCode(65 + index)}. {justification || "None of the other options is correct."}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                      <h3 className="font-serif text-xl font-bold mb-2">Low Level Activity</h3>
+                      <p className="text-gray-800">{selectedVideo.high}</p>
                     </div>
                   )}
                 </div>
+
+                {selectedVideo.description && (
+                  <div className="border-b pb-4">
+                    <h3 className="font-serif text-xl font-bold mb-2">Description</h3>
+                    <p className="text-gray-800">{selectedVideo.description}</p>
+                  </div>
+                )}
+
+                {selectedVideo.behaviors && (
+                  <div className="border-b pb-4">
+                    <h3 className="font-serif text-xl font-bold mb-4">Actions</h3>
+                    <div className="pl-4 border-l border-gray-200 space-y-4">
+                      {selectedVideo.behaviors.map((behavior, index) => (
+                        <div
+                          key={index}
+                          className={`${
+                            index === selectedVideo.correct_behavior
+                              ? 'border-l-4 border-green-500 -ml-4 pl-4'
+                              : ''
+                          }`}
+                        >
+                          <div className="text-lg mb-2">
+                            {String.fromCharCode(65 + index)}. {behavior || "None of the other options is correct."}
+                          </div>
+                          {selectedVideo.taxonomy?.[index] && behavior && (
+                            <div className="mt-2">
+                              {renderTaxonomyDisplay(selectedVideo.taxonomy[index])}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {selectedVideo.justifications && (
+                  <div className="border-b pb-4">
+                    <h3 className="font-serif text-xl font-bold mb-4">Justifications</h3>
+                    <div className="pl-4 border-l border-gray-200 space-y-4">
+                      {selectedVideo.justifications.map((justification, index) => (
+                        <div
+                          key={index}
+                          className={`${
+                            index === selectedVideo.correct_behavior
+                              ? 'border-l-4 border-green-500 -ml-4 pl-4'
+                              : ''
+                          }`}
+                        >
+                          <div className="text-lg">
+                            {String.fromCharCode(65 + index)}. {justification || "None of the other options is correct."}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
