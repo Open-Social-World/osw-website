@@ -375,8 +375,6 @@ failure modes were identified: (1) Norm sensibility errors, (2) Norm prioritizat
 
 ## Augmenting Normative Reasoning with Retrieval over <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>
 
-lewis2020retrieval
-
 To answer **can we use <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> to improve the normative reasoning of VLMs? (RQ3)** We propose performing retrieval <Citation id="lewis2020retrieval"/> over the context present in <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>, a strategy we call <span style={{ fontVariant: "small-caps" }}>NormThinker</span>, to guide VLMs in making contextually-grounded normative decisions.
 
 <Figure
@@ -387,7 +385,7 @@ To answer **can we use <span style={{ fontVariant: "small-caps" }}>EgoNormia</sp
   height={300}
 />
 
-we curate an out-of-domain test dataset based on egocentric robotic assistant footage <Citation id="zhu2024siat"/>, selected as its context and embodiment are orthogonal to those seen in Ego4D. We evaluate NormThinker on 11 these datapoints. Without NormThinker, GPT-4o correctly completed only 1 out of 11 tasks. However, with NormThinker, the accuracy improved significantly to 5 out of 11.
+We curate an out-of-domain test dataset based on egocentric robotic assistant footage <Citation id="zhu2024siat"/>, selected as its context and embodiment are orthogonal to those seen in Ego4D. We evaluate NormThinker on 11 these datapoints. Without NormThinker, GPT-4o correctly completed only 1 out of 11 tasks. However, with NormThinker, the accuracy improved significantly to 5 out of 11.
 
 <div className="flex justify-center items-center w-full my-8">
   <div className="w-full overflow-x-auto" style={{ minWidth: "1200px" }}>
