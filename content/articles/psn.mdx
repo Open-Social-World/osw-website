@@ -3,7 +3,7 @@ title: Physical Social Norms
 description: A large scale video dataset and a benchmark for evaluating frontier models' understanding of physical social norms through videos.
 publishedDate: 2025-01-16
 image:
-  url: /images/psn/teaser.png
+  url: /images/psn/egonormia_teaser.jpg
   alt: Teaser image showing the PSN taxonomy and a video frame with annotations.
   caption: Six categories of physical social norms (PSNs). Green arrows indicate followed norms, while red arrows indicate violated norms.
 authors:
@@ -39,46 +39,482 @@ doi: 10.1234/example.2023.001
 type: EDITORIAL
 ---
 
+## Abstract
 
-* **Physical Social Norms (PSNs)** include
-    * *utility norms*: cooperation, coorindation, and communication, and
-    * *non-utility norms*: privacy, safety, and proxemics.
-* Understanding and following PSNs is crucial for deploying robots and AI agents in human social world.
-* We introduce a large-scale video dataset, based on Ego4D, with 2,000 videos annotated with relavant norms and normative behaviors.
-* We propose a benchmark for evaluating frontier models' understanding of physical social norms through videos.
-* Our findings indicate **a significant gap** between current models and human understanding of physical social norms.
+Human behaviors are moderated by norms. However, machines are often trained without explicit supervision on norm understanding and reasoning, especially when the norms are grounded in a physical and social context. To improve and evaluate the normative reasoning capability of vision-language models (VLMs), we present <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> <Math> ||\epsilon|| </Math>, consisting of 1,853 ego-centric videos of human interactions, each of which has two related questions evaluating both the prediction and justification of normative actions. The normative actions encompass seven categories:  <span style={{ color: "#246D63" }}>safety</span>, <span style={{ color: "#356ABC" }}>politeness</span>, <span style={{ color: "#5C4C99" }}>privacy</span>, <span style={{ color: "#D87CA6" }}>proxemics</span>, <span style={{ color: "#C65B4E" }}>cooperation</span>, <span style={{ color: "#EA772F" }}>communication/legibility</span>, and <span style={{ color: "#E6A700" }}>coordination/proactivity</span>. To compile this dataset at scale, we propose a novel pipeline leveraging video sampling, automatic answer generation, filtering, and human validation. **Our work demonstrates that current state-of-the-art vision-language models lack robust norm understanding, scoring a maximum of 45\% on <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> (versus a human bench of 92\%).** Our analysis of performance in each dimension highlights the significant risks of <span style={{ color: "#246D63" }}>safety</span>, <span style={{ color: "#5C4C99" }}>privacy</span>, and the lack of <span style={{ color: "#C65B4E" }}>cooperation</span> and <span style={{ color: "#EA772F" }}>communication/legibility</span> capability when applied to real-world agents. We additionally show that through a retrieval-based generation method, it is possible to use <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> to enhance normative reasoning in VLMs.
 
 ## Introduction
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Here's an inline 
-equation <Math>{"E = mc^2"}</Math> followed by a block equation:
 
-<Math block>
-  {"\\frac{\\partial f}{\\partial x} = \\lim_{h \\to 0} \\frac{f(x + h) - f(x)}{h}"}
-</Math>
+<Figure
+  src="/images/psn/egonormia_teaser.jpg"
+  alt="Egonormia Teaser"
+  caption="Figure 1: Overview of EgoNormia. EgoNormia is a multiple-choice, visual question answering benchmark that evaluates models' ability to reason about appropriate behavior according to conflicting physical social norms."
+  width={1000}
+  height={750}
+/>
 
-This is a demonstration of a citation<Citation id="smith2023groundbreaking" /> 
-and another citation<Citation id="johnson2023developments" /> in the text.
 
-This is a demonstration of a footnote<Footnote id="note1">This is a footnote.</Footnote> in the text.
+Humans have a long history of expecting AI to adhere to human-defined norms. This is because norms are fundamental to human interactions and cooperation with even children being able to operate within a norm-regulated environment. Given the importance of norms to behavior moderation, and the popularity of model-driven embodied agents, we ask **whether Vision-Language Models (VLMs) can understand norms grounded in the physical world and make normative decisions similar to those of humans?**
 
-## Methods
+<br />
 
-Here's an example code block:
+To comprehensively measure VLM normative reasoning ability, we introduce <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>, a challenging QA benchmark that is physically grounded in 1k egocentric social interaction clips from [<u>Ego4D</u>](https://ego4d-data.org/). <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> spans 100 distinct settings across a wide range of activities, cultures, and interactions.
 
-<Code language="python">
-{`def analyze_complex_system(data: np.ndarray) -> np.ndarray:
-    # Analysis code here
-    return processed_data`}
-</Code>
+<br />
+
+Unlike similarly visually-grounded spatiotemporal, predictive, or causal reasoning benchmarks,
+<span style={{ fontVariant: "small-caps" }}>EgoNormia</span> evaluates models’ ability to reason about what should be done under social norms. <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> highlights cases where these norm-related objectives conflict—the richest arena for evaluating normative decision-making.
+
+<br />
+
+Our investigation is guided by three fundamental research questions:
+* **RQ1:** Can VLMs make normative decisions that agree with human consensus?
+
+* **RQ2:** If VLMs do not agree, is this due to failures in perception (e.g., object recognition) or gaps in normative reasoning?
+
+* **RQ3:** Can we use <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> to improve the normative reasoning of VLMs?
+
+Our findings indicate **a significant gap** between current models and human understanding of physical social norms.
+ 
+## Physical Social Norms
+
+<div style={{
+  borderLeft: "5px solid #f39c12",
+  backgroundColor: "#fdf6e3",
+  padding: "10px",
+  borderRadius: "5px",
+  position: "relative"
+}}>
+  <div style={{
+    position: "absolute",
+    top: "-10px",
+    left: "10px",
+    width: "0",
+    height: "0",
+    borderLeft: "10px solid transparent",
+    borderRight: "10px solid transparent",
+    borderBottom: "10px solid #f39c12"
+  }}></div>
+  <strong>Definition:</strong>  
+  **Physical social norms (PSNs)** are shared expectations that govern how actors behave and interact with others in shared environments.
+</div>
+
+<br />
+
+To study physical social norms, we operationalize a taxonomy of PSN categories, which stand for the social objectives that inform them. Some norms explicitly serve the function of maximizing utility across multi-agent systems. We call these the Utility Norms. Other norms are more particular to human sociality, which can often stand at odds with group utility norms, and this tension provides a setting for evaluating agent decision-making under conflicting objectives.
+
+* **Physical Social Norms** include
+    * *utility norms*: <span style={{ color: "#C65B4E" }}>cooperation</span>, <span style={{ color: "#EA772F" }}>communication/legibility</span>, and <span style={{ color: "#E6A700" }}>coordination/proactivity</span>
+    * *non-utility norms*: <span style={{ color: "#246D63" }}>safety</span>, <span style={{ color: "#356ABC" }}>politeness</span>, <span style={{ color: "#5C4C99" }}>privacy</span>, and <span style={{ color: "#D87CA6" }}>proxemics</span>.
+
+<Figure
+  src="/images/psn/egonormia_taxonomy.png"
+  alt="Taxonomy"
+  caption="Figure 2: Examples of videos and corresponding norms under each taxonomy category."
+/>
+
+
+## Task
+
+We use a format of Multiple-Choice Questions (MCQs) for our task, including three subtasks: **Action Selection**, **Justification Selection**, and **Sensibility**.
+
+<Figure
+  src="/images/psn/example.jpg"
+  alt="Example MCQ"
+  caption="Figure 3: Example MCQs with choices by o3-mini (with text descriptions) and Gemini 1.5 Pro (with videos). Correct answers are underlined."
+  width={1000}
+  height={750}
+/>
+
+* **Subtask 1: Action Selection.** In this subtask, the model is provided with video frames of an activity and five candidate actions. Given these inputs, the model is asked to select the single most normatively appropriate action to perform in the context
+
+* **Subtask 2: Justification Selection.** In this subtask, the model is provided with the same visual input as in Subtask 1 and is asked to select the best justification supporting its chosen normative action.
+
+* **Subtask 3: Sensibility.** To measure whether models understand the features that make action normative in context, we evaluate whether they can select the sensible (i.e. normative, but not necessarily best) options from the given actions.
+
+## Benchmark Generation
+
+<Figure
+  src="/images/psn/pipeline.jpg"
+  alt="Pipeline"
+  caption="Figure 4: We propose an efficient pipeline for annotating normative behaviors through leveraging Ego4D annotations (Phase I), VLM-based proposal (Phase II), post-hoc filtering (Phase III), and human validation (Phase IV)."
+/>
+
+* **Phase I: Snippet Sampling.** We sourced video samples from [<u>Ego4D</u>](https://ego4d-data.org/). To ensure diversity, we applied a multi-step filtering process, sampling each unique scenario-verb combination to select video snippets across a wide range of social and physical contexts.
+
+* **Phase II: Answer Generation.** For each video sample, we generate four pairs of actions and justifications—one ground truth pair and three distractor pairs. To create challenging distractors, we systematically perturb the original context by altering key details that influence the interpretation of the action.
+
+* **Phase II: Filtering.**  We perform normativity filtering by using chained LLMs to filter for answer feasibility and sensibility, then run blind filtering (i.e. no vision input) to remove questions answerable without context or through superficial reasoning, leaving only challenging,context-dependent questions.
+
+* **Phase II: Human Validation.** Finally, two human validators are employed to verify the correct behavior and justification, and to select the list of actions that are considered sensible. Two validators are used to ensure every datapoint receives independent agreement from two humans, ensuring that human agreement on <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> is replicable. The authors manually process datapoints where validators disagree on answers, ensuring that the benchmark remains challenging and achieves high human agreement.
+
+Through automatic clustering with GPT-4o, we categorize the final videos into 5 high-level and 23 low-level categories, highlighting the rich diversity of our dataset.
 
 ## Results
 
-Our findings indicate significant patterns in the data.
+
+<div className="flex justify-center items-center w-full my-8">
+  <div className="w-full overflow-x-auto" style={{ minWidth: "800px" }}>
+    <table className="w-full border-collapse text-xl" style={{ tableLayout: "fixed" }}>
+      <colgroup>
+        <col style={{ width: "12%" }} />
+        <col style={{ width: "20%" }} />
+        <col style={{ width: "12%" }} />
+        <col style={{ width: "12%" }} />
+        <col style={{ width: "20%" }} />
+        <col style={{ width: "24%" }} />
+      </colgroup>
+      <thead>
+        <tr className="border-t-2 border-b-2 border-gray-300">
+          <th className="py-3 px-4 text-left" style={{ minWidth: "150px" }}>Category</th>
+          <th className="py-3 px-4 text-left" style={{ minWidth: "200px" }}>Model</th>
+          <th className="py-3 px-4 text-center" style={{ minWidth: "120px" }}>Both</th>
+          <th className="py-3 px-4 text-center" style={{ minWidth: "120px" }}>Action</th>
+          <th className="py-3 px-4 text-center" style={{ minWidth: "180px" }}>Justification</th>
+          <th className="py-3 px-4 text-center" style={{ minWidth: "220px" }}>Sensibility of Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">Baseline</td>
+          <td className="py-3 px-4 text-left">Constant Choice</td>
+          <td className="py-3 px-4 text-center">25.3</td>
+          <td className="py-3 px-4 text-center">25.3</td>
+          <td className="py-3 px-4 text-center">25.3</td>
+          <td className="py-3 px-4 text-center">40.5</td>
+        </tr>
+        
+        <tr className="bg-gray-100">
+          <td colSpan="6" className="py-3 px-4 font-semibold">Blind Models - Closed Source</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left" rowSpan="4">Blind</td>
+          <td className="py-3 px-4 text-left">Gemini 1.5 Flash</td>
+          <td className="py-3 px-4 text-center">12.2</td>
+          <td className="py-3 px-4 text-center">15.0</td>
+          <td className="py-3 px-4 text-center">14.1</td>
+          <td className="py-3 px-4 text-center">46.6</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">o3-mini</td>
+          <td className="py-3 px-4 text-center">15.0</td>
+          <td className="py-3 px-4 text-center">16.8</td>
+          <td className="py-3 px-4 text-center">17.1</td>
+          <td className="py-3 px-4 text-center">51.9</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">GPT-4o</td>
+          <td className="py-3 px-4 text-center">17.7</td>
+          <td className="py-3 px-4 text-center">19.9</td>
+          <td className="py-3 px-4 text-center">19.9</td>
+          <td className="py-3 px-4 text-center">55.9</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">Gemini 1.5 Pro</td>
+          <td className="py-3 px-4 text-center">21.2</td>
+          <td className="py-3 px-4 text-center">24.6</td>
+          <td className="py-3 px-4 text-center">23.6</td>
+          <td className="py-3 px-4 text-center">54.0</td>
+        </tr>
+
+        <tr className="bg-gray-100">
+          <td colSpan="6" className="py-3 px-4 font-semibold">Blind Models - Open Source</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">Blind</td>
+          <td className="py-3 px-4 text-left">Deepseek R1</td>
+          <td className="py-3 px-4 text-center">16.1</td>
+          <td className="py-3 px-4 text-center">19.4</td>
+          <td className="py-3 px-4 text-center">17.1</td>
+          <td className="py-3 px-4 text-center">27.3</td>
+        </tr>
+
+        <tr className="bg-gray-100">
+          <td colSpan="6" className="py-3 px-4 font-semibold">Pipeline Models - Closed Source</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left" rowSpan="5">Pipeline</td>
+          <td className="py-3 px-4 text-left">Gemini 1.5 Flash</td>
+          <td className="py-3 px-4 text-center">14.7</td>
+          <td className="py-3 px-4 text-center">17.7</td>
+          <td className="py-3 px-4 text-center">16.7</td>
+          <td className="py-3 px-4 text-center">54.2</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">GPT-4o</td>
+          <td className="py-3 px-4 text-center">21.0</td>
+          <td className="py-3 px-4 text-center">23.7</td>
+          <td className="py-3 px-4 text-center">23.5</td>
+          <td className="py-3 px-4 text-center font-bold">66.0</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">Claude 3.5 Sonnet</td>
+          <td className="py-3 px-4 text-center">23.9</td>
+          <td className="py-3 px-4 text-center">36.7</td>
+          <td className="py-3 px-4 text-center">33.5</td>
+          <td className="py-3 px-4 text-center">61.2</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">Gemini 1.5 Pro</td>
+          <td className="py-3 px-4 text-center">30.7</td>
+          <td className="py-3 px-4 text-center">37.3</td>
+          <td className="py-3 px-4 text-center">34.8</td>
+          <td className="py-3 px-4 text-center">64.0</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">o3-mini</td>
+          <td className="py-3 px-4 text-center font-bold">41.5</td>
+          <td className="py-3 px-4 text-center font-bold">45.7</td>
+          <td className="py-3 px-4 text-center font-bold">45.2</td>
+          <td className="py-3 px-4 text-center">65.0</td>
+        </tr>
+
+        <tr className="bg-gray-100">
+          <td colSpan="6" className="py-3 px-4 font-semibold">Pipeline Models - Open Source</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">Pipeline</td>
+          <td className="py-3 px-4 text-left">Deepseek R1</td>
+          <td className="py-3 px-4 text-center">36.5</td>
+          <td className="py-3 px-4 text-center">42.9</td>
+          <td className="py-3 px-4 text-center">40.0</td>
+          <td className="py-3 px-4 text-center">61.0</td>
+        </tr>
+
+        <tr className="bg-gray-100">
+          <td colSpan="6" className="py-3 px-4 font-semibold">Video Models - Closed Source</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left" rowSpan="4">Video</td>
+          <td className="py-3 px-4 text-left">Claude 3.5 Sonnet</td>
+          <td className="py-3 px-4 text-center">36.0</td>
+          <td className="py-3 px-4 text-center">43.5</td>
+          <td className="py-3 px-4 text-center">41.0</td>
+          <td className="py-3 px-4 text-center">59.3</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">GPT-4o</td>
+          <td className="py-3 px-4 text-center">39.8</td>
+          <td className="py-3 px-4 text-center">45.1</td>
+          <td className="py-3 px-4 text-center">44.8</td>
+          <td className="py-3 px-4 text-center">59.6</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">Gemini 1.5 Flash</td>
+          <td className="py-3 px-4 text-center">41.7</td>
+          <td className="py-3 px-4 text-center">46.5</td>
+          <td className="py-3 px-4 text-center">44.3</td>
+          <td className="py-3 px-4 text-center">54.4</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">Gemini 1.5 Pro</td>
+          <td className="py-3 px-4 text-center font-bold">45.3</td>
+          <td className="py-3 px-4 text-center font-bold">51.9</td>
+          <td className="py-3 px-4 text-center font-bold">47.8</td>
+          <td className="py-3 px-4 text-center">61.1</td>
+        </tr>
+
+        <tr className="bg-gray-100">
+          <td colSpan="6" className="py-3 px-4 font-semibold">Video Models - Open Source</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left" rowSpan="2">Video</td>
+          <td className="py-3 px-4 text-left">InternVL 2.5</td>
+          <td className="py-3 px-4 text-center">15.1</td>
+          <td className="py-3 px-4 text-center">18.7</td>
+          <td className="py-3 px-4 text-center">17.6</td>
+          <td className="py-3 px-4 text-center">50.7</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-3 px-4 text-left">Qwen2.5 VL</td>
+          <td className="py-3 px-4 text-center">41.5</td>
+          <td className="py-3 px-4 text-center">48.3</td>
+          <td className="py-3 px-4 text-center">43.8</td>
+          <td className="py-3 px-4 text-center font-bold">62.8</td>
+        </tr>
+        
+
+        <tr className="bg-gray-100">
+          <td colSpan="6" className="py-3 px-4 font-semibold">Human</td>
+        </tr>
+
+        <tr className="border-t-2 border-b-2 border-gray-300">
+          <td className="py-3 px-4 text-left">Human</td>
+          <td className="py-3 px-4 text-left">Human</td>
+          <td className="py-3 px-4 text-center">92.4</td>
+          <td className="py-3 px-4 text-center">92.4</td>
+          <td className="py-3 px-4 text-center">92.4</td>
+          <td className="py-3 px-4 text-center">85.1</td>
+        </tr>
+      </tbody>
+    </table>
+    <p className="text-center text-lg mt-4 max-w-4xl mx-auto">
+      **Table 1**: EgoNormia benchmark results. Constant Choice represents the best performance of selecting a constant choice for all questions. Bold values indicate the best performance in each category that are above the constant choice baseline.
+    </p>
+  </div>
+</div>
+
+In evaluation on <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>, most models obtain a mean accuracy lower than 40%, substantially exceeded by the average human score of 92.4%. Gemini 1.5 Pro, the best-performing model, evaluated under vision inputs, achieved a mean accuracy of 45.3%, suggesting that **current models have limited ability to make embodied normative decisions (RQ1)**.
+
+
+<Figure
+  src="/images/psn/fail.jpg"
+  alt="Fail"
+  caption="Figure 5: Distribution of reasoning failure modes across GPT-4o, Gemini 1.5 Pro, and human evaluation. Annotations of 100 representative tasks revealed four primary failure modes, with norm sensibility errors being the most prevalent among models. The proportion of norm prioritization errors increases with overall performance on EgoNormia."
+  width={450}
+  height={300}
+/>
+
+To investigate **causes for the limited normative reasoning ability of VLMs (RQ2)**, We further categorize errors in normative reasoning by annotating the models’ full CoT responses on 100 representative tasks of <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>. Four
+failure modes were identified: (1) Norm sensibility errors, (2) Norm prioritization errors, (3) Perception errors, and (4) Answer refusal. The distribution of these model errors and human errors is shown in Figure 5. For models, the majority of failures were due to sensibility errors instead of perception, suggesting that foundation models are competent in processing the visual context of the video inputs but fail in performing sound normative reasoning on the parsed context. Furthermore, the ratio of norm prioritization errors grows as the overall performance increases (GPT-4o < Gemini 1.5 Pro < Human), suggesting more capable models struggle more with determining which norm should take precedence in ambiguous situations.
+
+
+## Augmenting Normative Reasoning with Retrieval over <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>
+
+To answer **can we use <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> to improve the normative reasoning of VLMs? (RQ3)** We propose performing retrieval over the context present in <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>, a strategy we call <span style={{ fontVariant: "small-caps" }}>NormThinker</span>, to guide VLMs in making contextually-grounded normative decisions.
+
+<Figure
+  src="/images/psn/normthinker.jpg"
+  alt="Normthinker"
+  caption="Figure 6: Retrieval-augmented generation pipeline."
+  width={450}
+  height={300}
+/>
+
+we curate an out-of-domain test dataset based on egocentric robotic assistant footage, selected as its context and embodiment are orthogonal to those seen in Ego4D. We evaluate NormThinker on 11 these datapoints. Without NormThinker, GPT-4o correctly completed only 1 out of 11 tasks. However, with NormThinker, the accuracy improved significantly to 5 out of 11.
+
+<div className="flex justify-center items-center w-full my-8">
+  <div className="w-full overflow-x-auto" style={{ minWidth: "1200px" }}>
+    <table className="w-full border-collapse text-xl" style={{ tableLayout: "fixed" }}>
+      <colgroup>
+        <col style={{ width: "30%" }} />
+        <col style={{ width: "17.5%" }} />
+        <col style={{ width: "17.5%" }} />
+        <col style={{ width: "17.5%" }} />
+        <col style={{ width: "17.5%" }} />
+      </colgroup>
+      <thead>
+        <tr className="border-t-2 border-b-2 border-gray-300">
+          <th className="py-3 px-6 text-left">Model</th>
+          <th className="py-3 px-6 text-center">Both</th>
+          <th className="py-3 px-6 text-center">Action</th>
+          <th className="py-3 px-6 text-center">Justification</th>
+          <th className="py-3 px-6 text-center">Sensibility of Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr className="border-b border-gray-200">
+          <td className="py-2 px-6 text-left">GPT-4o</td>
+          <td className="py-2 px-6 text-center">1/11</td>
+          <td className="py-2 px-6 text-center">5/11</td>
+          <td className="py-2 px-6 text-center">2/11</td>
+          <td className="py-2 px-6 text-center">3/11</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-2 px-6 text-left pl-8">+ Best-5 Retrieval</td>
+          <td className="py-2 px-6 text-center font-bold">5/11</td>
+          <td className="py-2 px-6 text-center font-bold">7/11</td>
+          <td className="py-2 px-6 text-center font-bold">5/11</td>
+          <td className="py-2 px-6 text-center">3/11</td>
+        </tr>
+
+        <tr className="h-8"><td colSpan="5" className="border-b-4 border-gray-800"></td></tr>
+
+        <tr className="border-b-2 border-gray-300">
+          <td className="py-2 px-6 text-left">Human</td>
+          <td className="py-2 px-6 text-center">8/11</td>
+          <td className="py-2 px-6 text-center">8/11</td>
+          <td className="py-2 px-6 text-center">8/11</td>
+          <td className="py-2 px-6 text-center">9/11</td>
+        </tr>
+      </tbody>
+    </table>
+    <p className="text-center text-lg mt-4 max-w-4xl mx-auto">
+      **Table 2**: Results with NormThinker on ego-centric robotics videos, n=11.
+    </p>
+  </div>
+</div>
+
+We further evaluate on held-out instances in <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>. We demonstrate improvement relative to the best non-RAG model and base GPT-4o on unseen in-domain tasks, obtaining an <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> bench 9.4% better than base GPT-4o, and 7.9% better than randomized retrieval.
+
+<div className="flex justify-center items-center w-full my-8">
+  <div className="w-full overflow-x-auto" style={{ minWidth: "1200px" }}>
+    <table className="w-full border-collapse text-xl" style={{ tableLayout: "fixed" }}>
+      <colgroup>
+        <col style={{ width: "30%" }} />
+        <col style={{ width: "17.5%" }} />
+        <col style={{ width: "17.5%" }} />
+        <col style={{ width: "17.5%" }} />
+        <col style={{ width: "17.5%" }} />
+      </colgroup>
+      <thead>
+        <tr className="border-t-2 border-b-2 border-gray-300">
+          <th className="py-3 px-6 text-left">Model</th>
+          <th className="py-3 px-6 text-center">Both</th>
+          <th className="py-3 px-6 text-center">Action</th>
+          <th className="py-3 px-6 text-center">Justification</th>
+          <th className="py-3 px-6 text-center">Sensibility of Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr className="border-b border-gray-200">
+          <td className="py-2 px-6 text-left">Gemini 1.5 Pro</td>
+          <td className="py-2 px-6 text-center">45.2</td>
+          <td className="py-2 px-6 text-center">51.8</td>
+          <td className="py-2 px-6 text-center">47.7</td>
+          <td className="py-2 px-6 text-center font-bold">64.0</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-2 px-6 text-left">GPT-4o</td>
+          <td className="py-2 px-6 text-center">39.8</td>
+          <td className="py-2 px-6 text-center">44.9</td>
+          <td className="py-2 px-6 text-center">45.1</td>
+          <td className="py-2 px-6 text-center">59.6</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-2 px-6 text-left pl-8">+ Random Retrieval</td>
+          <td className="py-2 px-6 text-center">41.3</td>
+          <td className="py-2 px-6 text-center">51.0</td>
+          <td className="py-2 px-6 text-center">45.7</td>
+          <td className="py-2 px-6 text-center">52.6</td>
+        </tr>
+        <tr className="border-b border-gray-200">
+          <td className="py-2 px-6 text-left pl-8">+ Best-5 Retrieval</td>
+          <td className="py-2 px-6 text-center font-bold">49.2</td>
+          <td className="py-2 px-6 text-center font-bold">54.5</td>
+          <td className="py-2 px-6 text-center font-bold">52.6</td>
+          <td className="py-2 px-6 text-center">56.2</td>
+        </tr>
+
+        <tr className="h-8"><td colSpan="5" className="border-b-4 border-gray-800"></td></tr>
+
+        <tr className="border-b-2 border-gray-300">
+          <td className="py-2 px-6 text-left">Human</td>
+          <td className="py-2 px-6 text-center">92.4</td>
+          <td className="py-2 px-6 text-center">92.4</td>
+          <td className="py-2 px-6 text-center">92.4</td>
+          <td className="py-2 px-6 text-center">85.1</td>
+        </tr>
+      </tbody>
+    </table>
+    <p className="text-center text-lg mt-4 max-w-4xl mx-auto">
+      **Table 3**: Results with NormThinker on held-out in-stances in Egonormia.
+    </p>
+  </div>
+</div>
+
+
+## Bibtex
+
+TODO
+
+## Acknowledgements
+
+This research was supported in part by Other Transaction award HR00112490375 from the U.S. Defense Advanced Research Projects Agency (DARPA) Friction for Accountability in Conversational Transactions (FACT) program. We thank Google Cloud Platform and Modal Platform for their credits. We thank feedback from Yonatan Bisk and members of the SALT lab at Stanford University. The authors thank Leena Mathur and Su Li for their help in collecting out-of-domain robotics videos.
+
 
 <Bibliography />
-
-import VideoVisualizer from '@/components/VideoVisualizer';
 
 ## Dataset Viewer
 

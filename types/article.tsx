@@ -60,6 +60,8 @@ export interface AbstractProps {
 export interface FigureProps {
   src: string;
   alt: string;
+  width?: number;
+  height?: number;
   caption?: string | React.ReactNode;
   className?: string;
 }
