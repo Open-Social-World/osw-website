@@ -28,16 +28,16 @@ export function Citation({ id, citation, children }: CitationProps) {
   };
 
   return (
-    <span className="citation inline-flex items-baseline">
-      <sup>
+    <span className="citation inline-flex items-center">
+      <span className="inline-flex items-center text-sm leading-none">
         <button 
           onClick={handleClick}
-          className="text-blue-600 hover:text-blue-800 cursor-pointer transition-colors px-0.5 text-base"
+          className="text-blue-600 hover:text-blue-800 cursor-pointer transition-colors px-0.5"
           aria-label={`Jump to reference ${id}`}
         >
           [{citation.authors[0].split(',')[0].trim()} et al., {citation.year}]
         </button>
-      </sup>
+      </span>
       {children}
     </span>
   );

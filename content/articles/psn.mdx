@@ -55,15 +55,15 @@ Human behaviors are moderated by norms. However, machines are often trained with
 />
 
 
-Humans have a long history of expecting AI to adhere to human-defined norms. This is because norms are fundamental to human interactions and cooperation with even children being able to operate within a norm-regulated environment. Given the importance of norms to behavior moderation, and the popularity of model-driven embodied agents, we ask **whether Vision-Language Models (VLMs) can understand norms grounded in the physical world and make normative decisions similar to those of humans?**
+Humans have a long history of expecting AI to adhere to human-defined norms  <Citation id="asimov1985caves"/><Citation id="john2006android"/><Citation id="chiang2010lifecycle"/><Citation id="chambers2016closed"/>. This is because norms are fundamental to human interactions and cooperation <Citation id="fehr2004social"/><Citation id="chudek2011culture"/>, with even children being able to operate within a norm-regulated environment. Given the importance of norms to behavior moderation, and the popularity of model-driven embodied agents, we ask **whether Vision-Language Models (VLMs) can understand norms grounded in the physical world and make normative decisions similar to those of humans?**
 
 <br />
 
-To comprehensively measure VLM normative reasoning ability, we introduce <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>, a challenging QA benchmark that is physically grounded in 1k egocentric social interaction clips from [<u>Ego4D</u>](https://ego4d-data.org/). <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> spans 100 distinct settings across a wide range of activities, cultures, and interactions.
+To comprehensively measure VLM normative reasoning ability, we introduce <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>, a challenging QA benchmark that is physically grounded in 1k egocentric social interaction clips from [<u>Ego4D</u>](https://ego4d-data.org/) <Citation id="grauman2022ego4dworld3000hours"/>. <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> spans 100 distinct settings across a wide range of activities, cultures, and interactions.
 
 <br />
 
-Unlike similarly visually-grounded spatiotemporal, predictive, or causal reasoning benchmarks,
+Unlike similarly visually-grounded spatiotemporal, predictive, or causal reasoning benchmarks <Citation id="chandrasegaran2024hourvideo1hourvideolanguageunderstanding"/><Citation id="zellers2019recognition"/>,
 <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> evaluates models’ ability to reason about what should be done under social norms. <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> highlights cases where these norm-related objectives conflict—the richest arena for evaluating normative decision-making.
 
 <br />
@@ -102,11 +102,13 @@ Our findings indicate **a significant gap** between current models and human und
 
 <br />
 
+
 To study physical social norms, we operationalize a taxonomy of PSN categories, which stand for the social objectives that inform them. Some norms explicitly serve the function of maximizing utility across multi-agent systems. We call these the Utility Norms. Other norms are more particular to human sociality, which can often stand at odds with group utility norms, and this tension provides a setting for evaluating agent decision-making under conflicting objectives.
 
+
 * **Physical Social Norms** include
-    * *utility norms*: <span style={{ color: "#C65B4E" }}>cooperation</span>, <span style={{ color: "#EA772F" }}>communication/legibility</span>, and <span style={{ color: "#E6A700" }}>coordination/proactivity</span>
-    * *non-utility norms*: <span style={{ color: "#246D63" }}>safety</span>, <span style={{ color: "#356ABC" }}>politeness</span>, <span style={{ color: "#5C4C99" }}>privacy</span>, and <span style={{ color: "#D87CA6" }}>proxemics</span>.
+    * *utility norms*: <span style={{ color: "#C65B4E" }}>cooperation</span> <Citation id="sunstein1996social"/>, <span style={{ color: "#EA772F" }}>communication/legibility</span> <Citation id="francis2023principlesguidelinesevaluatingsocial"/>, and <span style={{ color: "#E6A700" }}>coordination/proactivity</span> <Citation id="paternotte2013social"/>.
+    * *non-utility norms*: <span style={{ color: "#246D63" }}>safety</span> <Citation id="lasota2017survey"/>, <span style={{ color: "#356ABC" }}>politeness</span> <Citation id="mills2011politeness"/>, <span style={{ color: "#5C4C99" }}>privacy</span> <Citation id="altman1975environment"/>, and <span style={{ color: "#D87CA6" }}>proxemics</span> <Citation id="huang2022proxemics"/>.
 
 <Figure
   src="/images/psn/egonormia_taxonomy.png"
@@ -141,7 +143,7 @@ We use a format of Multiple-Choice Questions (MCQs) for our task, including thre
   caption="Figure 4: We propose an efficient pipeline for annotating normative behaviors through leveraging Ego4D annotations (Phase I), VLM-based proposal (Phase II), post-hoc filtering (Phase III), and human validation (Phase IV)."
 />
 
-* **Phase I: Snippet Sampling.** We sourced video samples from [<u>Ego4D</u>](https://ego4d-data.org/). To ensure diversity, we applied a multi-step filtering process, sampling each unique scenario-verb combination to select video snippets across a wide range of social and physical contexts.
+* **Phase I: Snippet Sampling.** We sourced video samples from [<u>Ego4D</u>](https://ego4d-data.org/) <Citation id="grauman2022ego4dworld3000hours"/>. To ensure diversity, we applied a multi-step filtering process, sampling each unique scenario-verb combination to select video snippets across a wide range of social and physical contexts.
 
 * **Phase II: Answer Generation.** For each video sample, we generate four pairs of actions and justifications—one ground truth pair and three distractor pairs. To create challenging distractors, we systematically perturb the original context by altering key details that influence the interpretation of the action.
 
@@ -153,6 +155,7 @@ Through automatic clustering with GPT-4o, we categorize the final videos into 5 
 
 ## Results
 
+We evaluated the following state-of-the-art foundation models: Gemini 1.5 Flash/Pro <Citation id="team2024gemini"/>, GPT-4o <Citation id="hurst2024gpt"/>, Claude 3.5 Sonnet <Citation id="anthropic2024claude"/>, o3-mini (medium reasoning setting) <Citation id="o3mini"/>, Deepseek R1 <Citation id="guo2025deepseek"/>, InternVL 2.5 <Citation id="chen2024expanding"/>, and Qwen 2.5 VL <Citation id="Qwen2.5-VL"/>.
 
 <div className="flex justify-center items-center w-full my-8">
   <div className="w-full overflow-x-auto" style={{ minWidth: "800px" }}>
@@ -372,7 +375,9 @@ failure modes were identified: (1) Norm sensibility errors, (2) Norm prioritizat
 
 ## Augmenting Normative Reasoning with Retrieval over <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>
 
-To answer **can we use <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> to improve the normative reasoning of VLMs? (RQ3)** We propose performing retrieval over the context present in <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>, a strategy we call <span style={{ fontVariant: "small-caps" }}>NormThinker</span>, to guide VLMs in making contextually-grounded normative decisions.
+lewis2020retrieval
+
+To answer **can we use <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> to improve the normative reasoning of VLMs? (RQ3)** We propose performing retrieval <Citation id="lewis2020retrieval"/> over the context present in <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>, a strategy we call <span style={{ fontVariant: "small-caps" }}>NormThinker</span>, to guide VLMs in making contextually-grounded normative decisions.
 
 <Figure
   src="/images/psn/normthinker.jpg"
@@ -382,7 +387,7 @@ To answer **can we use <span style={{ fontVariant: "small-caps" }}>EgoNormia</sp
   height={300}
 />
 
-we curate an out-of-domain test dataset based on egocentric robotic assistant footage, selected as its context and embodiment are orthogonal to those seen in Ego4D. We evaluate NormThinker on 11 these datapoints. Without NormThinker, GPT-4o correctly completed only 1 out of 11 tasks. However, with NormThinker, the accuracy improved significantly to 5 out of 11.
+we curate an out-of-domain test dataset based on egocentric robotic assistant footage <Citation id="zhu2024siat"/>, selected as its context and embodiment are orthogonal to those seen in Ego4D. We evaluate NormThinker on 11 these datapoints. Without NormThinker, GPT-4o correctly completed only 1 out of 11 tasks. However, with NormThinker, the accuracy improved significantly to 5 out of 11.
 
 <div className="flex justify-center items-center w-full my-8">
   <div className="w-full overflow-x-auto" style={{ minWidth: "1200px" }}>
