@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-select": "^2.1.6",
     "@supabase/supabase-js": "^2.48.1",
     "@types/react-syntax-highlighter": "^15.5.13",
     "bibtex-parse-js": "^0.0.24",
