@@ -92,33 +92,33 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ entries }) => {
     <div className="overflow-x-auto">
       <table className="w-full">
         <thead>
-          <tr className="border-b">
+          <tr className="border-b border-gray-200 dark:border-gray-700">
             <th 
-              className="p-2 text-left cursor-pointer hover:bg-gray-50"
+              className="p-2 text-left cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-200"
               onClick={() => handleSort('model')}
             >
               Model {getSortIcon('model')}
             </th>
             <th 
-              className="p-2 text-right cursor-pointer hover:bg-gray-50"
+              className="p-2 text-right cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-200"
               onClick={() => handleSort('both')}
             >
               Both (% Accuracy) {getSortIcon('both')}
             </th>
             <th 
-              className="p-2 text-right cursor-pointer hover:bg-gray-50"
+              className="p-2 text-right cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-200"
               onClick={() => handleSort('act')}
             >
               Action (% Accuracy) {getSortIcon('act')}
             </th>
             <th 
-              className="p-2 text-right cursor-pointer hover:bg-gray-50"
+              className="p-2 text-right cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-200"
               onClick={() => handleSort('jus')}
             >
               Justification (% Accuracy) {getSortIcon('jus')}
             </th>
             <th 
-              className="p-2 text-right cursor-pointer hover:bg-gray-50"
+              className="p-2 text-right cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-200"
               onClick={() => handleSort('sens')}
             >
               Sensibility (% IoU) {getSortIcon('sens')}
@@ -127,7 +127,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ entries }) => {
         </thead>
         <tbody>
           {sortedEntries.map((entry, index) => (
-            <tr key={index} className="border-b hover:bg-gray-50">
+            <tr key={index} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-200">
               <td className="p-2">{entry.model}</td>
               <td className="p-2 text-right">{entry.both.toFixed(1)}</td>
               <td className="p-2 text-right">{entry.act.toFixed(1)}</td>
@@ -216,7 +216,7 @@ export default function Leaderboard() {
         </div>
       </div>
       
-      <div className="bg-white p-6 rounded-b-lg shadow-lg">
+      <div className="bg-white dark:bg-gray-900 p-6 rounded-b-lg shadow-lg">
         <div className="flex gap-2 mb-6">
           {['blind', 'pipeline', 'video'].map((tab) => (
             <button
@@ -225,7 +225,7 @@ export default function Leaderboard() {
               className={`px-4 py-2 rounded-md ${
                 activeTab === tab
                   ? 'bg-blue-500 text-white'
-                  : 'bg-gray-100 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200'
               }`}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}

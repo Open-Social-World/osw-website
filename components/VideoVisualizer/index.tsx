@@ -104,10 +104,9 @@ const supabase = createClient(
 
 const Badge = ({ text, color }: { text: string; color: string }) => (
   <span
-    className="inline-block rounded px-2 py-1 text-xs font-medium mr-2 mb-2"
+    className="inline-block rounded px-2 py-1 text-xs font-medium mr-2 mb-2 text-white"
     style={{
       backgroundColor: color,
-      color: "#FFFFFF",
     }}
   >
     {text}
@@ -121,7 +120,14 @@ const TaxonomyBadge = ({ taxonomy }: { taxonomy: string }) => {
 };
 
 const ModelBadge = ({ model }: { model: string }) => {
-  return <Badge text={model} color="#000000" />;
+  // Use a CSS variable that can be different in dark mode
+  return (
+    <span
+      className="inline-block rounded px-2 py-1 text-xs font-medium mr-2 mb-2 text-white dark:bg-gray-600 bg-gray-900"
+    >
+      {model}
+    </span>
+  );
 };
 
 const VideoGridVisualizer = () => {
@@ -219,7 +225,7 @@ const VideoGridVisualizer = () => {
 
   return (
     <div className="container mx-auto px-4 py-4">
-      <div className="text-gray-600 mb-4">
+      <div className="text-muted-foreground mb-4">
         Found {matchingCount} matching videos out of {totalVideos} total videos
       </div>
 
@@ -234,7 +240,7 @@ const VideoGridVisualizer = () => {
                 setIdSearch(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full p-2 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-ring bg-background text-foreground"
             />
             {idSearch && (
               <button
@@ -242,7 +248,7 @@ const VideoGridVisualizer = () => {
                   setIdSearch("");
                   setCurrentPage(1);
                 }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 Clear
               </button>
@@ -252,10 +258,10 @@ const VideoGridVisualizer = () => {
 
         <div className="flex-1 flex gap-2">
           <Select>
-            <SelectTrigger className="w-[280px]">
+            <SelectTrigger className="w-[280px] bg-background text-foreground border-input">
               <SelectValue placeholder="Select a timezone" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-popover text-popover-foreground">
               <SelectGroup>
                 <SelectLabel>North America</SelectLabel>
                 <SelectItem value="est">Eastern Standard Time (EST)</SelectItem>
@@ -325,7 +331,7 @@ const VideoGridVisualizer = () => {
               setCategorySearch("");
               setCurrentPage(1);
             }}
-            className="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 flex items-center appearance-none bg-white"
+            className="p-2 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-ring h-10 flex items-center appearance-none bg-background text-foreground"
           >
             <option value="high">High Level Activity</option>
             <option value="low">Low Level Activity</option>
@@ -336,7 +342,7 @@ const VideoGridVisualizer = () => {
               setCategorySearch(e.target.value);
               setCurrentPage(1);
             }}
-            className="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="flex-1 p-2 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-ring bg-background text-foreground"
           >
             <option value="">All Categories</option>
             {(categoryType === "high"
@@ -354,7 +360,7 @@ const VideoGridVisualizer = () => {
                 setCategorySearch("");
                 setCurrentPage(1);
               }}
-              className="px-3 py-2 text-gray-500 hover:text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="px-3 py-2 text-muted-foreground hover:text-foreground border border-input rounded-lg hover:bg-accent"
             >
               Clear
             </button>
@@ -363,18 +369,18 @@ const VideoGridVisualizer = () => {
       </div>
 
       {error ? (
-        <div className="w-full p-6 text-center text-red-600 bg-red-50 rounded-lg">
+        <div className="w-full p-6 text-center text-destructive bg-destructive/10 rounded-lg">
           {error}
         </div>
       ) : isLoading ? (
         <div className="w-full p-6 text-center">Loading videos...</div>
       ) : (
         <>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {videos.map((video) => (
               <div
                 key={video.id}
-                className="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer transform transition-transform hover:scale-105"
+                className="bg-card rounded-lg shadow-sm overflow-hidden cursor-pointer transform transition-transform hover:scale-105 border border-border"
                 onClick={() => handleVideoClick(video)}
               >
                 <div className="aspect-video relative h-40">
@@ -395,16 +401,16 @@ const VideoGridVisualizer = () => {
                   {video.low && (
                     <p className="text-sm">
                       <span className="font-medium">Low level activity:</span>{" "}
-                      <span className="text-gray-600">{video.low}</span>
+                      <span className="text-muted-foreground">{video.low}</span>
                     </p>
                   )}
                   {video.high && (
                     <p className="text-sm">
                       <span className="font-medium">High level activity:</span>{" "}
-                      <span className="text-gray-600">{video.high}</span>
+                      <span className="text-muted-foreground">{video.high}</span>
                     </p>
                   )}
-                  <p className="text-gray-600 text-sm line-clamp-2">
+                  <p className="text-muted-foreground text-sm line-clamp-2">
                     {video.description || "No description available"}
                   </p>
                 </div>
@@ -414,31 +420,31 @@ const VideoGridVisualizer = () => {
 
           <div className="flex justify-center items-center space-x-4 mt-8">
             <button
-              className="px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-50"
+              className="px-4 py-2 bg-secondary rounded-lg disabled:opacity-50 text-secondary-foreground hover:bg-secondary/80"
               onClick={() => setCurrentPage(1)}
               disabled={currentPage === 1}
             >
               First
             </button>
             <button
-              className="px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-50"
+              className="px-4 py-2 bg-secondary rounded-lg disabled:opacity-50 text-secondary-foreground hover:bg-secondary/80"
               onClick={() => setCurrentPage((prev) => prev - 1)}
               disabled={currentPage === 1}
             >
               Previous
             </button>
-            <span className="text-gray-600">
+            <span className="text-muted-foreground">
               Page {currentPage} of {totalPages}
             </span>
             <button
-              className="px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-50"
+              className="px-4 py-2 bg-secondary rounded-lg disabled:opacity-50 text-secondary-foreground hover:bg-secondary/80"
               onClick={() => setCurrentPage((prev) => prev + 1)}
               disabled={currentPage === totalPages}
             >
               Next
             </button>
             <button
-              className="px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-50"
+              className="px-4 py-2 bg-secondary rounded-lg disabled:opacity-50 text-secondary-foreground hover:bg-secondary/80"
               onClick={() => setCurrentPage(totalPages)}
               disabled={currentPage === totalPages}
             >
@@ -450,18 +456,18 @@ const VideoGridVisualizer = () => {
 
       {selectedVideo && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg w-full max-w-6xl max-h-[90vh] overflow-y-auto">
-            <div className="p-4 flex justify-between items-center border-b">
+          <div className="bg-card rounded-lg w-full max-w-6xl max-h-[90vh] overflow-y-auto text-card-foreground">
+            <div className="p-4 flex justify-between items-center border-b border-border">
               <h2 className="font-serif text-2xl font-bold">Video Details</h2>
               <button
                 onClick={handleCloseVideo}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-muted-foreground hover:text-foreground"
               >
                 Close
               </button>
             </div>
             <div className="p-6">
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
                   <h4 className="font-serif text-lg font-semibold mb-2">
                     Before
@@ -496,19 +502,19 @@ const VideoGridVisualizer = () => {
               </div>
 
               <div className="space-y-6">
-                <div className="border-b pb-4">
-                  <p className="text-gray-600 mb-2">
+                <div className="border-b border-border pb-4">
+                  <p className="text-muted-foreground mb-2">
                     Video ID: {selectedVideo.id}
                   </p>
                 </div>
 
-                <div className="border-b pb-4">
+                <div className="border-b border-border pb-4">
                   {selectedVideo.low && (
                     <div className="mb-4">
                       <h3 className="font-serif text-xl font-bold mb-2">
                         Low Level Activity
                       </h3>
-                      <p className="text-gray-800">{selectedVideo.low}</p>
+                      <p className="text-foreground">{selectedVideo.low}</p>
                     </div>
                   )}
                   {selectedVideo.high && (
@@ -516,32 +522,32 @@ const VideoGridVisualizer = () => {
                       <h3 className="font-serif text-xl font-bold mb-2">
                         High Level Activity
                       </h3>
-                      <p className="text-gray-800">{selectedVideo.high}</p>
+                      <p className="text-foreground">{selectedVideo.high}</p>
                     </div>
                   )}
                 </div>
 
                 {selectedVideo.description && (
-                  <div className="border-b pb-4">
+                  <div className="border-b border-border pb-4">
                     <h3 className="font-serif text-xl font-bold mb-2">
                       Description
                     </h3>
-                    <p className="text-gray-800">{selectedVideo.description}</p>
+                    <p className="text-foreground">{selectedVideo.description}</p>
                   </div>
                 )}
 
                 {selectedVideo.behaviors && (
-                  <div className="border-b pb-4">
+                  <div className="border-b border-border pb-4">
                     <h3 className="font-serif text-xl font-bold mb-4">
                       Actions
                     </h3>
-                    <div className="pl-4 border-l border-gray-200">
+                    <div className="pl-4 border-l border-muted">
                       {selectedVideo.behaviors.map((behavior, index) => (
                         <div
                           key={index}
-                          className={`border-b border-gray-400 last:border-b-0 ${
+                          className={`border-b border-muted last:border-b-0 ${
                             index === selectedVideo.correct_behavior
-                              ? "border-l-4 border-l-green-500 -ml-4 pl-4 bg-green-50"
+                              ? "border-l-4 border-l-green-500 -ml-4 pl-4 bg-green-500/10"
                               : ""
                           } py-4 first:pt-0 last:pb-0`}
                         >
@@ -580,18 +586,18 @@ const VideoGridVisualizer = () => {
                 )}
 
                 {selectedVideo.justifications && (
-                  <div className="border-b pb-4">
+                  <div className="border-b border-border pb-4">
                     <h3 className="font-serif text-xl font-bold mb-4">
                       Justifications
                     </h3>
-                    <div className="pl-4 border-l border-gray-200">
+                    <div className="pl-4 border-l border-muted">
                       {selectedVideo.justifications.map(
                         (justification, index) => (
                           <div
                             key={index}
-                            className={`border-b border-gray-400 last:border-b-0 ${
+                            className={`border-b border-muted last:border-b-0 ${
                               index === selectedVideo.correct_behavior
-                                ? "border-l-4 border-l-green-500 -ml-4 pl-4 bg-green-50"
+                                ? "border-l-4 border-l-green-500 -ml-4 pl-4 bg-green-500/10"
                                 : ""
                             } py-4 first:pt-0 last:pb-0`}
                           >
