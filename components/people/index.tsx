@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import Image from 'next/image';
 
 interface Person {
@@ -56,24 +56,21 @@ const people: Person[] = [
 ];
 
 const ProfileImage = ({ name }: { name: string }) => {
-  const [extension, setExtension] = useState<string>('png');
-  const [hasError, setHasError] = useState(false);
   const firstName = name.split(' ')[0];
-
-  const handleImageError = () => {
-    if (extension === 'png' && !hasError) {
-      setExtension('jpg');
-      setHasError(true);
-    }
-  };
 
   return (
     <Image
-      src={`/images/people/${firstName}.${extension}`}
+/*************  ✨ Codeium Command ⭐  *************/
+  /**
+   * Handle an error when loading a profile image by switching to a different file extension.
+   * If the image was originally a PNG and has not previously failed to load, switch to a JPG.
+   * Otherwise, do nothing.
+   * @returns {void}
+   */
+/******  7527adb0-74d2-4908-95de-7c4a2454414f  *******/      src={`/images/people/${firstName}.jpg`}
       alt={`${name}'s profile`}
       fill
       className="object-cover hover:opacity-90 transition-opacity"
-      onError={handleImageError}
       loading="lazy"
     />
   );

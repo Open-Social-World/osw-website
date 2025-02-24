@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Pie, PieChart, Cell, Label } from "recharts";
+import { Pie, PieChart, Cell } from "recharts";
 import {
   Card,
   CardContent,
@@ -91,9 +91,19 @@ const HUMAN_DATA = [
   { name: "Refusal", value: 0, fill: "url(#pattern-refusal)" },
 ];
 
+// Define a proper type for the label renderer props
+interface LabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  value: number;
+}
+
 // Custom label renderer
-const renderCustomizedLabel = (props: any) => {
-  const { cx, cy, midAngle, innerRadius, outerRadius, value, index } = props;
+const renderCustomizedLabel = (props: LabelProps) => {
+  const { cx, cy, midAngle, innerRadius, outerRadius, value } = props;
   if (value < 5) return null;
 
   const radius = innerRadius + (outerRadius - innerRadius) * 0.7; // Changed from 0.5 to 0.7 to move labels outward
@@ -115,8 +125,15 @@ const renderCustomizedLabel = (props: any) => {
   );
 };
 
+// Define a proper type for the chart data
+interface ChartDataItem {
+  name: string;
+  value: number;
+  fill: string;
+}
+
 // Individual Chart Component
-const FailureModeChart = ({ data, title }: { data: any[], title: string }) => (
+const FailureModeChart = ({ data, title }: { data: ChartDataItem[], title: string }) => (
   <Card className="flex flex-col h-full">
     <CardHeader className="items-center pb-2">
       <CardTitle className="text-2xl">{title}</CardTitle>
@@ -183,6 +200,8 @@ const FailureModeLegend = () => (
     </CardContent>
   </Card>
 );
+
+
 
 // Main component
 export default function FailureModeCharts() {
