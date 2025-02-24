@@ -101,7 +101,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   return (
     <Layout frontMatter={article.frontMatter}>
       <FootnotesProvider>
-        <article className="max-w-none prose lg:prose-lg mx-auto">
+        <article className="max-w-4xl prose lg:prose-lg mx-auto">
           <MDXRemote 
             source={article.content}
             components={{

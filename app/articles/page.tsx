@@ -2,27 +2,20 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getAllArticles } from "@/lib/articles";
+import { Badge } from "@/components/ui/badge";
 
-type ArticleType = "PEER-REVIEWED" | "EDITORIAL";
-
-const badgeStyles: Record<ArticleType, string> = {
-  "PEER-REVIEWED": "bg-gray-700 text-white",
-  EDITORIAL: "bg-white border border-gray-300 text-gray-700",
-};
+type ArticleType = "PEER-REVIEWED" | "EDITORIAL" | "PREPRINT";
 
 function ArticleBadge({ type }: { type: ArticleType }) {
-  const baseClasses = "px-2 py-1 text-xs font-medium tracking-wide uppercase";
-  const styleClass = badgeStyles[type];
-
-  return <span className={`${baseClasses} ${styleClass}`}>{type}</span>;
+  return <Badge>{type}</Badge>;
 }
 
 export default async function ArticlesPage() {
   const articles = await getAllArticles();
 
   return (
-    <div className="bg-white flex-1">
-      <main className="max-w-screen-xl mx-auto px-4 sm:px-6 py-8">
+    <div className="flex-1">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
         <div className="space-y-16">
           {articles.map((article) => {
             if (!article) return null;
@@ -31,12 +24,12 @@ export default async function ArticlesPage() {
 
             return (
               <article key={slug} className="relative group">
-                <div className="grid grid-cols-1 md:grid-cols-[120px_1fr_300px] gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-[120px_1fr_300px] gap-8 items-start">
                   {/* Left column: Date and badges */}
-                  <div className="flex flex-row md:flex-col gap-4 md:gap-2">
+                  <div className="flex flex-row md:flex-col gap-4 md:gap-2 self-start">
                     <time
                       dateTime={frontMatter.publishedDate}
-                      className="text-sm text-gray-500 whitespace-nowrap"
+                      className="text-sm whitespace-nowrap"
                     >
                       {date.toLocaleDateString("en-US", {
                         month: "long",
@@ -52,24 +45,24 @@ export default async function ArticlesPage() {
                   </div>
 
                   {/* Middle column: Article content */}
-                  <div className="flex-1">
+                  <div className="flex-1 self-start">
                     <Link
                       href={`/articles/${slug}`}
                       className="group-hover:text-blue-600 transition-colors"
                     >
-                      <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+                      <h2 className="text-2xl font-semibold mb-2">
                         {frontMatter.title}
                       </h2>
                     </Link>
 
-                    <div className="text-gray-700 mb-3">
+                    {/* <div className="text-gray-700 mb-3">
                       {frontMatter.authors
                         ?.map((author) => author.name)
                         .join(", ")}
-                    </div>
+                    </div> */}
 
                     {frontMatter.description && (
-                      <p className="text-gray-600 leading-relaxed">
+                      <p className="leading-relaxed">
                         {frontMatter.description}
                       </p>
                     )}
@@ -77,12 +70,12 @@ export default async function ArticlesPage() {
 
                   {/* Right column: Figure */}
                   {frontMatter.image && (
-                    <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden">
+                    <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden self-start">
                       <Image
                         src={frontMatter.image.url}
                         alt={frontMatter.image.alt || ""}
                         fill
-                        className="object-contain"
+                        className="object-contain object-top"
                       />
                     </div>
                   )}
@@ -94,7 +87,7 @@ export default async function ArticlesPage() {
             );
           })}
         </div>
-      </main>
+      </div>
     </div>
   );
 }

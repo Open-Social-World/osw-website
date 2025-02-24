@@ -36,7 +36,8 @@ export async function getArticleBySlug(slug: string) {
     publishedDate: data.publishedDate,
     doi: data.doi,
     image: data.image,
-    katex: data.katex
+    katex: data.katex,
+    type: data.type
   };
 
   return {

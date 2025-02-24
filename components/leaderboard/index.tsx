@@ -90,7 +90,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ entries }) => {
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full">
+      <table className="max-w-4xl">
         <thead>
           <tr className="border-b">
             <th 
