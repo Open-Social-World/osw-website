@@ -14,7 +14,7 @@ import {
   SelectLabel,
 } from "@/components/ui/select";
 
-const VIDEOS_PER_PAGE = 9;
+const VIDEOS_PER_PAGE = 6;
 
 const HIGH_LEVEL_CATEGORIES = [
   "Lifestyle",
@@ -377,7 +377,7 @@ const VideoGridVisualizer = () => {
                 className="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer transform transition-transform hover:scale-105"
                 onClick={() => handleVideoClick(video)}
               >
-                <div className="aspect-video relative h-72">
+                <div className="aspect-video relative h-40">
                   <Image
                     src={video.frame_url || ""}
                     alt={`Preview for ${video.id}`}

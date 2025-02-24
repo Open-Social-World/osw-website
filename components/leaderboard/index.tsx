@@ -84,13 +84,13 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ entries }) => {
   };
 
   const getSortIcon = (key: SortKey) => {
-    if (sortConfig.key !== key) return '↕️';
-    return sortConfig.direction === 'asc' ? '↑' : '↓';
+    if (sortConfig.key !== key) return '↕';
+    return sortConfig.direction === 'asc' ? '⬆' : '⬇';
   };
 
   return (
     <div className="overflow-x-auto">
-      <table className="max-w-4xl">
+      <table className="w-full">
         <thead>
           <tr className="border-b">
             <th 
@@ -172,7 +172,7 @@ export default function Leaderboard() {
 
           <div className="flex justify-center gap-4">
             <a 
-              href="/articles/psn" 
+              href="/articles/egonormia" 
               className="inline-flex items-center gap-2 px-8 py-3 bg-white text-[#1a1a1a] rounded-lg text-xl font-semibold hover:bg-gray-100 transition-colors"
             >
               <span role="img" aria-label="blog" className="text-xl">📝</span>
@@ -204,6 +204,13 @@ export default function Leaderboard() {
             >
               <span role="img" aria-label="code" className="text-xl">💻</span>
               Code
+            </a>
+            <a
+              href="/people"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-white text-[#1a1a1a] rounded-lg text-xl font-semibold hover:bg-gray-100 transition-colors"
+            >
+              <span role="img" aria-label="people" className="text-xl">✍️</span>
+              People
             </a>
           </div>
         </div>
