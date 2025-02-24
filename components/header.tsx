@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Image from 'next/image';
 import { FrontMatter } from '@/types/article';
 
@@ -17,34 +16,13 @@ export default function Header({ frontMatter }: HeaderProps) {
 
   return (
     <header>
-      {/* Top Navigation Bar */}
-      <nav className="bg-gray-900 text-white">
-        <div className="max-w-screen-xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/" className="text-sm md:text-xl font-semibold hover:text-gray-300">
-              Open Social World
-            </Link>
-            <div className="flex space-x-6">
-              <Link href="/articles" className="hover:text-gray-300">
-                Articles
-              </Link>
-              <Link href="/about" className="hover:text-gray-300">
-                About
-              </Link>
-              <Link href="/submit" className="hover:text-gray-300">
-                Submit
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
 
       {/* Article Header with Hero Image */}
       {frontMatter && (
-        <div className="bg-white border-b">
+        <div className="border-b">
           
           
-          <div className="max-w-screen-xl mx-auto px-4 py-12">
+          <div className="max-w-3xl mx-auto px-4 py-12">
             <div className="grid grid-cols-1 lg:grid-cols-[2fr,1fr] gap-8">
               {/* Title and Description */}
               <div>
@@ -52,19 +30,19 @@ export default function Header({ frontMatter }: HeaderProps) {
                   {frontMatter.title}
                 </h1>
                 {frontMatter.description && (
-                  <p className="text-xl text-gray-600 leading-relaxed">
+                  <p className="text-xl leading-relaxed">
                     {frontMatter.description}
                   </p>
                 )}
                 {formattedDate && (
-                  <p className="mt-4 text-gray-500">
+                  <p className="mt-4 ">
                     Published: {formattedDate}
                   </p>
                 )}
                 {frontMatter.image && (
                   <div className="w-full mt-4">
                     <div className="max-w-screen-xl mx-auto px-4">
-                      <div className="relative aspect-[21/9] w-full">
+                      <div className="relative aspect-[4/3] w-full">
                         <Image
                           src={frontMatter.image.url}
                           alt={frontMatter.image.alt || frontMatter.title}
@@ -74,7 +52,7 @@ export default function Header({ frontMatter }: HeaderProps) {
                         />
                       </div>
                       {frontMatter.image.caption && (
-                        <p className="text-sm text-gray-600 mt-2 text-center pb-4">
+                        <p className="text-sm  mt-2 text-center pb-4">
                           {frontMatter.image.caption}
                         </p>
                       )}
@@ -86,7 +64,7 @@ export default function Header({ frontMatter }: HeaderProps) {
               {/* Authors */}
               {frontMatter.authors && frontMatter.authors.length > 0 && (
                 <div className="lg:border-l lg:pl-8">
-                  <h2 className="text-sm uppercase tracking-wider text-gray-500 font-medium mb-4">
+                  <h2 className="text-sm uppercase tracking-wider font-medium mb-4">
                     Authors
                   </h2>
                   <div className="space-y-6">
@@ -107,7 +85,7 @@ export default function Header({ frontMatter }: HeaderProps) {
                           )}
                         </div>
                         {author.affiliation && (
-                          <div className="text-sm text-gray-600">
+                          <div className="text-sm ">
                             {author.affiliationURL ? (
                               <a 
                                 href={author.affiliationURL}
