@@ -15,8 +15,6 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 
-const VIDEOS_PER_PAGE = 6;
-
 const HIGH_LEVEL_CATEGORIES = [
   "Lifestyle",
   "Professional",
@@ -123,9 +121,7 @@ const TaxonomyBadge = ({ taxonomy }: { taxonomy: string }) => {
 const ModelBadge = ({ model }: { model: string }) => {
   // Use a CSS variable that can be different in dark mode
   return (
-    <span
-      className="inline-block rounded px-2 py-1 text-xs font-medium mr-2 mb-2 text-white dark:bg-gray-600 bg-gray-900"
-    >
+    <span className="inline-block rounded px-2 py-1 text-xs font-medium mr-2 mb-2 text-white dark:bg-gray-600 bg-gray-900">
       {model}
     </span>
   );
@@ -135,7 +131,7 @@ interface VideoGridVisualizerProps {
   videos_per_page: number;
 }
 
-const VideoGridVisualizer = ({videos_per_page}: VideoGridVisualizerProps) => {
+const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -211,7 +207,7 @@ const VideoGridVisualizer = ({videos_per_page}: VideoGridVisualizerProps) => {
     } finally {
       setIsLoading(false);
     }
-  }, [currentPage, idSearch, categorySearch, categoryType]);
+  }, [currentPage, idSearch, categorySearch, categoryType, videos_per_page]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -230,7 +226,6 @@ const VideoGridVisualizer = ({videos_per_page}: VideoGridVisualizerProps) => {
 
   return (
     <div className="container mx-auto px-4 py-4">
-
       <div className="mb-6 flex items-center justify-between gap-4">
         <div className="flex-1">
           <div className="relative">
@@ -413,7 +408,9 @@ const VideoGridVisualizer = ({videos_per_page}: VideoGridVisualizerProps) => {
                   {video.high && (
                     <p className="text-sm">
                       <span className="font-medium">High level activity:</span>{" "}
-                      <span className="text-muted-foreground">{video.high}</span>
+                      <span className="text-muted-foreground">
+                        {video.high}
+                      </span>
                     </p>
                   )}
                   <p className="text-muted-foreground text-sm line-clamp-2">
@@ -538,7 +535,9 @@ const VideoGridVisualizer = ({videos_per_page}: VideoGridVisualizerProps) => {
                     <h3 className="font-serif text-xl font-bold mb-2">
                       Description
                     </h3>
-                    <p className="text-foreground">{selectedVideo.description}</p>
+                    <p className="text-foreground">
+                      {selectedVideo.description}
+                    </p>
                   </div>
                 )}
 
@@ -641,26 +640,25 @@ const VideoGridVisualizer = ({videos_per_page}: VideoGridVisualizerProps) => {
   );
 };
 
-
 const ResponsiveVideoVisualizer = () => {
   const [isMobile, setIsMobile] = useState(false);
-  
+
   useEffect(() => {
     // Check if screen is mobile when component mounts
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768); // 768px is the 'md' breakpoint in Tailwind
     };
-    
+
     // Initial check
     checkIfMobile();
-    
+
     // Listen for window resize events
-    window.addEventListener('resize', checkIfMobile);
-    
+    window.addEventListener("resize", checkIfMobile);
+
     // Cleanup event listener on component unmount
-    return () => window.removeEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
-  
+
   return (
     <>
       {isMobile ? (

@@ -37,59 +37,14 @@ authors:
     affiliationURL: https://www.stanford.edu
 doi: 10.1234/example.2023.001
 type: preprint
+leaderboard_url: /leaderboard
+paper_url: https://arxiv.org/abs/2301.00001
+code_url: https://github.com/Open-Social-World/EgoNormia
+data_url: https://huggingface.co/datasets/open-social-world/EgoNormia
 ---
 
 
-<div className="flex justify-center gap-4 mb-4">
-
-<Button>
-<Link className="w-full" href="/leaderboard">
-<span role="img" aria-label="leaderboard" className="text-xl">🥇</span>
-    Leaderboard
-</Link>
-</Button>
-
-<Button>
-
-<Link className="w-full" href="https://huggingface.co/datasets/open-social-world/EgoNormia">
-<span role="img" aria-label="hugging face" className="text-xl">🤗</span>
-    Data
-</Link>
-
-</Button>
-
-<Button>
-
-<Link className="w-full" href="https://github.com/Open-Social-World/EgoNormia">
-<span role="img" aria-label="code" className="text-xl">💻</span>
-    Code
-</Link>
-
-</Button>
-
-<Button>
-
-<Link className="w-full" href="https://arxiv.org/abs/2305.17008">
-<span role="img" aria-label="document" className="text-xl">📄</span>
-    arXiv
-</Link>
-
-</Button>
-
-<Button>
-
-<Link className="w-full" href="/people">
-
-<span role="img" aria-label="people" className="text-xl">✍️</span>
-    People
-</Link>
-
-</Button>
-
-</div>
-
-Human behaviors are moderated by norms. However, machines are often trained without explicit supervision on norm understanding and reasoning, especially when the norms are grounded in a physical and social context. To improve and evaluate the normative reasoning capability of vision-language models (VLMs), we present <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> <Math> ||\epsilon|| </Math>, consisting of 1,853 ego-centric videos of human interactions, each of which has two related questions evaluating both the prediction and justification of normative actions. The normative actions encompass seven categories:  <span style={{ color: "#246D63" }}>safety</span>, <span style={{ color: "#356ABC" }}>politeness</span>, <span style={{ color: "#5C4C99" }}>privacy</span>, <span style={{ color: "#D87CA6" }}>proxemics</span>, <span style={{ color: "#C65B4E" }}>cooperation</span>, <span style={{ color: "#EA772F" }}>communication/legibility</span>, and <span style={{ color: "#E6A700" }}>coordination/proactivity</span>. To compile this dataset at scale, we propose a novel pipeline leveraging video sampling, automatic answer generation, filtering, and human validation. **Our work demonstrates that current state-of-the-art vision-language models lack robust norm understanding, scoring a maximum of 45\% on <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> (versus a human bench of 92\%).** Our analysis of performance in each dimension highlights the significant risks of <span style={{ color: "#246D63" }}>safety</span>, <span style={{ color: "#5C4C99" }}>privacy</span>, and the lack of <span style={{ color: "#C65B4E" }}>cooperation</span> and <span style={{ color: "#EA772F" }}>communication/legibility</span> capability when applied to real-world agents. We additionally show that through a retrieval-based generation method, it is possible to use <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> to enhance normative reasoning in VLMs.
-
+Machines lack explicit norm understanding in physical and social contexts. We present <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> <Math> ||\epsilon|| </Math>, featuring 1,853 ego-centric videos with questions testing prediction and justification of normative actions across seven categories: <span style={{ color: "#246D63" }}>safety</span>, <span style={{ color: "#356ABC" }}>politeness</span>, <span style={{ color: "#5C4C99" }}>privacy</span>, <span style={{ color: "#D87CA6" }}>proxemics</span>, <span style={{ color: "#C65B4E" }}>cooperation</span>, <span style={{ color: "#EA772F" }}>communication/legibility</span>, and <span style={{ color: "#E6A700" }}>coordination/proactivity</span>. Our novel pipeline includes video sampling, automatic answer generation, filtering, and human validation. State-of-the-art vision-language models score only 45% on <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> versus humans' 92%. Analysis reveals critical gaps in <span style={{ color: "#246D63" }}>safety</span>, <span style={{ color: "#5C4C99" }}>privacy</span>, <span style={{ color: "#C65B4E" }}>cooperation</span>, and <span style={{ color: "#EA772F" }}>communication/legibility</span> for real-world applications. We demonstrate <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> can enhance normative reasoning in VLMs through retrieval-based generation.
 <VideoVisualizer />
 
 ## Introduction
@@ -321,7 +276,7 @@ We evaluated the following state-of-the-art foundation models: Gemini 1.5 Flash/
           <td className="py-3 px-4 text-center font-bold">45.2</td>
           <td className="py-3 px-4 text-center">65.0</td>
         </tr>
-        
+
         <tr className="bg-gray-100 dark:bg-gray-800">
           <td colSpan="6" className="py-3 px-4 font-semibold text-gray-800">Pipeline Models - Open Source</td>
         </tr>
