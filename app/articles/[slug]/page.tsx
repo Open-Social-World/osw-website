@@ -16,6 +16,8 @@ import { getCitationsForArticle, sortCitations } from '@/lib/bibliography';
 import { Citation as CitationType } from '@/types/article';
 import VideoVisualizer from '@/components/VideoVisualizer';
 import FailureModeCharts from "@/components/FailureModeCharts";
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 interface HTMLComponentProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
@@ -51,6 +53,8 @@ export default async function ArticlePage({ params }: { params: { slug: string }
     Bibliography: () => <BibliographyWrapper citations={citations} />,
     VideoVisualizer,
     FailureModeCharts,
+    Link,
+    Button,
     h1: ({ children, className, ...props }: HTMLComponentProps) => (
       <h1 className={`text-4xl font-bold mt-8 mb-4 ${className || ''}`} {...props}>
         {children}
@@ -103,7 +107,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   return (
     <Layout frontMatter={article.frontMatter}>
       <FootnotesProvider>
-        <article className="max-w-4xl prose lg:prose-lg mx-auto">
+        <div className="max-w-4xl prose lg:prose-lg mx-auto">
           <MDXRemote 
             source={article.content}
             components={{
@@ -113,7 +117,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           />
           <FootnotesList />
           <ArticleCitation frontMatter={article.frontMatter} />
-        </article>
+        </div>
       </FootnotesProvider>
     </Layout>
   );

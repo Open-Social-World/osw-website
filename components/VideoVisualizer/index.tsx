@@ -13,6 +13,7 @@ import {
   SelectValue,
   SelectLabel,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 const VIDEOS_PER_PAGE = 6;
 
@@ -130,7 +131,11 @@ const ModelBadge = ({ model }: { model: string }) => {
   );
 };
 
-const VideoGridVisualizer = () => {
+interface VideoGridVisualizerProps {
+  videos_per_page: number;
+}
+
+const VideoGridVisualizer = ({videos_per_page}: VideoGridVisualizerProps) => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -161,8 +166,8 @@ const VideoGridVisualizer = () => {
   const fetchVideos = useCallback(async () => {
     try {
       setIsLoading(true);
-      const from = (currentPage - 1) * VIDEOS_PER_PAGE;
-      const to = from + VIDEOS_PER_PAGE - 1;
+      const from = (currentPage - 1) * videos_per_page;
+      const to = from + videos_per_page - 1;
 
       let baseQuery = supabase.from("videos").select("*", { count: "exact" });
 
@@ -197,7 +202,7 @@ const VideoGridVisualizer = () => {
       }));
 
       setVideos(processedData || []);
-      setTotalPages(Math.ceil((filteredCount ?? 0) / VIDEOS_PER_PAGE));
+      setTotalPages(Math.ceil((filteredCount ?? 0) / videos_per_page));
       setMatchingCount(filteredCount || 0);
       setTotalVideos(totalCount || 0);
     } catch (err) {
@@ -225,14 +230,11 @@ const VideoGridVisualizer = () => {
 
   return (
     <div className="container mx-auto px-4 py-4">
-      <div className="text-muted-foreground mb-4">
-        Found {matchingCount} matching videos out of {totalVideos} total videos
-      </div>
 
       <div className="mb-6 flex items-center justify-between gap-4">
         <div className="flex-1">
           <div className="relative">
-            <input
+            <Input
               type="text"
               placeholder="Search video ID..."
               value={idSearch}
@@ -366,6 +368,10 @@ const VideoGridVisualizer = () => {
             </button>
           )}
         </div>
+      </div>
+
+      <div className="text-muted-foreground mb-4">
+        Found {matchingCount} matching videos out of {totalVideos} total videos
       </div>
 
       {error ? (
@@ -635,4 +641,35 @@ const VideoGridVisualizer = () => {
   );
 };
 
-export default VideoGridVisualizer;
+
+const ResponsiveVideoVisualizer = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    // Check if screen is mobile when component mounts
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768); // 768px is the 'md' breakpoint in Tailwind
+    };
+    
+    // Initial check
+    checkIfMobile();
+    
+    // Listen for window resize events
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Cleanup event listener on component unmount
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+  
+  return (
+    <>
+      {isMobile ? (
+        <VideoGridVisualizer videos_per_page={3} />
+      ) : (
+        <VideoGridVisualizer videos_per_page={6} />
+      )}
+    </>
+  );
+};
+
+export default ResponsiveVideoVisualizer;
