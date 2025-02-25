@@ -169,7 +169,7 @@ const FailureModeLegend = () => (
     <CardContent className="flex-1 pt-2 flex items-center justify-center">
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <div className="h-6 w-6 border border-black" style={{ backgroundColor: COLORS.sensibility, backgroundImage: 'radial-gradient(black 1.5px, transparent 1.5px)', backgroundSize: '5px 5px' }}></div>
+          <div className="h-6 w-6 border border-black" style={{ backgroundColor: COLORS.sensibility, backgroundImage: 'radial-gradient(black 0.1px, transparent 1.5px)', backgroundSize: '6px 6px' }}></div>
           <span>Norm Sensibility</span>
         </div>
         <div className="flex items-center gap-2">
@@ -183,7 +183,8 @@ const FailureModeLegend = () => (
         <div className="flex items-center gap-2">
           <div className="h-6 w-6 border border-black" style={{ 
             backgroundColor: COLORS.perception, 
-            backgroundImage: 'linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.2) 75%)',
+            // backgroundImage: 'linear-gradient(135deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.2) 75%)',
+            backgroundImage: 'linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2) 75%, transparent 75%, transparent)',
             backgroundSize: '6px 6px'
           }}></div>
           <span>Perception</span>
@@ -191,8 +192,8 @@ const FailureModeLegend = () => (
         <div className="flex items-center gap-2">
           <div className="h-6 w-6 border border-black" style={{ 
             backgroundColor: COLORS.refusal, 
-            backgroundImage: 'linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2) 75%, transparent 75%, transparent)',
-            backgroundSize: '6px 6px'
+            backgroundImage: 'linear-gradient(90deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2) 75%, transparent 75%, transparent), linear-gradient(0deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2) 75%, transparent 75%, transparent)',
+            backgroundSize: '12px 12px'
           }}></div>
           <span>Refusal</span>
         </div>
