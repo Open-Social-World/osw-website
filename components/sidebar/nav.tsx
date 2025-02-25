@@ -7,6 +7,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
+import { ForwardedRef, HTMLAttributes } from "react";
 
 export function Nav({
   items,
@@ -14,7 +15,7 @@ export function Nav({
   items: {
     title: string
     url: string
-    icon?: LucideIcon
+    icon?: React.ComponentType<{ size?: number }>
     isActive?: boolean
     items?: {
       title: string
