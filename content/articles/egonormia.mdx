@@ -402,7 +402,7 @@ We evaluated the following state-of-the-art foundation models: Gemini 1.5 Flash/
         </tr>
       </tbody>
     </table>
-    <p className="text-center text-lg mt-4 max-w-4xl mx-auto">
+    <p className="text-left text-lg mt-4 max-w-4xl mx-auto">
       **Table 1**: EgoNormia benchmark results. Constant Choice represents the best performance of selecting a constant choice for all questions. Bold values indicate the best performance in each category that are above the constant choice baseline.
     </p>
   </div>
@@ -415,6 +415,7 @@ In evaluation on <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>, m
     **Figure 5**: Distribution of reasoning failure modes across GPT-4o, Gemini 1.5 Pro, and human evaluation. Annotations of 100 representative tasks revealed four primary failure modes, with norm sensibility errors being the most prevalent among models. The proportion of norm prioritization errors increases with overall performance on EgoNormia.
 </p>
 
+<br />
 
 To investigate **causes for the limited normative reasoning ability of VLMs (RQ2)**, We further categorize errors in normative reasoning by annotating the models’ full CoT responses on 100 representative tasks of <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>. Four
 failure modes were identified: (1) Norm sensibility errors, (2) Norm prioritization errors, (3) Perception errors, and (4) Answer refusal. The distribution of these model errors and human errors is shown in Figure 5. For models, the majority of failures were due to sensibility errors instead of perception, suggesting that foundation models are competent in processing the visual context of the video inputs but fail in performing sound normative reasoning on the parsed context. Furthermore, the ratio of norm prioritization errors grows as the overall performance increases (GPT-4o < Gemini 1.5 Pro < Human), suggesting more capable models struggle more with determining which norm should take precedence in ambiguous situations.
@@ -480,7 +481,7 @@ We curate an out-of-domain test dataset based on egocentric robotic assistant fo
         </tr>
       </tbody>
     </table>
-    <p className="text-center text-lg mt-4 max-w-4xl mx-auto">
+    <p className="text-left text-lg mt-4 max-w-4xl mx-auto">
       **Table 2**: Results with NormThinker on ego-centric robotics videos, n=11.
     </p>
   </div>
