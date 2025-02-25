@@ -1,26 +1,25 @@
-"use client"
-import { type LucideIcon } from "lucide-react"
+"use client";
 import {
   SidebarGroup,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import Link from "next/link"
+} from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export function Nav({
   items,
 }: {
   items: {
-    title: string
-    url: string
-    icon?: LucideIcon
-    isActive?: boolean
+    title: string;
+    url: string;
+    icon?: React.ComponentType<{ size?: number }>;
+    isActive?: boolean;
     items?: {
-      title: string
-      url: string
-    }[]
-  }[]
+      title: string;
+      url: string;
+    }[];
+  }[];
 }) {
   return (
     <SidebarGroup>
@@ -29,7 +28,7 @@ export function Nav({
           <SidebarMenuItem key={item.url}>
             <Link href={item.url} className="w-full">
               <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon size={16}/>}
+                {item.icon && <item.icon size={16} />}
                 <span>{item.title}</span>
               </SidebarMenuButton>
             </Link>
@@ -37,5 +36,5 @@ export function Nav({
         ))}
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }

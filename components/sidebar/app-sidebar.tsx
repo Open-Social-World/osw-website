@@ -1,12 +1,11 @@
 "use client"
 
 import * as React from "react"
-import {
-  BookOpen,
-  PieChart,
-  Home,
-  Users,
-} from "lucide-react"
+
+import { HomeIcon } from "@/components/ui/home"
+import { BookTextIcon } from "@/components/ui/book-text"
+import { ChartBarDecreasingIcon } from "@/components/ui/chart-bar-decreasing"
+import { UsersIcon } from "@/components/ui/users"
 
 import { InfoHeader } from "@/components/sidebar/info-header"
 import {
@@ -48,23 +47,23 @@ const data = {
     {
         title: "Home",
         url: "/",
-        icon: Home,
+        icon: HomeIcon,
         isActive: false,
     },
     {
         title: "Articles",
         url: "/articles",
-        icon: BookOpen,
+        icon: BookTextIcon,
     },
     {
         title: "Leaderboards",
         url: "/leaderboard",
-        icon: PieChart,
+        icon: ChartBarDecreasingIcon,
     },
     {
         title: "People",
         url: "/people",
-        icon: Users,
+        icon: UsersIcon,
     }
   ],
 }
