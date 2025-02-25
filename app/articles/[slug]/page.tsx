@@ -23,6 +23,7 @@ import FailureModeCharts from "@/components/FailureModeCharts";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import FloatingToolbar from "@/components/toolbar/floating-toolbar";
+import { Callout } from "@/components/callout";
 
 interface HTMLComponentProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
@@ -68,6 +69,7 @@ export default async function ArticlePage({
     FailureModeCharts,
     Link,
     Button,
+    Callout,
     h1: ({ children, className, ...props }: HTMLComponentProps) => (
       <h1
         className={`text-4xl font-bold mt-8 mb-4 ${className || ""}`}
