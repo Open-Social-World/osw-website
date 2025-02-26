@@ -1,6 +1,20 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Metadata } from "next";
+
+export const generateMetadata = (): Metadata => {
+  return {
+    title: "Open Social World | Home",
+    description:
+      "Discover research on novel dynamics of human-AI agent interaction at Open Social World.",
+    openGraph: {
+      title: "Open Social World | Home",
+      description:
+        "Discover research on novel dynamics of human-AI agent interaction at Open Social World.",
+    },
+  };
+};
 
 const HeroPage = () => {
   return (
@@ -19,14 +33,10 @@ const HeroPage = () => {
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <Button>
-                  <Link href="/articles/egonormia">
-                    EgoNormia
-                  </Link>
+                  <Link href="/articles/egonormia">EgoNormia</Link>
                 </Button>
                 <Button variant="ghost">
-                  <Link href="/leaderboard">
-                    Leaderboard
-                  </Link>
+                  <Link href="/leaderboard">Leaderboard</Link>
                 </Button>
               </div>
             </div>
