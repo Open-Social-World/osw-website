@@ -8,7 +8,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   LabelList
 } from 'recharts';
@@ -19,59 +18,48 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-// Transform data for vertical bar charts
+// Filter data to show only Both scores
 const normThinkerData = [
   {
-    category: 'Both',
-    'GPT-4o': 9.1,
-    '+ Best-5 Retrieval': 45.5,
-    'Human': 72.7,
+    name: 'GPT-4o',
+    Both: 9.1,
   },
   {
-    category: 'Action',
-    'GPT-4o': 45.5,
-    '+ Best-5 Retrieval': 63.6,
-    'Human': 72.7,
+    name: '+ Best-5 Retrieval',
+    Both: 45.5,
   },
   {
-    category: 'Justification',
-    'GPT-4o': 18.2,
-    '+ Best-5 Retrieval': 45.5,
-    'Human': 72.7,
+    name: 'Human',
+    Both: 72.7,
   }
 ];
 
-// Modified EcoNormia data without Human performance
+// EcoNormia data with only Both scores, without Human
 const ecoNormiaData = [
   {
-    category: 'Both',
-    'Gemini 1.5 Pro': 45.2,
-    'GPT-4o': 39.8,
-    '+ Random Retrieval': 41.3,
-    '+ Best-5 Retrieval': 49.2,
+    name: 'Gemini 1.5 Pro',
+    Both: 45.2,
   },
   {
-    category: 'Action',
-    'Gemini 1.5 Pro': 51.8,
-    'GPT-4o': 44.9,
-    '+ Random Retrieval': 51.0,
-    '+ Best-5 Retrieval': 54.5,
+    name: 'GPT-4o',
+    Both: 39.8,
   },
   {
-    category: 'Justification',
-    'Gemini 1.5 Pro': 47.7,
-    'GPT-4o': 45.1,
-    '+ Random Retrieval': 45.7,
-    '+ Best-5 Retrieval': 52.6,
+    name: '+ Random Retrieval',
+    Both: 41.3,
+  },
+  {
+    name: '+ Best-5 Retrieval',
+    Both: 49.2,
   }
 ];
 
-// Find the maximum value in the EcoNormia data to set y-axis limit
+// Find the maximum value in the data to set y-axis limit
 const getMaxValue = (data: Array<Record<string, number | string>>): number => {
   let max = 0;
   data.forEach(item => {
     Object.keys(item).forEach(key => {
-      if (key !== 'category' && typeof item[key] === 'number' && item[key] > max) {
+      if (key !== 'name' && typeof item[key] === 'number' && item[key] > max) {
         max = item[key] as number;
       }
     });
@@ -80,14 +68,8 @@ const getMaxValue = (data: Array<Record<string, number | string>>): number => {
   return Math.ceil(max / 10) * 10;
 };
 
-// Color configuration
-const colors = {
-  'GPT-4o': '#8884d8',
-  '+ Best-5 Retrieval': '#82ca9d',
-  'Human': '#ffc658',
-  'Gemini 1.5 Pro': '#ff8042',
-  '+ Random Retrieval': '#a4de6c',
-};
+// Color for the Both metric
+const bothColor = "#8884d8";
 
 // Custom tooltip interface and component
 interface TooltipProps {
@@ -108,7 +90,7 @@ const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
         <p className="font-medium text-sm">{label}</p>
         {payload.map((entry, index) => (
           <p key={index} className="text-sm" style={{ color: entry.color }}>
-            {entry.name}: {entry.value.toFixed(1)}%
+            {entry.value.toFixed(1)}%
           </p>
         ))}
       </div>
@@ -118,84 +100,69 @@ const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
 };
 
 const NormThinkerResult: React.FC = () => {
-  // Calculate the maximum value for the second chart's y-axis
+  // Calculate the maximum values for both charts
+  const maxNormThinkerValue = getMaxValue(normThinkerData);
   const maxEcoNormiaValue = getMaxValue(ecoNormiaData);
 
-  // Formatter for the legend
-  const legendFormatter = (value: string): string => {
-    if (value === 'Justification') return 'Jus.';
-    if (value === 'Action') return 'Act.';
-    return value;
-  };
-
   return (
-    <div className="flex flex-col space-y-12 w-full p-4">
+    <div className="flex flex-row space-x-2 w-full p-4">
       {/* First chart - NormThinker results */}
-      <Card className="overflow-hidden">
-        <CardHeader>
-          <CardTitle className="text-lg">Results with NormThinker on ego-centric robotics videos, n=11</CardTitle>
+      <Card className="overflow-hidden w-1/2">
+        <CardHeader className="pb-1">
+          <CardTitle className="text-sm">Results with NormThinker on ego-centric robotics videos, n=11</CardTitle>
         </CardHeader>
-        <CardContent className="pt-6">
-          <div className="h-80 w-full">
+        <CardContent className="pt-0 px-2">
+          <div className="h-72 w-full p-0">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart
+                              <BarChart
                 data={normThinkerData}
-                margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
+                margin={{ top: 20, right: 10, left: 10, bottom: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis 
-                  dataKey="category" 
+                  dataKey="name" 
                   axisLine={false}
                   tickLine={false}
+                  height={60}
+                  tick={{ fontSize: 9 }}
+                  interval={0}
+                  tickFormatter={(value) => {
+                    // Break long names into multiple lines
+                    const parts = value.split(' ');
+                    if (parts.length <= 2) return value;
+                    
+                    if (value.includes('Random')) {
+                      return ['+ Random', 'Retrieval'].join('\n');
+                    } else if (value.includes('Best-5')) {
+                      return ['+ Best-5', 'Retrieval'].join('\n');
+                    } else if (value.includes('Gemini')) {
+                      return ['Gemini 1.5', 'Pro'].join('\n');
+                    }
+                    
+                    return value;
+                  }}
                 />
                 <YAxis 
-                  domain={[0, 100]} 
+                  domain={[0, maxNormThinkerValue]} 
                   axisLine={false}
                   tickLine={false}
                   tickCount={6}
+                  padding={{ bottom: 0 }}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Legend formatter={legendFormatter} />
                 <Bar 
-                  dataKey="GPT-4o" 
-                  fill={colors['GPT-4o']} 
+                  dataKey="Both" 
+                  fill={bothColor} 
                   radius={[4, 4, 0, 0]}
-                  maxBarSize={60}
+                  maxBarSize={40}
+                  name="Both Score"
                 >
                   <LabelList 
-                    dataKey="GPT-4o" 
+                    dataKey="Both" 
                     position="top" 
                     formatter={(value: number) => `${value.toFixed(1)}%`}
                     fill="#666"
-                    fontSize={12}
-                  />
-                </Bar>
-                <Bar 
-                  dataKey="+ Best-5 Retrieval" 
-                  fill={colors['+ Best-5 Retrieval']} 
-                  radius={[4, 4, 0, 0]}
-                  maxBarSize={60}
-                >
-                  <LabelList 
-                    dataKey="+ Best-5 Retrieval" 
-                    position="top" 
-                    formatter={(value: number) => `${value.toFixed(1)}%`}
-                    fill="#666"
-                    fontSize={12}
-                  />
-                </Bar>
-                <Bar 
-                  dataKey="Human" 
-                  fill={colors['Human']} 
-                  radius={[4, 4, 0, 0]}
-                  maxBarSize={60}
-                >
-                  <LabelList 
-                    dataKey="Human" 
-                    position="top" 
-                    formatter={(value: number) => `${value.toFixed(1)}%`}
-                    fill="#666"
-                    fontSize={12}
+                    fontSize={10}
                   />
                 </Bar>
               </BarChart>
@@ -204,86 +171,63 @@ const NormThinkerResult: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Second chart - EcoNormia results (without Human) */}
-      <Card className="overflow-hidden">
-        <CardHeader>
-          <CardTitle className="text-lg">Results with NORMTHINKER on held-out instances in EGONORMIA</CardTitle>
+      {/* Second chart - EcoNormia results */}
+      <Card className="overflow-hidden w-1/2">
+        <CardHeader className="pb-1">
+          <CardTitle className="text-sm">Results with NORMTHINKER on held-out instances in EGONORMIA</CardTitle>
         </CardHeader>
-        <CardContent className="pt-6">
-          <div className="h-96 w-full">
+        <CardContent className="pt-0 px-2">
+          <div className="h-72 w-full p-0">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart
+                              <BarChart
                 data={ecoNormiaData}
-                margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
+                margin={{ top: 20, right: 10, left: 10, bottom: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis 
-                  dataKey="category" 
+                  dataKey="name" 
                   axisLine={false}
                   tickLine={false}
+                  height={60}
+                  tick={{ fontSize: 9 }}
+                  interval={0}
+                  tickFormatter={(value) => {
+                    // Break long names into multiple lines
+                    const parts = value.split(' ');
+                    if (parts.length <= 2) return value;
+                    
+                    if (value.includes('Random')) {
+                      return ['+ Random', 'Retrieval'].join('\n');
+                    } else if (value.includes('Best-5')) {
+                      return ['+ Best-5', 'Retrieval'].join('\n');
+                    } else if (value.includes('Gemini')) {
+                      return ['Gemini 1.5', 'Pro'].join('\n');
+                    }
+                    
+                    return value;
+                  }}
                 />
                 <YAxis 
                   domain={[0, maxEcoNormiaValue]} 
                   axisLine={false}
                   tickLine={false}
                   tickCount={6}
+                  padding={{ bottom: 0 }}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Legend formatter={legendFormatter} />
                 <Bar 
-                  dataKey="Gemini 1.5 Pro" 
-                  fill={colors['Gemini 1.5 Pro']} 
+                  dataKey="Both" 
+                  fill={bothColor} 
                   radius={[4, 4, 0, 0]}
                   maxBarSize={40}
+                  name="Both Score"
                 >
                   <LabelList 
-                    dataKey="Gemini 1.5 Pro" 
+                    dataKey="Both" 
                     position="top" 
                     formatter={(value: number) => `${value.toFixed(1)}%`}
                     fill="#666"
-                    fontSize={11}
-                  />
-                </Bar>
-                <Bar 
-                  dataKey="GPT-4o" 
-                  fill={colors['GPT-4o']} 
-                  radius={[4, 4, 0, 0]}
-                  maxBarSize={40}
-                >
-                  <LabelList 
-                    dataKey="GPT-4o" 
-                    position="top" 
-                    formatter={(value: number) => `${value.toFixed(1)}%`}
-                    fill="#666"
-                    fontSize={11}
-                  />
-                </Bar>
-                <Bar 
-                  dataKey="+ Random Retrieval" 
-                  fill={colors['+ Random Retrieval']} 
-                  radius={[4, 4, 0, 0]}
-                  maxBarSize={40}
-                >
-                  <LabelList 
-                    dataKey="+ Random Retrieval" 
-                    position="top" 
-                    formatter={(value: number) => `${value.toFixed(1)}%`}
-                    fill="#666"
-                    fontSize={11}
-                  />
-                </Bar>
-                <Bar 
-                  dataKey="+ Best-5 Retrieval" 
-                  fill={colors['+ Best-5 Retrieval']} 
-                  radius={[4, 4, 0, 0]}
-                  maxBarSize={40}
-                >
-                  <LabelList 
-                    dataKey="+ Best-5 Retrieval" 
-                    position="top" 
-                    formatter={(value: number) => `${value.toFixed(1)}%`}
-                    fill="#666"
-                    fontSize={11}
+                    fontSize={10}
                   />
                 </Bar>
               </BarChart>

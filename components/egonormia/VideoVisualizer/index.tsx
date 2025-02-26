@@ -294,7 +294,7 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
                 setLowLevelSelectValue("all");
                 setCurrentPage(1);
               }}
-              className="px-3 py-2 text-muted-foreground hover:text-foreground border border-input rounded-lg hover:bg-accent"
+              className="h-9 px-4 flex items-center justify-center text-muted-foreground hover:text-foreground border border-input rounded-md hover:bg-accent"
             >
               Clear Filters
             </button>

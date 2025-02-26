@@ -58,11 +58,11 @@ const SocialInteractionScenario = () => {
   return (
     <div className="max-w-4xl mx-auto p-4">
       {/* Header Section */}
-      <Card className="mb-6 border-t-4 border-t-black dark:border-t-white">
+      <Card className="mb-6 border-t-4 border-t-black dark:border-t-white md:w-3/4 lg:w-2/3 mx-auto">
         <CardContent className="p-0">
           <div className="p-4 border-b border-gray-200 dark:border-gray-800">
-            <h1 className="text-2xl font-bold mb-1 text-black dark:text-white">Example Video</h1>
-            <p className="text-right italic text-gray-600 dark:text-gray-400">Ego-centric videos before a social interaction happens.</p>
+            <h1 className="text-xl font-bold mb-1 text-black dark:text-white">Example Video</h1>
+            <p className="text-right italic text-gray-600 dark:text-gray-400 text-sm">Ego-centric videos before a social interaction happens.</p>
           </div>
           
           <div className="bg-black p-2">
@@ -80,13 +80,13 @@ const SocialInteractionScenario = () => {
       </Card>
 
       {/* Action Section */}
-      <div className="mb-6">
-        <h2 className="text-3xl font-bold border-b-2 border-black dark:border-white pb-2 mb-4">Action</h2>
-        <div className="text-center mb-6">
-          <p className="text-2xl">What should the person who is wearing the camera do after this?</p>
+      <div className="mb-6 mx-auto">
+        <h2 className="text-2xl font-bold border-b-2 border-black dark:border-white pb-2 mb-4">Action</h2>
+        <div className="text-center mb-6 mx-auto md:w-3/4 lg:w-2/3">
+          <p className="text-lg md:text-base">What should the person who is wearing the camera do after this?</p>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-3 mx-auto md:w-5/6 lg:w-3/4">
           {behaviors.map((behavior) => (
             <div 
               key={behavior.id}
@@ -95,14 +95,14 @@ const SocialInteractionScenario = () => {
               }`}
             >
               <div className="flex-shrink-0 mr-4">
-                <Badge className="text-xl h-8 w-8 rounded-full bg-white dark:bg-gray-800 border-2 border-black dark:border-white text-black dark:text-white font-bold flex items-center justify-center">
+                <Badge className="text-lg h-7 w-7 rounded-full bg-white dark:bg-gray-800 border-2 border-black dark:border-white text-black dark:text-white font-bold flex items-center justify-center">
                   {behavior.id}
                 </Badge>
               </div>
               <div className="flex-grow">
-                <p className="text-lg">{behavior.text}</p>
+                <p className="text-base">{behavior.text}</p>
                 {behavior.taxonomy && (
-                  <p className="mt-1 font-medium">
+                  <p className="mt-1 font-medium text-sm">
                     {behavior.taxonomy.includes('&') ? (
                       <>
                         {behavior.id === 'B' ? (
@@ -130,16 +130,16 @@ const SocialInteractionScenario = () => {
         </div>
       </div>
 
-      <Separator className="my-8 border-t border-black dark:border-white" />
+      <Separator className="my-8 border-t border-black dark:border-white mx-auto" />
 
       {/* Justification Section */}
-      <div>
-        <h2 className="text-3xl font-bold border-b-2 border-black dark:border-white pb-2 mb-4">Justification</h2>
-        <div className="text-center mb-6">
-          <p className="text-2xl">What is the reason why you chose the above action?</p>
+      <div className="mx-auto">
+        <h2 className="text-2xl font-bold border-b-2 border-black dark:border-white pb-2 mb-4">Justification</h2>
+        <div className="text-center mb-6 mx-auto md:w-3/4 lg:w-2/3">
+          <p className="text-lg md:text-base">What is the reason why you chose the above action?</p>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-3 mx-auto md:w-5/6 lg:w-3/4">
           {[
             {
               id: 'A',
@@ -174,12 +174,12 @@ const SocialInteractionScenario = () => {
               }`}
             >
               <div className="flex-shrink-0 mr-4">
-                <Badge className="text-xl h-8 w-8 rounded-full bg-white dark:bg-gray-800 border-2 border-black dark:border-white text-black dark:text-white font-bold flex items-center justify-center">
+                <Badge className="text-lg h-7 w-7 rounded-full bg-white dark:bg-gray-800 border-2 border-black dark:border-white text-black dark:text-white font-bold flex items-center justify-center">
                   {justification.id}
                 </Badge>
               </div>
               <div className="flex-grow">
-                <p className="text-lg">{justification.text}</p>
+                <p className="text-base">{justification.text}</p>
               </div>
             </div>
           ))}
