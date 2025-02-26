@@ -1,5 +1,5 @@
 {
-  "name": "distill",
+  "name": "osw-website",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -23,6 +23,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
+    "framer-motion": "^12.4.7",
     "gray-matter": "^4.0.3",
     "katex": "^0.16.19",
     "lucide-react": "^0.475.0",
@@ -33,6 +34,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-syntax-highlighter": "^15.6.1",
+    "recharts": "^2.15.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   },

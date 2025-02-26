@@ -5,7 +5,7 @@ export interface Author {
   affiliationURL?: string;
 }
 
-export type ArticleType = 'PEER-REVIEWED' | 'EDITORIAL';
+export type ArticleType = "PEER-REVIEWED" | "EDITORIAL";
 
 export interface FrontMatter {
   title: string;
@@ -17,6 +17,11 @@ export interface FrontMatter {
   katex?: {
     [key: string]: any;
   };
+  leaderboard_url?: string;
+  paper_url?: string;
+  code_url?: string;
+  data_url?: string;
+  citation_bib?: string;
   image?: {
     url: string;
     alt?: string;

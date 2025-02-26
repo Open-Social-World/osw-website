@@ -1,7 +1,7 @@
-import Head from 'next/head';
-import { FrontMatter } from '@/types/article'
-import Header from './header';
-import Footer from './footer';
+import Head from "next/head";
+import { FrontMatter } from "@/types/article";
+import Header from "./header";
+import Footer from "./footer";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,16 +13,14 @@ export default function Layout({ children, frontMatter }: LayoutProps) {
     <div className="min-h-screen">
       <Head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{frontMatter?.title || 'Academic Article'}</title>
+        {/* <meta name="viewport" content="width=device-width, initial-scale=1" /> */}
+        <title>{frontMatter?.title || "Academic Article"}</title>
       </Head>
 
       <Header frontMatter={frontMatter} />
 
       <main className="max-w-screen-xl mx-auto px-4 py-8">
-        <article className="prose prose-lg max-w-none">
-          {children}
-        </article>
+        <article className="prose prose-lg">{children}</article>
       </main>
 
       <Footer frontMatter={frontMatter} />

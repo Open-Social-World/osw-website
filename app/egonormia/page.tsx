@@ -1,4 +1,4 @@
-import VideoVisualizer from '@/components/VideoVisualizer';
+import VideoVisualizer from '@/components/egonormia/VideoVisualizer';
 
 export default function Page() {
   return (
