@@ -22,7 +22,7 @@ const ExampleMCQ = () => {
   const videos = [
     {
       id: 1,
-      title: "Visitor at Scenic Viewpoint",
+      title: "Video 1: Visitor at Scenic Viewpoint",
       url: "https://storage.googleapis.com/physical-social-norm/sampled_snippets_new_new/32c34069-0111-4d89-9e55-1c68f18705ad/32c34069-0111-4d89-9e55-1c68f18705ad_8758-17_prev.mp4",
       previewImage: "https://storage.googleapis.com/physical-social-norm/sampled_frames_new_new/32c34069-0111-4d89-9e55-1c68f18705ad_8758-17/frame_0_prev.jpg",
       actions: [
@@ -66,7 +66,7 @@ const ExampleMCQ = () => {
     },
     {
       id: 2,
-      title: "Fitness Training Session",
+      title: "Video 2: Fitness Training Session",
       url: "https://storage.googleapis.com/physical-social-norm/sampled_snippets_new_new/6070d9d1-9962-49f3-8ac7-4e29ca07e104/6070d9d1-9962-49f3-8ac7-4e29ca07e104_164-20_prev.mp4",
       previewImage: "https://storage.googleapis.com/physical-social-norm/sampled_frames_new_new/6070d9d1-9962-49f3-8ac7-4e29ca07e104_164-20/frame_0_prev.jpg",
       actions: [
@@ -108,7 +108,7 @@ const ExampleMCQ = () => {
     },
     {
       id: 3,
-      title: "Furniture Moving Assistance",
+      title: "Video 3: Furniture Moving Assistance",
       url: "https://storage.googleapis.com/physical-social-norm/sampled_snippets_v2/cea9a5cc-6682-474f-bae4-483ca722ec43/cea9a5cc-6682-474f-bae4-483ca722ec43_359-69_prev.mp4",
       previewImage: "https://storage.googleapis.com/physical-social-norm/sampled_frames_v2/cea9a5cc-6682-474f-bae4-483ca722ec43_359-69/frame_0_prev.jpg",
       actions: [
@@ -197,71 +197,73 @@ const ExampleMCQ = () => {
               </div>
             </div>
             
-            {/* Secondary header row - Action, Justification, Reasoning */}
-            <div className="grid grid-cols-3 gap-4 mb-4">
-              <div className="bg-green-200 dark:bg-green-800 border border-gray-600 p-3 font-bold text-center text-lg md:text-base lg:text-sm">Action</div>
-              <div className="bg-yellow-200 dark:bg-yellow-800 border border-gray-600 p-3 font-bold text-center text-lg md:text-base lg:text-sm">Justification</div>
-              <div className="bg-red-200 dark:bg-red-800 border border-gray-600 p-3 font-bold text-center text-lg md:text-base lg:text-sm">Reasoning</div>
-            </div>
-            
-            {/* Action, Justification, Reasoning Row */}
-            <div className="grid grid-cols-3 gap-4">
-              {/* Actions Column */}
-              <div className="border border-gray-600 p-4">
-                {video.actions.map((action) => (
-                  <div key={action.id} className="mb-2">
-                    <span className={`text-base md:text-sm lg:text-xs ${action.isCorrect ? "font-bold underline" : ""}`}>
-                      {action.id}. {action.text}
-                    </span>
-                    {action.modelChoice && action.modelTag && (
-                      <span className="ml-1 text-xs bg-blue-500 bg-opacity-20 px-2 py-1 rounded-md">
-                        {action.modelTag}
+            {/* The key change: Responsive grid - horizontal on desktop, vertical on mobile */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 md:h-full">
+              {/* Action Column */}
+              <div className="flex flex-col h-full">
+                <div className="bg-green-200 dark:bg-green-800 border border-gray-600 p-3 font-bold text-center text-lg md:text-base lg:text-sm mb-2">Action</div>
+                <div className="border border-gray-600 p-4 flex-grow min-h-96">
+                  {video.actions.map((action) => (
+                    <div key={action.id} className="mb-2">
+                      <span className={`text-base md:text-sm lg:text-xs ${action.isCorrect ? "font-bold underline" : ""}`}>
+                        {action.id}. {action.text}
                       </span>
-                    )}
-                  </div>
-                ))}
+                      {action.modelChoice && action.modelTag && (
+                        <span className="ml-1 text-xs bg-blue-500 bg-opacity-20 px-2 py-1 rounded-md">
+                          {action.modelTag}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              {/* Justifications Column */}
-              <div className="border border-gray-600 p-4">
-                {video.justifications.map((justification) => (
-                  <div key={justification.id} className="mb-2">
-                    <span className={`text-base md:text-sm lg:text-xs ${justification.isCorrect ? "font-bold underline" : ""}`}>
-                      {justification.id}. {justification.text}
-                    </span>
-                    {justification.modelChoice && justification.modelTag && (
-                      <span className="ml-1 text-xs bg-blue-500 bg-opacity-20 px-2 py-1 rounded-md">
-                        {justification.modelTag}
+              {/* Justification Column */}
+              <div className="flex flex-col h-full">
+                <div className="bg-yellow-200 dark:bg-yellow-800 border border-gray-600 p-3 font-bold text-center text-lg md:text-base lg:text-sm mb-2">Justification</div>
+                <div className="border border-gray-600 p-4 flex-grow min-h-96">
+                  {video.justifications.map((justification) => (
+                    <div key={justification.id} className="mb-2">
+                      <span className={`text-base md:text-sm lg:text-xs ${justification.isCorrect ? "font-bold underline" : ""}`}>
+                        {justification.id}. {justification.text}
                       </span>
-                    )}
-                  </div>
-                ))}
+                      {justification.modelChoice && justification.modelTag && (
+                        <span className="ml-1 text-xs bg-blue-500 bg-opacity-20 px-2 py-1 rounded-md">
+                          {justification.modelTag}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Reasoning Column */}
-              <div className="border border-gray-600 p-4">
-                {video.reasoning.map((reasoning, idx) => (
-                  <div key={idx} className="mb-4 p-3 border border-gray-500 rounded">
-                    <div className="font-bold mb-2 text-base md:text-sm lg:text-xs">
-                      {reasoning.type === "gemini" ? "Gemini 1.5 Pro reasoning:" : "o3-mini reasoning:"}
+              <div className="flex flex-col h-full">
+                <div className="bg-red-200 dark:bg-red-800 border border-gray-600 p-3 font-bold text-center text-lg md:text-base lg:text-sm mb-2">Reasoning</div>
+                <div className="border border-gray-600 p-4 flex-grow min-h-96">
+                  {video.reasoning.map((reasoning, idx) => (
+                    <div key={idx} className="mb-4 p-3 border border-gray-500 rounded">
+                      <div className="font-bold mb-2 text-base md:text-sm lg:text-xs">
+                        {reasoning.type === "gemini" ? "Gemini 1.5 Pro reasoning:" : "o3-mini reasoning:"}
+                      </div>
+                      <div className="text-base md:text-sm lg:text-xs">
+                        {reasoning.content.map((contentItem, contentIdx) => (
+                          <span key={contentIdx}>
+                            {contentItem.isUnderlined ? (
+                              <span className="underline font-medium">
+                                {contentItem.text}
+                              </span>
+                            ) : (
+                              <span>{contentItem.text}</span>
+                            )}
+                            {contentItem.icon === "check" && <span> <CheckIcon /></span>}
+                            {contentItem.icon === "x" && <span> <XIcon /></span>}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                    <div className="text-base md:text-sm lg:text-xs">
-                      {reasoning.content.map((contentItem, contentIdx) => (
-                        <span key={contentIdx}>
-                          {contentItem.isUnderlined ? (
-                            <span className="underline font-medium">
-                              {contentItem.text}
-                            </span>
-                          ) : (
-                            <span>{contentItem.text}</span>
-                          )}
-                          {contentItem.icon === "check" && <span> <CheckIcon /></span>}
-                          {contentItem.icon === "x" && <span> <XIcon /></span>}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
