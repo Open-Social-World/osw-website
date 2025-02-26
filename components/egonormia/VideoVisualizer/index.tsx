@@ -6,47 +6,48 @@ import { createClient } from "@supabase/supabase-js";
 
 import {
   Select,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectContent,
   SelectValue,
-  SelectLabel,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 
-const HIGH_LEVEL_CATEGORIES = [
-  "Lifestyle",
-  "Professional",
-  "Living/Commute",
-  "Art/Culture",
-  "Shopping",
-];
-const LOW_LEVEL_CATEGORIES = [
-  "Pet Interaction",
-  "Outdoor Activities",
-  "Sports and Exercise",
-  "Social Events",
-  "Nature Exploration",
-  "Group Activities",
-  "Entertainment",
-  "Technology Interactions",
-  "Daily Routines",
-  "Health and Personal Care",
-  "Domestic Life",
-  "Childcare and Parenting",
-  "Work Environments",
-  "Home Maintenance",
-  "Transportation",
-  "Nighttime and Urban Activities",
-  "Community and Urban Life",
-  "Cultural Practices",
-  "DIY and Crafting",
-  "Art Expressions",
-  "Education",
-  "Shopping and Retail",
-  "Food and Dining",
-];
+// Hierarchical relationship between high and low level activities
+const ACTIVITY_HIERARCHY: Record<string, string[]> = {
+  "Lifestyle": [
+    "Pet Interaction",
+    "Outdoor Activities",
+    "Sports and Exercise",
+    "Social Events",
+    "Nature Exploration",
+    "Group Activities",
+    "Entertainment",
+    "Technology Interactions",
+    "Daily Routines",
+    "Health and Personal Care"
+  ],
+  "Professional": [
+    "Domestic Life",
+    "Childcare and Parenting",
+    "Work Environments",
+    "Home Maintenance"
+  ],
+  "Living/Commute": [
+    "Transportation",
+    "Nighttime and Urban Activities",
+    "Community and Urban Life"
+  ],
+  "Art/Culture": [
+    "Cultural Practices",
+    "DIY and Crafting",
+    "Art Expressions",
+    "Education"
+  ],
+  "Shopping": [
+    "Shopping and Retail",
+    "Food and Dining"
+  ]
+};
 
 type TaxonomyType =
   | "safety"
@@ -140,9 +141,11 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
-  const [idSearch, setIdSearch] = useState("");
-  const [categorySearch, setCategorySearch] = useState("");
-  const [categoryType, setCategoryType] = useState("high");
+  // ID search removed as requested
+  const [highLevelActivity, setHighLevelActivity] = useState("");
+  const [lowLevelActivity, setLowLevelActivity] = useState("");
+  const [highLevelSelectValue, setHighLevelSelectValue] = useState("all");
+  const [lowLevelSelectValue, setLowLevelSelectValue] = useState("all");
 
   const renderTaxonomyDisplay = (taxonomyList: string | string[] | null) => {
     if (!taxonomyList) return null;
@@ -167,15 +170,11 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
 
       let baseQuery = supabase.from("videos").select("*", { count: "exact" });
 
-      if (idSearch.trim()) {
-        baseQuery = baseQuery.ilike("id", `%${idSearch.trim()}%`);
-      }
-
-      if (categorySearch.trim()) {
-        if (categoryType === "high") {
-          baseQuery = baseQuery.ilike("high", `%${categorySearch.trim()}%`);
-        } else {
-          baseQuery = baseQuery.ilike("low", `%${categorySearch.trim()}%`);
+      if (highLevelActivity) {
+        baseQuery = baseQuery.eq("high", highLevelActivity);
+        
+        if (lowLevelActivity) {
+          baseQuery = baseQuery.eq("low", lowLevelActivity);
         }
       }
 
@@ -207,14 +206,14 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
     } finally {
       setIsLoading(false);
     }
-  }, [currentPage, idSearch, categorySearch, categoryType, videos_per_page]);
+  }, [currentPage, highLevelActivity, lowLevelActivity, videos_per_page]);
 
   useEffect(() => {
     const fetchData = async () => {
       await fetchVideos();
     };
     fetchData();
-  }, [currentPage, idSearch, categorySearch, categoryType, fetchVideos]);
+  }, [currentPage, highLevelActivity, lowLevelActivity, fetchVideos]);
 
   const handleVideoClick = (video: Video) => {
     setSelectedVideo(video);
@@ -224,142 +223,80 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
     setSelectedVideo(null);
   };
 
+  // Handler for high level activity change
+  const handleHighLevelChange = (value: string) => {
+    setHighLevelSelectValue(value);
+    setHighLevelActivity(value === "all" ? "" : value);
+    setLowLevelActivity(""); // Reset low level when high level changes
+    setLowLevelSelectValue("all"); // Reset low level select value
+    setCurrentPage(1);
+  };
+
   return (
     <div className="container mx-auto px-4 py-4">
-      <div className="mb-6 flex items-center justify-between gap-4">
-        <div className="flex-1">
-          <div className="relative">
-            <Input
-              type="text"
-              placeholder="Search video ID..."
-              value={idSearch}
-              onChange={(e) => {
-                setIdSearch(e.target.value);
-                setCurrentPage(1);
-              }}
-              className="w-full p-2 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-ring bg-background text-foreground"
-            />
-            {idSearch && (
-              <button
-                onClick={() => {
-                  setIdSearch("");
-                  setCurrentPage(1);
-                }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
-                Clear
-              </button>
-            )}
-          </div>
-        </div>
-
-        <div className="flex-1 flex gap-2">
-          <Select>
-            <SelectTrigger className="w-[280px] bg-background text-foreground border-input">
-              <SelectValue placeholder="Select a timezone" />
+      <div className="mb-6 flex flex-col items-center gap-4">
+        <h2 className="text-xl font-medium text-foreground mb-2">Show Videos of Activities:</h2>
+        <div className="flex gap-2">
+          {/* High Level Activity Selector */}
+          <Select
+            value={highLevelSelectValue}
+            onValueChange={handleHighLevelChange}
+          >
+            <SelectTrigger className="w-[200px] bg-background text-foreground border-input">
+              <SelectValue placeholder="High Level Activity" />
             </SelectTrigger>
             <SelectContent className="bg-popover text-popover-foreground">
-              <SelectGroup>
-                <SelectLabel>North America</SelectLabel>
-                <SelectItem value="est">Eastern Standard Time (EST)</SelectItem>
-                <SelectItem value="cst">Central Standard Time (CST)</SelectItem>
-                <SelectItem value="mst">
-                  Mountain Standard Time (MST)
+              <SelectItem value="all">All Activities</SelectItem>
+              {Object.keys(ACTIVITY_HIERARCHY).map((activity) => (
+                <SelectItem key={activity} value={activity}>
+                  {activity}
                 </SelectItem>
-                <SelectItem value="pst">Pacific Standard Time (PST)</SelectItem>
-                <SelectItem value="akst">
-                  Alaska Standard Time (AKST)
-                </SelectItem>
-                <SelectItem value="hst">Hawaii Standard Time (HST)</SelectItem>
-              </SelectGroup>
-              <SelectGroup>
-                <SelectLabel>Europe & Africa</SelectLabel>
-                <SelectItem value="gmt">Greenwich Mean Time (GMT)</SelectItem>
-                <SelectItem value="cet">Central European Time (CET)</SelectItem>
-                <SelectItem value="eet">Eastern European Time (EET)</SelectItem>
-                <SelectItem value="west">
-                  Western European Summer Time (WEST)
-                </SelectItem>
-                <SelectItem value="cat">Central Africa Time (CAT)</SelectItem>
-                <SelectItem value="eat">East Africa Time (EAT)</SelectItem>
-              </SelectGroup>
-              <SelectGroup>
-                <SelectLabel>Asia</SelectLabel>
-                <SelectItem value="msk">Moscow Time (MSK)</SelectItem>
-                <SelectItem value="ist">India Standard Time (IST)</SelectItem>
-                <SelectItem value="cst_china">
-                  China Standard Time (CST)
-                </SelectItem>
-                <SelectItem value="jst">Japan Standard Time (JST)</SelectItem>
-                <SelectItem value="kst">Korea Standard Time (KST)</SelectItem>
-                <SelectItem value="ist_indonesia">
-                  Indonesia Central Standard Time (WITA)
-                </SelectItem>
-              </SelectGroup>
-              <SelectGroup>
-                <SelectLabel>Australia & Pacific</SelectLabel>
-                <SelectItem value="awst">
-                  Australian Western Standard Time (AWST)
-                </SelectItem>
-                <SelectItem value="acst">
-                  Australian Central Standard Time (ACST)
-                </SelectItem>
-                <SelectItem value="aest">
-                  Australian Eastern Standard Time (AEST)
-                </SelectItem>
-                <SelectItem value="nzst">
-                  New Zealand Standard Time (NZST)
-                </SelectItem>
-                <SelectItem value="fjt">Fiji Time (FJT)</SelectItem>
-              </SelectGroup>
-              <SelectGroup>
-                <SelectLabel>South America</SelectLabel>
-                <SelectItem value="art">Argentina Time (ART)</SelectItem>
-                <SelectItem value="bot">Bolivia Time (BOT)</SelectItem>
-                <SelectItem value="brt">Brasilia Time (BRT)</SelectItem>
-                <SelectItem value="clt">Chile Standard Time (CLT)</SelectItem>
-              </SelectGroup>
+              ))}
             </SelectContent>
           </Select>
-          <select
-            value={categoryType}
-            onChange={(e) => {
-              setCategoryType(e.target.value);
-              setCategorySearch("");
+
+          {/* Low Level Activity Selector */}
+          <Select
+            value={lowLevelSelectValue}
+            onValueChange={(value) => {
+              setLowLevelSelectValue(value);
+              setLowLevelActivity(value === "all" ? "" : value);
               setCurrentPage(1);
             }}
-            className="p-2 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-ring h-10 flex items-center appearance-none bg-background text-foreground"
+            disabled={!highLevelActivity}
           >
-            <option value="high">High Level Activity</option>
-            <option value="low">Low Level Activity</option>
-          </select>
-          <select
-            value={categorySearch}
-            onChange={(e) => {
-              setCategorySearch(e.target.value);
-              setCurrentPage(1);
-            }}
-            className="flex-1 p-2 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-ring bg-background text-foreground"
-          >
-            <option value="">All Categories</option>
-            {(categoryType === "high"
-              ? HIGH_LEVEL_CATEGORIES
-              : LOW_LEVEL_CATEGORIES
-            ).map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-          {categorySearch && (
+            <SelectTrigger 
+              className={`w-[280px] bg-background text-foreground border-input ${
+                !highLevelActivity ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+            >
+              <SelectValue placeholder={highLevelActivity ? "Low Level Activity" : "Select High Level First"} />
+            </SelectTrigger>
+            <SelectContent className="bg-popover text-popover-foreground">
+              <SelectItem value="all">All {highLevelActivity} Activities</SelectItem>
+              {highLevelActivity && ACTIVITY_HIERARCHY[highLevelActivity] && 
+                ACTIVITY_HIERARCHY[highLevelActivity].map((activity) => (
+                  <SelectItem key={activity} value={activity}>
+                    {activity}
+                  </SelectItem>
+                ))
+              }
+            </SelectContent>
+          </Select>
+
+          {/* Clear Button for filters */}
+          {(highLevelActivity || lowLevelActivity) && (
             <button
               onClick={() => {
-                setCategorySearch("");
+                setHighLevelActivity("");
+                setLowLevelActivity("");
+                setHighLevelSelectValue("all");
+                setLowLevelSelectValue("all");
                 setCurrentPage(1);
               }}
               className="px-3 py-2 text-muted-foreground hover:text-foreground border border-input rounded-lg hover:bg-accent"
             >
-              Clear
+              Clear Filters
             </button>
           )}
         </div>

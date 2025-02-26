@@ -18,8 +18,12 @@ import { ArticleCitation } from "@/components/article/article-citation";
 import { getAllArticleSlugs, getArticleBySlug } from "@/lib/articles";
 import { getCitationsForArticle, sortCitations } from "@/lib/bibliography";
 import { Citation as CitationType } from "@/types/article";
-import VideoVisualizer from "@/components/VideoVisualizer";
-import FailureModeCharts from "@/components/FailureModeCharts";
+import VideoVisualizer from "@/components/egonormia/VideoVisualizer";
+import FailureModeCharts from "@/components/egonormia/FailureModeCharts";
+import TeaserVideo from "@/components/egonormia/TeaserVideo";
+import NormTaxonomy from '@/components/egonormia/NormTaxonomy';
+import ExampleMCQ from '@/components/egonormia/ExampleMCQ';
+import NormThinkerResult from '@/components/egonormia/NormThinkerResult';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import FloatingToolbar from "@/components/toolbar/floating-toolbar";
@@ -67,6 +71,10 @@ export default async function ArticlePage({
     Bibliography: () => <BibliographyWrapper citations={citations} />,
     VideoVisualizer,
     FailureModeCharts,
+    TeaserVideo,
+    NormTaxonomy,
+    ExampleMCQ,
+    NormThinkerResult,
     Link,
     Button,
     Callout,

@@ -1,4 +1,4 @@
-import Leaderboard from '@/components/leaderboard';
+import Leaderboard from '@/components/egonormia/leaderboard';
 
 export default function LeaderboardPage() {
   return (

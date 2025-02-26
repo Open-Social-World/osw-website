@@ -1,4 +1,4 @@
-import PeopleGrid from '@/components/people';
+import PeopleGrid from '@/components/egonormia/people';
 
 export const metadata = {
   title: 'Our Team | EgoNormia',
