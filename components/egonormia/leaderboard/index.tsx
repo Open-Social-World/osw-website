@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 interface Entry {
   model: string;
@@ -77,41 +78,50 @@ const OrganizationLogo = ({ name }: { name: string }) => {
   const iconData = organizationIcons[name];
   
   if (iconData) {
-    // Using CSS for dark mode detection instead of picture element
     return (
       <div className="relative w-6 h-6">
-        <img 
-          src={iconData.light} 
-          alt={`${name} logo - light`} 
-          className="w-6 h-6 object-contain block dark:hidden" 
-          onError={(e) => {
-            e.currentTarget.style.display = 'none';
-            const parent = e.currentTarget.parentElement;
-            if (parent) {
-              const fallback = document.createElement('div');
-              fallback.className = `w-6 h-6 rounded-full flex items-center justify-center text-white font-semibold`;
-              fallback.style.backgroundColor = organizationColors[name] || '#CBD5E0';
-              fallback.textContent = name.charAt(0);
-              parent.appendChild(fallback);
-            }
-          }}
-        />
-        <img 
-          src={iconData.dark} 
-          alt={`${name} logo - dark`} 
-          className="w-6 h-6 object-contain hidden dark:block" 
-          onError={(e) => {
-            e.currentTarget.style.display = 'none';
-            const parent = e.currentTarget.parentElement;
-            if (parent) {
-              const fallback = document.createElement('div');
-              fallback.className = `w-6 h-6 rounded-full flex items-center justify-center text-white font-semibold`;
-              fallback.style.backgroundColor = organizationColors[name] || '#CBD5E0';
-              fallback.textContent = name.charAt(0);
-              parent.appendChild(fallback);
-            }
-          }}
-        />
+        <div className="block dark:hidden">
+          <Image 
+            src={iconData.light} 
+            alt={`${name} logo - light`} 
+            width={24}
+            height={24}
+            className="object-contain"
+            onError={(e) => {
+              // If image fails, show the fallback
+              e.currentTarget.style.display = 'none';
+              const parent = e.currentTarget.parentElement?.parentElement;
+              if (parent) {
+                const fallback = document.createElement('div');
+                fallback.className = `w-6 h-6 rounded-full flex items-center justify-center text-white font-semibold`;
+                fallback.style.backgroundColor = organizationColors[name] || '#CBD5E0';
+                fallback.textContent = name.charAt(0);
+                parent.appendChild(fallback);
+              }
+            }}
+          />
+        </div>
+        <div className="hidden dark:block">
+          <Image 
+            src={iconData.dark} 
+            alt={`${name} logo - dark`} 
+            width={24}
+            height={24}
+            className="object-contain"
+            onError={(e) => {
+              // If image fails, show the fallback
+              e.currentTarget.style.display = 'none';
+              const parent = e.currentTarget.parentElement?.parentElement;
+              if (parent) {
+                const fallback = document.createElement('div');
+                fallback.className = `w-6 h-6 rounded-full flex items-center justify-center text-white font-semibold`;
+                fallback.style.backgroundColor = organizationColors[name] || '#CBD5E0';
+                fallback.textContent = name.charAt(0);
+                parent.appendChild(fallback);
+              }
+            }}
+          />
+        </div>
       </div>
     );
   }
@@ -204,51 +214,51 @@ const LeaderboardTable = ({ entries }: { entries: Entry[] }) => {
 
   return (
     <div className="rounded-md border dark:border-gray-700 overflow-x-auto">
-      <table className="w-full caption-bottom">
+      <table className="w-full caption-bottom text-xs sm:text-sm md:text-base">
         <thead className="[&_tr]:border-b [&_tr]:border-gray-200 dark:[&_tr]:border-gray-700">
           <tr className="border-b border-gray-200 dark:border-gray-700 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 data-[state=selected]:bg-gray-100 dark:data-[state=selected]:bg-gray-800">
             <th 
-              className="h-12 px-3 sm:px-4 text-left align-middle font-medium text-gray-500 dark:text-gray-400 cursor-pointer"
+              className="h-8 sm:h-10 px-2 text-left align-middle font-medium text-gray-500 dark:text-gray-400 cursor-pointer"
               onClick={() => handleSort('model')}
             >
-              <div className="flex items-center gap-1 sm:gap-2">
+              <div className="flex items-center gap-1">
                 <span className="whitespace-nowrap">Model</span>
                 {getSortIcon('model')}
               </div>
             </th>
             <th 
-              className="h-12 px-2 sm:px-4 text-right align-middle font-medium text-gray-500 dark:text-gray-400 cursor-pointer"
+              className="h-8 sm:h-10 px-1 sm:px-2 text-right align-middle font-medium text-gray-500 dark:text-gray-400 cursor-pointer"
               onClick={() => handleSort('both')}
             >
-              <div className="flex items-center justify-end gap-1 sm:gap-2">
-                <span className="whitespace-nowrap text-xs sm:text-sm">Both (%)</span>
+              <div className="flex items-center justify-end gap-1">
+                <span className="whitespace-nowrap">Both</span>
                 {getSortIcon('both')}
               </div>
             </th>
             <th 
-              className="h-12 px-2 sm:px-4 text-right align-middle font-medium text-gray-500 dark:text-gray-400 cursor-pointer"
+              className="h-8 sm:h-10 px-1 sm:px-2 text-right align-middle font-medium text-gray-500 dark:text-gray-400 cursor-pointer"
               onClick={() => handleSort('act')}
             >
-              <div className="flex items-center justify-end gap-1 sm:gap-2">
-                <span className="whitespace-nowrap text-xs sm:text-sm">Action (%)</span>
+              <div className="flex items-center justify-end gap-1">
+                <span className="whitespace-nowrap">Act</span>
                 {getSortIcon('act')}
               </div>
             </th>
             <th 
-              className="h-12 px-2 sm:px-4 text-right align-middle font-medium text-gray-500 dark:text-gray-400 cursor-pointer"
+              className="h-8 sm:h-10 px-1 sm:px-2 text-right align-middle font-medium text-gray-500 dark:text-gray-400 cursor-pointer"
               onClick={() => handleSort('jus')}
             >
-              <div className="flex items-center justify-end gap-1 sm:gap-2">
-                <span className="whitespace-nowrap text-xs sm:text-sm">Just. (%)</span>
+              <div className="flex items-center justify-end gap-1">
+                <span className="whitespace-nowrap">Jus</span>
                 {getSortIcon('jus')}
               </div>
             </th>
             <th 
-              className="h-12 px-2 sm:px-4 text-right align-middle font-medium text-gray-500 dark:text-gray-400 cursor-pointer"
+              className="h-8 sm:h-10 px-1 sm:px-2 text-right align-middle font-medium text-gray-500 dark:text-gray-400 cursor-pointer"
               onClick={() => handleSort('sens')}
             >
-              <div className="flex items-center justify-end gap-1 sm:gap-2">
-                <span className="whitespace-nowrap text-xs sm:text-sm">Sens. (%)</span>
+              <div className="flex items-center justify-end gap-1">
+                <span className="whitespace-nowrap">Sen</span>
                 {getSortIcon('sens')}
               </div>
             </th>
@@ -257,17 +267,17 @@ const LeaderboardTable = ({ entries }: { entries: Entry[] }) => {
         <tbody className="[&_tr:last-child]:border-0">
           {sortedEntries.map((entry, index) => (
             <tr key={index} className="border-b border-gray-200 dark:border-gray-700 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 data-[state=selected]:bg-gray-100 dark:data-[state=selected]:bg-gray-800">
-              <td className="p-2 sm:p-4 align-middle font-medium">
-                <div className="flex items-center gap-2">
+              <td className="p-1 sm:p-2 align-middle font-medium">
+                <div className="flex items-center gap-1 sm:gap-2">
                   <OrganizationLogo name={entry.organization} />
-                  <span className="dark:text-white text-sm sm:text-base">{entry.model}</span>
+                  <span className="dark:text-white text-xs sm:text-sm md:text-base">{entry.model}</span>
                 </div>
-                <span className="text-xs text-gray-500 dark:text-gray-400 ml-8">{entry.organization}</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400 ml-6 sm:ml-8">{entry.organization}</span>
               </td>
-              <td className="p-2 sm:p-4 align-middle text-right dark:text-white text-sm sm:text-base">{entry.both.toFixed(1)}</td>
-              <td className="p-2 sm:p-4 align-middle text-right dark:text-white text-sm sm:text-base">{entry.act.toFixed(1)}</td>
-              <td className="p-2 sm:p-4 align-middle text-right dark:text-white text-sm sm:text-base">{entry.jus.toFixed(1)}</td>
-              <td className="p-2 sm:p-4 align-middle text-right dark:text-white text-sm sm:text-base">{entry.sens.toFixed(1)}</td>
+              <td className="p-1 sm:p-2 align-middle text-right dark:text-white">{entry.both.toFixed(1)}</td>
+              <td className="p-1 sm:p-2 align-middle text-right dark:text-white">{entry.act.toFixed(1)}</td>
+              <td className="p-1 sm:p-2 align-middle text-right dark:text-white">{entry.jus.toFixed(1)}</td>
+              <td className="p-1 sm:p-2 align-middle text-right dark:text-white">{entry.sens.toFixed(1)}</td>
             </tr>
           ))}
         </tbody>
@@ -280,37 +290,37 @@ export default function Leaderboard() {
   const [activeTab, setActiveTab] = useState('video');
 
   return (
-    <div className="w-full max-w-full overflow-hidden">
+    <div className="w-full max-w-full overflow-x-hidden">
       <div className="bg-[#1a1a1a] p-4 sm:p-6 rounded-t-lg">
         <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-4xl sm:text-6xl font-bold mb-6 sm:mb-8 tracking-wider text-white font-['Orbitron']">EGONORMIA LEADERBOARD</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 md:mb-8 tracking-wider text-white font-orbitron">EGONORMIA LEADERBOARD</h1>
           
-          <div className="text-white mb-6 sm:mb-8">
-            <div className="mb-3 sm:mb-4 text-base sm:text-lg">
+          <div className="text-white mb-4 sm:mb-6">
+            <div className="mb-2 sm:mb-3 text-sm sm:text-base">
               <a href="https://www2.cs.arizona.edu/~mhrezaei/" target="_blank" rel="noopener noreferrer" className="hover:underline">MohammadHossein Rezaei</a>*
-              <span className="mx-2">·</span>
+              <span className="mx-1 sm:mx-2">·</span>
               <a href="https://sofyc.github.io" target="_blank" rel="noopener noreferrer" className="hover:underline">Yicheng Fu</a>*
-              <span className="mx-2">·</span>
+              <span className="mx-1 sm:mx-2">·</span>
               <a href="https://scholar.google.com/citations?user=bDIUeu4AAAAJ&hl=en" target="_blank" rel="noopener noreferrer" className="hover:underline">Philippe Cuvin</a>*
             </div>
             
-            <div className="text-base sm:text-lg">
+            <div className="text-sm sm:text-base">
               <a href="https://calebziems.com" target="_blank" rel="noopener noreferrer" className="hover:underline">Caleb Ziems</a>
-              <span className="mx-2">·</span>
+              <span className="mx-1 sm:mx-2">·</span>
               <a href="https://stevenyzzhang.github.io/website/" target="_blank" rel="noopener noreferrer" className="hover:underline">Yanzhe Zhang</a>
-              <span className="mx-2">·</span>
+              <span className="mx-1 sm:mx-2">·</span>
               <a href="https://zhuhao.me" target="_blank" rel="noopener noreferrer" className="hover:underline">Hao Zhu</a>
-              <span className="mx-2">·</span>
+              <span className="mx-1 sm:mx-2">·</span>
               <a href="https://cs.stanford.edu/~diyiy/" target="_blank" rel="noopener noreferrer" className="hover:underline">Diyi Yang</a>
             </div>
           </div>
 
           <div className="flex justify-center gap-4">
             <a 
-              href="/articles" 
-              className="inline-flex items-center gap-2 px-6 sm:px-8 py-2 sm:py-3 bg-white text-[#1a1a1a] rounded-lg text-lg sm:text-xl font-semibold hover:bg-gray-100 transition-colors shadow-sm"
+              href="/articles/psn" 
+              className="inline-flex items-center gap-1 sm:gap-2 px-4 sm:px-6 md:px-8 py-2 sm:py-3 bg-white text-[#1a1a1a] rounded-lg text-base sm:text-lg md:text-xl font-semibold hover:bg-gray-100 transition-colors shadow-sm"
             >
-              <span role="img" aria-label="blog" className="text-xl">📝</span>
+              <span role="img" aria-label="blog" className="text-lg sm:text-xl">📝</span>
               Blog
             </a>
           </div>
@@ -318,11 +328,11 @@ export default function Leaderboard() {
       </div>
       
       <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-b-lg shadow-lg">
-        <div className="flex justify-center mb-4 sm:mb-6">
+        <div className="flex justify-center mb-4">
           <div className="inline-flex border dark:border-gray-700 rounded-md p-1">
             <button
               onClick={() => setActiveTab('blind')}
-              className={`px-2 sm:px-4 py-1 sm:py-2 text-sm sm:text-base rounded ${
+              className={`px-2 py-1 text-xs sm:text-sm rounded ${
                 activeTab === 'blind'
                   ? 'bg-slate-900 text-white'
                   : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'
@@ -332,7 +342,7 @@ export default function Leaderboard() {
             </button>
             <button
               onClick={() => setActiveTab('pipeline')}
-              className={`px-2 sm:px-4 py-1 sm:py-2 text-sm sm:text-base rounded ${
+              className={`px-2 py-1 text-xs sm:text-sm rounded ${
                 activeTab === 'pipeline'
                   ? 'bg-slate-900 text-white'
                   : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'
@@ -342,7 +352,7 @@ export default function Leaderboard() {
             </button>
             <button
               onClick={() => setActiveTab('video')}
-              className={`px-2 sm:px-4 py-1 sm:py-2 text-sm sm:text-base rounded ${
+              className={`px-2 py-1 text-xs sm:text-sm rounded ${
                 activeTab === 'video'
                   ? 'bg-slate-900 text-white'
                   : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'

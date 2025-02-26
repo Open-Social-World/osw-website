@@ -37,21 +37,21 @@ const NormTaxonomy = () => {
 
   // Component for a single norm card
   const NormCard: React.FC<{ norm: Norm }> = ({ norm }) => (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full border border-gray-200 shadow-sm rounded-sm overflow-hidden">
       <div className={`${categoryColors[norm.category]} text-white text-center py-2 font-bold`}>
         {norm.category}
       </div>
-      <div className="h-48 overflow-hidden flex items-center justify-center relative">
+      <div className="h-36 sm:h-40 md:h-48 overflow-hidden flex items-center justify-center relative">
         <Image 
           src={norm.imageFile} 
           alt={norm.category} 
           fill
-          sizes="(max-width: 768px) 100vw, 25vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
           style={{ objectFit: 'cover' }}
           priority
         />
       </div>
-      <div className="p-3">
+      <div className="p-3 flex-grow">
         {norm.description}
       </div>
     </div>
@@ -66,7 +66,8 @@ const NormTaxonomy = () => {
           <div className="border-b-2 border-gray-800 mb-4">
             <h2 className="text-2xl font-bold">Non-Utility Norms</h2>
           </div>
-          <div className="grid grid-cols-4 gap-4">
+          {/* Responsive grid: 1 column on mobile, 2 on tablet, 4 on desktop */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {normsData.nonUtility.map((norm, index) => (
               <NormCard key={`non-utility-${index}`} norm={norm} />
             ))}
@@ -79,7 +80,8 @@ const NormTaxonomy = () => {
             <h2 className="text-2xl font-bold">Utility Norms</h2>
           </div>
           <div className="flex justify-center">
-            <div className="grid grid-cols-3 gap-4" style={{ width: '75%' }}>
+            {/* Responsive grid: 1 column on mobile, 2 on tablet, 3 on desktop */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full lg:w-3/4">
               {normsData.utility.map((norm, index) => (
                 <NormCard key={`utility-${index}`} norm={norm} />
               ))}
