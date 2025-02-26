@@ -3,7 +3,6 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 
 const SocialInteractionScenario = () => {
 
@@ -58,14 +57,14 @@ const SocialInteractionScenario = () => {
   return (
     <div className="max-w-4xl mx-auto p-4">
       {/* Header Section */}
-      <Card className="mb-6 border-t-4 border-t-black dark:border-t-white md:w-3/4 lg:w-2/3 mx-auto">
+      <Card className="mb-6 md:w-3/4 lg:w-2/3 mx-auto">
         <CardContent className="p-0">
-          <div className="p-4 border-b border-gray-200 dark:border-gray-800">
-            <h1 className="text-xl font-bold mb-1 text-black dark:text-white">Example Video</h1>
+          <div className="p-4 border-b">
+            <h1 className="text-xl font-bold mb-1">Example Video</h1>
             <p className="text-right italic text-gray-600 dark:text-gray-400 text-sm">Ego-centric videos before a social interaction happens.</p>
           </div>
           
-          <div className="bg-black p-2">
+          <div className="p-2 rounded-lg">
             <div className="relative aspect-video bg-gray-200 overflow-hidden">
               <video 
                 className="w-full h-full object-cover" 
@@ -80,13 +79,13 @@ const SocialInteractionScenario = () => {
       </Card>
 
       {/* Action Section */}
-      <div className="mb-6 mx-auto">
+      <div className="mb-6 md:w-3/4 lg:w-2/3 mx-auto">
         <h2 className="text-2xl font-bold border-b-2 border-black dark:border-white pb-2 mb-4">Action</h2>
-        <div className="text-center mb-6 mx-auto md:w-3/4 lg:w-2/3">
+        <div className="mb-6 mx-auto">
           <p className="text-lg md:text-base">What should the person who is wearing the camera do after this?</p>
         </div>
 
-        <div className="space-y-3 mx-auto md:w-5/6 lg:w-3/4">
+        <div className="space-y-1 mx-auto">
           {behaviors.map((behavior) => (
             <div 
               key={behavior.id}
@@ -130,16 +129,14 @@ const SocialInteractionScenario = () => {
         </div>
       </div>
 
-      <Separator className="my-8 border-t border-black dark:border-white mx-auto" />
-
       {/* Justification Section */}
-      <div className="mx-auto">
+      <div className="mb-6 md:w-3/4 lg:w-2/3 mx-auto">
         <h2 className="text-2xl font-bold border-b-2 border-black dark:border-white pb-2 mb-4">Justification</h2>
-        <div className="text-center mb-6 mx-auto md:w-3/4 lg:w-2/3">
+        <div className="mb-6 mx-auto">
           <p className="text-lg md:text-base">What is the reason why you chose the above action?</p>
         </div>
 
-        <div className="space-y-3 mx-auto md:w-5/6 lg:w-3/4">
+        <div className="space-y-1 mx-auto">
           {[
             {
               id: 'A',

@@ -105,9 +105,9 @@ const NormThinkerResult: React.FC = () => {
   const maxEcoNormiaValue = getMaxValue(ecoNormiaData);
 
   return (
-    <div className="flex flex-row space-x-2 w-full p-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-xl mx-auto p-4">
       {/* First chart - NormThinker results */}
-      <Card className="overflow-hidden w-1/2">
+      <Card className="overflow-hidden col-span-1">
         <CardHeader className="pb-1">
           <CardTitle className="text-sm">Results with NormThinker on ego-centric robotics videos, n=11</CardTitle>
         </CardHeader>
@@ -172,7 +172,7 @@ const NormThinkerResult: React.FC = () => {
       </Card>
 
       {/* Second chart - EcoNormia results */}
-      <Card className="overflow-hidden w-1/2">
+      <Card className="overflow-hidden col-span-1">
         <CardHeader className="pb-1">
           <CardTitle className="text-sm">Results with NORMTHINKER on held-out instances in EGONORMIA</CardTitle>
         </CardHeader>

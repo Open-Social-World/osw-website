@@ -13,14 +13,14 @@ export default function Layout({ children, frontMatter }: LayoutProps) {
     <div className="min-h-screen">
       <Head>
         <meta charSet="utf-8" />
-        {/* <meta name="viewport" content="width=device-width, initial-scale=1" /> */}
         <title>{frontMatter?.title || "Academic Article"}</title>
       </Head>
 
       <Header frontMatter={frontMatter} />
 
       <main className="max-w-screen-xl mx-auto px-4 py-8">
-        <article className="prose prose-lg">{children}</article>
+        {/* Remove the prose class from here */}
+        <article className="w-full overflow-x-hidden">{children}</article>
       </main>
 
       <Footer frontMatter={frontMatter} />

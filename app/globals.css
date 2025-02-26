@@ -103,3 +103,34 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Add this to your globals.css */
+.prose {
+  width: 100%;
+  max-width: 100%;
+}
+
+.prose img, 
+.prose video, 
+.prose iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+.prose pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Ensure code blocks don't break the layout */
+.prose code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}

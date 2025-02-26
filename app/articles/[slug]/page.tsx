@@ -1,7 +1,6 @@
 // app/articles/[slug]/page.tsx
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import Layout from "@/components/layout";
 // import { Abstract, Math, Figure, Citation, Code, Bibliography } from '@/components/article';
 import { Abstract } from "@/components/article/abstract";
 import { Math } from "@/components/article/math";
@@ -28,6 +27,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import FloatingToolbar from "@/components/toolbar/floating-toolbar";
 import { Callout } from "@/components/callout";
+import Header from "@/components/header";
+import Image from "next/image";
 
 interface HTMLComponentProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
@@ -62,6 +63,7 @@ export default async function ArticlePage({
     Abstract,
     Math,
     Figure,
+    Image,
     Citation: (props: { id: string }) => (
       <span data-citation-id={props.id}>
         <Citation {...props} citation={citations.get(props.id)} />
@@ -136,9 +138,10 @@ export default async function ArticlePage({
   };
 
   return (
-    <Layout frontMatter={article.frontMatter}>
+    <>
+      <Header frontMatter={article.frontMatter} />
       <FootnotesProvider>
-        <div className="max-w-4xl prose lg:prose-lg mx-auto">
+        <div className="max-w-3xl mx-auto px-8 py-12">
           <MDXRemote
             source={article.content}
             components={{
@@ -157,7 +160,7 @@ export default async function ArticlePage({
           />
         </div>
       </FootnotesProvider>
-    </Layout>
+    </>
   );
 }
 

@@ -11,6 +11,7 @@ import {
   SelectContent,
   SelectValue,
 } from "@/components/ui/select";
+import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, PlayIcon, X } from "lucide-react";
 
 // Hierarchical relationship between high and low level activities
 const ACTIVITY_HIERARCHY: Record<string, string[]> = {
@@ -242,7 +243,7 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
             value={highLevelSelectValue}
             onValueChange={handleHighLevelChange}
           >
-            <SelectTrigger className="w-[200px] bg-background text-foreground border-input">
+            <SelectTrigger className="w-[100px] bg-background text-foreground border-input">
               <SelectValue placeholder="High Level Activity" />
             </SelectTrigger>
             <SelectContent className="bg-popover text-popover-foreground">
@@ -266,7 +267,7 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
             disabled={!highLevelActivity}
           >
             <SelectTrigger 
-              className={`w-[280px] bg-background text-foreground border-input ${
+              className={`w-[140px] bg-background text-foreground border-input ${
                 !highLevelActivity ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
@@ -285,20 +286,19 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
           </Select>
 
           {/* Clear Button for filters */}
-          {(highLevelActivity || lowLevelActivity) && (
-            <button
-              onClick={() => {
-                setHighLevelActivity("");
-                setLowLevelActivity("");
-                setHighLevelSelectValue("all");
-                setLowLevelSelectValue("all");
-                setCurrentPage(1);
-              }}
-              className="h-9 px-4 flex items-center justify-center text-muted-foreground hover:text-foreground border border-input rounded-md hover:bg-accent"
-            >
-              Clear Filters
-            </button>
-          )}
+          <button
+            onClick={() => {
+              setHighLevelActivity("");
+              setLowLevelActivity("");
+              setHighLevelSelectValue("all");
+              setLowLevelSelectValue("all");
+              setCurrentPage(1);
+            }}
+            className="px-2 flex items-center justify-center text-muted-foreground hover:text-foreground border border-input rounded-md hover:bg-accent"
+            disabled={highLevelSelectValue === "all"}
+          >
+            <X size={16}/>
+          </button>
         </div>
       </div>
 
@@ -321,7 +321,7 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
                 className="bg-card rounded-lg shadow-sm overflow-hidden cursor-pointer transform transition-transform hover:scale-105 border border-border"
                 onClick={() => handleVideoClick(video)}
               >
-                <div className="aspect-video relative h-40">
+                <div className="aspect-video relative mx-4 mt-4">
                   <Image
                     src={video.frame_url || ""}
                     alt={`Preview for ${video.id}`}
@@ -330,9 +330,7 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                    <span className="text-white text-lg">
-                      Click to view video
-                    </span>
+                    <PlayIcon size={48} className="text-white ml-2" />
                   </div>
                 </div>
                 <div className="p-3 space-y-1">
@@ -364,31 +362,31 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
               onClick={() => setCurrentPage(1)}
               disabled={currentPage === 1}
             >
-              First
+              <ChevronFirst size={16} />
             </button>
             <button
               className="px-4 py-2 bg-secondary rounded-lg disabled:opacity-50 text-secondary-foreground hover:bg-secondary/80"
               onClick={() => setCurrentPage((prev) => prev - 1)}
               disabled={currentPage === 1}
             >
-              Previous
+              <ChevronLeft size={16} />
             </button>
             <span className="text-muted-foreground">
-              Page {currentPage} of {totalPages}
+              {currentPage} of {totalPages}
             </span>
             <button
               className="px-4 py-2 bg-secondary rounded-lg disabled:opacity-50 text-secondary-foreground hover:bg-secondary/80"
               onClick={() => setCurrentPage((prev) => prev + 1)}
               disabled={currentPage === totalPages}
             >
-              Next
+              <ChevronRight size={16} />
             </button>
             <button
               className="px-4 py-2 bg-secondary rounded-lg disabled:opacity-50 text-secondary-foreground hover:bg-secondary/80"
               onClick={() => setCurrentPage(totalPages)}
               disabled={currentPage === totalPages}
             >
-              Last
+              <ChevronLast size={16} />
             </button>
           </div>
         </>

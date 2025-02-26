@@ -218,7 +218,7 @@ export default function FailureModeCharts() {
         </defs>
       </svg>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 mx-auto max-w-lg">
         <FailureModeChart data={GPT4O_DATA} title="GPT-4o" />
         <FailureModeChart data={GEMINI_DATA} title="Gemini 1.5 Pro" />
         <FailureModeChart data={HUMAN_DATA} title="Human" />

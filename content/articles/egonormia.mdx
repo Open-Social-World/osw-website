@@ -55,6 +55,7 @@ data_url: https://huggingface.co/datasets/open-social-world/EgoNormia
     useful even for out-of-domain robotics applications.
 </Callout>
 
+
 <VideoVisualizer />
 
 ## Introduction
@@ -137,11 +138,21 @@ We use a format of Multiple-Choice Questions (MCQs) for our task, including thre
 
 ## Benchmark Generation
 
-<Figure
+
+<Image
   src="/images/psn/pipeline.jpg"
-  alt="Pipeline"
-  caption="Pipeline: We propose an efficient pipeline for annotating normative behaviors through leveraging Ego4D annotations (Phase I), VLM-based proposal (Phase II), post-hoc filtering (Phase III), and human validation (Phase IV)."
+  alt="EgoNormia Pipeline"
+  width={0}
+  height={0}
+  style={{ 
+    width: '100%', 
+    height: 'auto',
+    maxWidth: '600px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  }}
 />
+
 
 * **Phase I: Snippet Sampling.** We sourced video samples from [<u>Ego4D</u>](https://ego4d-data.org/) <Citation id="grauman2022ego4dworld3000hours"/>. To ensure diversity, we applied a multi-step filtering process, sampling each unique scenario-verb combination to select video snippets across a wide range of social and physical contexts.
 
