@@ -196,14 +196,30 @@ export async function generateMetadata({
     openGraph: {
       title: frontMatter.title,
       description: frontMatter.description,
+      url: `https://opensocial.world/articles/${params.slug}`,
       type: "article",
       publishedTime: frontMatter.publishedDate,
       authors: frontMatter.authors?.map((author) => author.name),
+      images: [
+        {
+          url: frontMatter.image?.url 
+            ? `https://opensocial.world${frontMatter.image.url}` 
+            : "https://opensocial.world/images/psn/teaser.jpeg",
+          width: 1200,
+          height: 630,
+          alt: frontMatter.image?.alt || frontMatter.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: frontMatter.title,
       description: frontMatter.description,
+      images: [
+        frontMatter.image?.url 
+          ? `https://opensocial.world${frontMatter.image.url}` 
+          : "https://opensocial.world/images/psn/teaser.jpeg"
+      ],
     },
     // Add any article-specific schema.org metadata
     alternates: {
