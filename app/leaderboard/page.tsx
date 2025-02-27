@@ -26,14 +26,13 @@ export default function LeaderboardPage() {
         <div className="mt-8 text-sm text-gray-600 border-t pt-4">
           <h3 className="font-semibold mb-2">BibTeX</h3>
           <pre className="bg-gray-100 p-3 rounded overflow-x-auto">
-            {`@misc{xxx,
-    title={xxx},
-    author={xxx},
-    year={2025},
-    eprint={2501.111111},
-    archivePrefix={arXiv},
-    primaryClass={cs.CL},
-    url={https://arxiv.org/abs/2501.111111},
+            {`@article{example.2023.001,
+  title     = {EgoNormia},
+  author    = {MohammadHossein Rezaei* and Yicheng Fu* and Philippe Cuvin* and Caleb Ziems and Yanzhe Zhang and Hao Zhu and Diyi Yang},
+  journal   = {Open Social World},
+  year      = {2025},
+  doi       = {10.1234/example.2023.001},
+  publisher = {Open Social World}
 }`}
           </pre>
         </div>
