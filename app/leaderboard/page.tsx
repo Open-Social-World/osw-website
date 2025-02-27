@@ -8,13 +8,17 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Egonormia Leaderboard',
     description: 'A large scale video dataset and a benchmark for evaluating frontier models\' understanding of physical social norms through videos.',
-    images: ['/images/psn/leaderboard-metadata.svg'],
+    images: [{
+      url: 'https://opensocialworld.org/images/psn/leaderboard-metadata.svg',
+      width: 1200,
+      height: 630,
+    }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Egonormia Leaderboard',
     description: 'A large scale video dataset and a benchmark for evaluating frontier models\' understanding of physical social norms through videos.',
-    images: ['/images/psn/leaderboard-metadata.svg'],
+    images: ['https://opensocialworld.org/images/psn/leaderboard-metadata.svg'],
   },
 };
 

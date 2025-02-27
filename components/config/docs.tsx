@@ -23,25 +23,17 @@ export const docsConfig: DocsConfig = {
       href: "/",
     },
     {
-      title: "About Me",
-      href: "/#me",
+      title: "Articles",
+      href: "/articles",
     },
     {
-      title: "My Research",
-      href: "/#my-research",
+      title: "LeaderBoard",
+      href: "/leaderboard",
     },
     {
-      title: "FAQ",
-      href: "/#faq",
-    },
-    {
-      title: "Education",
-      href: "/#education",
-    },
-    {
-      title: "Calendar",
-      href: "/calendar",
-    },
+      title: "People",
+      href: "/people",
+    }
   ],
   sidebarNav: [
   ],
