@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: 'Egonormia Leaderboard',
     description: 'A large scale video dataset and a benchmark for evaluating frontier models\' understanding of physical social norms through videos.',
     images: [{
-      url: 'https://opensocialworld.org/images/psn/leaderboard-metadata.svg',
+      url: 'https://opensocial.world/images/psn/leaderboard-metadata.svg',
       width: 1200,
       height: 630,
     }],
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Egonormia Leaderboard',
     description: 'A large scale video dataset and a benchmark for evaluating frontier models\' understanding of physical social norms through videos.',
-    images: ['https://opensocialworld.org/images/psn/leaderboard-metadata.svg'],
+    images: ['https://opensocial.world/images/psn/leaderboard-metadata.svg'],
   },
 };
 
