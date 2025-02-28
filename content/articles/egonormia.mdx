@@ -1,7 +1,7 @@
 ---
 title: EgoNormia
-description: A large scale video dataset and a benchmark for evaluating frontier models' understanding of physical social norms through videos.
-publishedDate: 2025-01-16
+description: A challenging ego-centric video QA dataset for benchmarking embodied normative reasoning in AI models. 
+publishedDate: 2025-02-28
 image:
   url: /images/psn/teaser.jpeg
   alt: Robot
@@ -44,20 +44,21 @@ data_url: https://huggingface.co/datasets/open-social-world/EgoNormia
 ---
 
 <Callout icon="🍃">
-    With EgoNormia, we ask whether current AI models can perform normative reasoning in physical and social contexts.
+    With EgoNormia, we challenge frontier AI models to perform *normative reasoning* in physical and social contexts.
 </Callout>
 
 <Callout icon="📚">
-    To create this benchmark, we propose an efficient pipeline to gather human consensus on normative actions under
+    To create this benchmark, we propose an <u>[efficient pipeline](#benchmark-generation)</u> to gather human consensus on normative actions under
     ego-centric context by generating plausible actions through slightly tweaking the context.
 </Callout>
 
 <Callout icon="📹">
-    This results in a challenging (SoTA 45% vs Humans 92%) and large scale dataset with 1,853 ego-centric videos.
+    This results in a challenging (SoTA 45% vs Humans 92%) and large scale dataset with 1,853 ego-centric videos. You can check every data point
+    and model predictions <u>[here](#all-data)</u>.
 </Callout>
 
 <Callout icon="💡">
-    We also propose a retrieval-based approach to enable in-context learning of normative reasoning in VLMs, which is
+    We also propose a retrieval-based approach **NormThinker** to enable in-context learning of normative reasoning in VLMs, which is
     useful even for out-of-domain robotics applications.
 </Callout>
 
@@ -133,7 +134,8 @@ We use a format of Multiple-Choice Questions (MCQs) for our task, including thre
 
 * **Subtask 3: Sensibility.** To measure whether models understand the features that make action normative in context, we evaluate whether they can select the sensible (i.e. normative, but not necessarily best) options from the given actions.
 
-## Benchmark Generation
+
+<h2 className="text-3xl font-bold mt-8 mb-4" id="benchmark-generation"> Benchmark Generation </h2>
 
 
 <Image
