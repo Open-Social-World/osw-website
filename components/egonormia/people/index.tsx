@@ -24,7 +24,7 @@ const people: Person[] = [
     affiliationURL: "https://www.stanford.edu"
   },
   {
-    name: "Philippe Cuvin",
+    name: "Phil Cuvin",
     personalURL: "https://scholar.google.com/citations?user=bDIUeu4AAAAJ&hl=en",
     affiliation: "University of Toronto",
     affiliationURL: "https://www.utoronto.ca"

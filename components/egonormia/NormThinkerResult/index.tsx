@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   BarChart,
   Bar,
@@ -9,57 +9,49 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  LabelList
-} from 'recharts';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  LabelList,
+  Cell,
+} from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 // Filter data to show only Both scores
 const normThinkerData = [
   {
-    name: 'GPT-4o',
+    name: "GPT-4o",
     Both: 9.1,
   },
   {
-    name: '+ Best-5 Retrieval',
+    name: "+ Best-5 Retrieval",
     Both: 45.5,
   },
   {
-    name: 'Human',
+    name: "Human",
     Both: 72.7,
-  }
+  },
 ];
 
-// EcoNormia data with only Both scores, without Human
+// EcoNormia data with only Both scores, including Human benchmark
 const ecoNormiaData = [
   {
-    name: 'Gemini 1.5 Pro',
-    Both: 45.2,
-  },
-  {
-    name: 'GPT-4o',
+    name: "GPT-4o",
     Both: 39.8,
   },
   {
-    name: '+ Random Retrieval',
-    Both: 41.3,
+    name: "+ Best-5 Retrieval",
+    Both: 49.2,
   },
   {
-    name: '+ Best-5 Retrieval',
-    Both: 49.2,
-  }
+    name: "Human",
+    Both: 92.0,
+  },
 ];
 
 // Find the maximum value in the data to set y-axis limit
 const getMaxValue = (data: Array<Record<string, number | string>>): number => {
   let max = 0;
-  data.forEach(item => {
-    Object.keys(item).forEach(key => {
-      if (key !== 'name' && typeof item[key] === 'number' && item[key] > max) {
+  data.forEach((item) => {
+    Object.keys(item).forEach((key) => {
+      if (key !== "name" && typeof item[key] === "number" && item[key] > max) {
         max = item[key] as number;
       }
     });
@@ -68,8 +60,10 @@ const getMaxValue = (data: Array<Record<string, number | string>>): number => {
   return Math.ceil(max / 10) * 10;
 };
 
-// Color for the Both metric
+// Colors for the bars
 const bothColor = "#8884d8";
+const best5Color = "#FFD700"; // Yellow color for + Best-5 Retrieval
+const humanColor = "#2E8B57"; // Green color for Human
 
 // Custom tooltip interface and component
 interface TooltipProps {
@@ -105,22 +99,24 @@ const NormThinkerResult: React.FC = () => {
   const maxEcoNormiaValue = getMaxValue(ecoNormiaData);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-xl mx-auto p-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto p-4">
       {/* First chart - NormThinker results */}
       <Card className="overflow-hidden col-span-1">
         <CardHeader className="pb-1">
-          <CardTitle className="text-sm">Results with NormThinker on ego-centric robotics videos, n=11</CardTitle>
+          <CardTitle className="text-sm">
+            Results with NormThinker on ego-centric robotics videos, n=11
+          </CardTitle>
         </CardHeader>
         <CardContent className="pt-0 px-2">
           <div className="h-72 w-full p-0">
             <ResponsiveContainer width="100%" height="100%">
-                              <BarChart
+              <BarChart
                 data={normThinkerData}
                 margin={{ top: 20, right: 10, left: 10, bottom: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis 
-                  dataKey="name" 
+                <XAxis
+                  dataKey="name"
                   axisLine={false}
                   tickLine={false}
                   height={60}
@@ -128,38 +124,46 @@ const NormThinkerResult: React.FC = () => {
                   interval={0}
                   tickFormatter={(value) => {
                     // Break long names into multiple lines
-                    const parts = value.split(' ');
+                    const parts = value.split(" ");
                     if (parts.length <= 2) return value;
-                    
-                    if (value.includes('Random')) {
-                      return ['+ Random', 'Retrieval'].join('\n');
-                    } else if (value.includes('Best-5')) {
-                      return ['+ Best-5', 'Retrieval'].join('\n');
-                    } else if (value.includes('Gemini')) {
-                      return ['Gemini 1.5', 'Pro'].join('\n');
+
+                    if (value.includes("Random")) {
+                      return ["+ Random", "Retrieval"].join("\n");
+                    } else if (value.includes("Best-5")) {
+                      return ["NormThinker"].join("\n");
+                    } else if (value.includes("Gemini")) {
+                      return ["Gemini 1.5", "Pro"].join("\n");
                     }
-                    
+
                     return value;
                   }}
                 />
-                <YAxis 
-                  domain={[0, maxNormThinkerValue]} 
+                <YAxis
+                  domain={[0, maxNormThinkerValue]}
                   axisLine={false}
                   tickLine={false}
                   tickCount={6}
                   padding={{ bottom: 0 }}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar 
-                  dataKey="Both" 
-                  fill={bothColor} 
+                <Bar
+                  dataKey="Both"
                   radius={[4, 4, 0, 0]}
                   maxBarSize={40}
                   name="Both Score"
                 >
-                  <LabelList 
-                    dataKey="Both" 
-                    position="top" 
+                  {normThinkerData.map((entry, index) => {
+                    if (entry.name.includes("Best-5")) {
+                      return <Cell key={`cell-${index}`} fill={best5Color} />;
+                    } else if (entry.name === "Human") {
+                      return <Cell key={`cell-${index}`} fill={humanColor} />;
+                    } else {
+                      return <Cell key={`cell-${index}`} fill={bothColor} />;
+                    }
+                  })}
+                  <LabelList
+                    dataKey="Both"
+                    position="top"
                     formatter={(value: number) => `${value.toFixed(1)}%`}
                     fill="#666"
                     fontSize={10}
@@ -174,18 +178,20 @@ const NormThinkerResult: React.FC = () => {
       {/* Second chart - EcoNormia results */}
       <Card className="overflow-hidden col-span-1">
         <CardHeader className="pb-1">
-          <CardTitle className="text-sm">Results with NORMTHINKER on held-out instances in EGONORMIA</CardTitle>
+          <CardTitle className="text-sm">
+            Results with NORMTHINKER on held-out instances in EGONORMIA
+          </CardTitle>
         </CardHeader>
         <CardContent className="pt-0 px-2">
           <div className="h-72 w-full p-0">
             <ResponsiveContainer width="100%" height="100%">
-                              <BarChart
+              <BarChart
                 data={ecoNormiaData}
                 margin={{ top: 20, right: 10, left: 10, bottom: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis 
-                  dataKey="name" 
+                <XAxis
+                  dataKey="name"
                   axisLine={false}
                   tickLine={false}
                   height={60}
@@ -193,38 +199,46 @@ const NormThinkerResult: React.FC = () => {
                   interval={0}
                   tickFormatter={(value) => {
                     // Break long names into multiple lines
-                    const parts = value.split(' ');
+                    const parts = value.split(" ");
                     if (parts.length <= 2) return value;
-                    
-                    if (value.includes('Random')) {
-                      return ['+ Random', 'Retrieval'].join('\n');
-                    } else if (value.includes('Best-5')) {
-                      return ['+ Best-5', 'Retrieval'].join('\n');
-                    } else if (value.includes('Gemini')) {
-                      return ['Gemini 1.5', 'Pro'].join('\n');
+
+                    if (value.includes("Random")) {
+                      return ["+ Random", "Retrieval"].join("\n");
+                    } else if (value.includes("Best-5")) {
+                      return ["NormThinker"].join("\n");
+                    } else if (value.includes("Gemini")) {
+                      return ["Gemini 1.5", "Pro"].join("\n");
                     }
-                    
+
                     return value;
                   }}
                 />
-                <YAxis 
-                  domain={[0, maxEcoNormiaValue]} 
+                <YAxis
+                  domain={[0, maxEcoNormiaValue]}
                   axisLine={false}
                   tickLine={false}
                   tickCount={6}
                   padding={{ bottom: 0 }}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar 
-                  dataKey="Both" 
-                  fill={bothColor} 
+                <Bar
+                  dataKey="Both"
                   radius={[4, 4, 0, 0]}
                   maxBarSize={40}
                   name="Both Score"
                 >
-                  <LabelList 
-                    dataKey="Both" 
-                    position="top" 
+                  {ecoNormiaData.map((entry, index) => {
+                    if (entry.name.includes("Best-5")) {
+                      return <Cell key={`cell-${index}`} fill={best5Color} />;
+                    } else if (entry.name === "Human") {
+                      return <Cell key={`cell-${index}`} fill={humanColor} />;
+                    } else {
+                      return <Cell key={`cell-${index}`} fill={bothColor} />;
+                    }
+                  })}
+                  <LabelList
+                    dataKey="Both"
+                    position="top"
                     formatter={(value: number) => `${value.toFixed(1)}%`}
                     fill="#666"
                     fontSize={10}
