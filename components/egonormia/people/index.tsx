@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 interface Person {
@@ -60,14 +60,7 @@ const ProfileImage = ({ name }: { name: string }) => {
 
   return (
     <Image
-/*************  ✨ Codeium Command ⭐  *************/
-  /**
-   * Handle an error when loading a profile image by switching to a different file extension.
-   * If the image was originally a PNG and has not previously failed to load, switch to a JPG.
-   * Otherwise, do nothing.
-   * @returns {void}
-   */
-/******  7527adb0-74d2-4908-95de-7c4a2454414f  *******/      src={`/images/people/${firstName}.jpg`}
+      src={`/images/people/${firstName}.jpg`}
       alt={`${name}'s profile`}
       fill
       className="object-cover hover:opacity-90 transition-opacity"
@@ -77,13 +70,36 @@ const ProfileImage = ({ name }: { name: string }) => {
 };
 
 export default function PeopleGrid(): JSX.Element {
+  const [peopleArray, setPeopleArray] = useState(people);
+
+  // Function to shuffle the list
+  const shuffleArray = () => {
+    // Create a copy of the original array to avoid mutating state directly
+    const newArray = [...peopleArray];
+    
+    // Fisher-Yates shuffle algorithm
+    for (let i = newArray.length - 1; i > 0; i--) {
+      // Pick a random index from 0 to i
+      const j = Math.floor(Math.random() * (i + 1));
+      // Swap elements at i and j
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    
+    // Update the state with the shuffled array
+    setPeopleArray(newArray);
+  };
+
+  useEffect(() => {
+    shuffleArray();
+  }, []);
+
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="container max-w-3xl mx-auto px-12 py-12">
       <h1 className="text-4xl font-bold text-center mb-12">Our Team</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {people.map((person, index) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {peopleArray.map((person, index) => (
           <Fragment key={index}>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="rounded-lg shadow-lg">
               <a 
                 href={person.personalURL}
                 target="_blank"
@@ -92,12 +108,12 @@ export default function PeopleGrid(): JSX.Element {
               >
                 <ProfileImage name={person.name} />
               </a>
-              <div className="p-6">
+              <div className="pt-6">
                 <a 
                   href={person.personalURL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xl font-semibold text-gray-900 hover:text-blue-600 transition-colors mb-2 block"
+                  className="text-md font-semibold  mb-2 block"
                 >
                   {person.name}
                 </a>
@@ -105,7 +121,7 @@ export default function PeopleGrid(): JSX.Element {
                   href={person.affiliationURL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-blue-600 transition-colors block"
+                  className="text-sm"
                 >
                   {person.affiliation}
                 </a>
