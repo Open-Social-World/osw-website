@@ -123,20 +123,17 @@ const SocialInteractionScenario = () => {
   return (
     <div className="w-full mx-auto p-4">
       {/* Header Section */}
-      <Card className="mb-6 max-w-3xl md:w-3/4 lg:w-2/3 mx-auto">
+      <Card className="mb-6 max-w-3xl md:w-3/4 lg:w-2/3 mx-auto border-0">
         <CardContent className="p-0">
-          <div className="p-4 border-b">
-            <h1 className="text-xl font-bold mb-1">Example Video</h1>
-            <p className="text-right italic text-gray-600 dark:text-gray-400 text-sm">
-              Ego-centric videos before a social interaction happens.
-            </p>
-          </div>
 
           <div className="p-2 rounded-lg">
             <div className="relative aspect-video bg-gray-200 overflow-hidden">
               <video
                 className="w-full h-full object-cover"
                 controls
+                muted
+                autoPlay
+                loop
                 src="https://storage.googleapis.com/physical-social-norm/sampled_snippets_new_new/19f2ea20-5041-4be2-bdc9-714473f16236/19f2ea20-5041-4be2-bdc9-714473f16236_1915-00_prev.mp4"
               >
                 Your browser does not support the video tag.
@@ -152,7 +149,7 @@ const SocialInteractionScenario = () => {
           <h2 className="font-bold border-b pb-2 mb-4 text-sm">Action</h2>
           <div className="mb-6 mx-auto">
             <p className="md:text-sm">
-              What should the person who is wearing the camera do after this?
+              What should the person who is wearing the camera do <span className="text-primary">after</span> this?
             </p>
           </div>
 
@@ -219,7 +216,7 @@ const SocialInteractionScenario = () => {
           </h2>
           <div className="mb-6 mx-auto">
             <p className="md:text-sm">
-              What is the reason why you chose the above action?
+              What is the <span className="text-primary">reason</span> why you chose the above action?
             </p>
           </div>
 

@@ -28,14 +28,14 @@ const HeroPage = () => {
               <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
                 Open Social World
               </h1>
-              <p className="mt-6 text-lg leading-8">
-                Exploring novel dynamics of human-AI agent interaction.
+              <p className="mt-6 text-xl leading-8 font-serif italic">
+                Check out our first project:{" "} EgoNormia
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <Button>
                   <Link href="/articles/egonormia">EgoNormia</Link>
                 </Button>
-                <Button variant="ghost">
+                <Button variant="outline">
                   <Link href="/leaderboard">Leaderboard</Link>
                 </Button>
               </div>

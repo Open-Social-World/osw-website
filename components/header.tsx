@@ -22,7 +22,7 @@ export default function Header({ frontMatter }: HeaderProps) {
         <div className="border-b">
           
           
-          <div className="max-w-3xl mx-auto px-4 py-12">
+          <div className="max-w-2xl mx-auto px-4 py-12">
             <div className="grid grid-cols-1 lg:grid-cols-[2fr,1fr] gap-8">
               {/* Title and Description */}
               <div>
@@ -41,7 +41,7 @@ export default function Header({ frontMatter }: HeaderProps) {
                 )}
                 {frontMatter.image && (
                   <div className="w-full mt-4">
-                    <div className="max-w-screen-xl mx-auto px-4">
+                    <div className="max-w-screen-lg mx-auto px-4">
                       <div className="relative aspect-[4/3] w-full">
                         <Image
                           src={frontMatter.image.url}

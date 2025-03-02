@@ -22,7 +22,7 @@ const ExampleMCQ = () => {
   const videos = [
     {
       id: 1,
-      title: "Video 1: Visitor at Scenic Viewpoint",
+      title: "Example Task 1: Visitor at Scenic Viewpoint",
       url: "https://storage.googleapis.com/physical-social-norm/sampled_snippets_new_new/32c34069-0111-4d89-9e55-1c68f18705ad/32c34069-0111-4d89-9e55-1c68f18705ad_8758-17_prev.mp4",
       previewImage: "https://storage.googleapis.com/physical-social-norm/sampled_frames_new_new/32c34069-0111-4d89-9e55-1c68f18705ad_8758-17/frame_0_prev.jpg",
       actions: [
@@ -66,7 +66,7 @@ const ExampleMCQ = () => {
     },
     {
       id: 2,
-      title: "Video 2: Fitness Training Session",
+      title: "Example Task 2: Fitness Training Session",
       url: "https://storage.googleapis.com/physical-social-norm/sampled_snippets_new_new/6070d9d1-9962-49f3-8ac7-4e29ca07e104/6070d9d1-9962-49f3-8ac7-4e29ca07e104_164-20_prev.mp4",
       previewImage: "https://storage.googleapis.com/physical-social-norm/sampled_frames_new_new/6070d9d1-9962-49f3-8ac7-4e29ca07e104_164-20/frame_0_prev.jpg",
       actions: [
@@ -108,7 +108,7 @@ const ExampleMCQ = () => {
     },
     {
       id: 3,
-      title: "Video 3: Furniture Moving Assistance",
+      title: "Example Task 3: Furniture Moving Assistance",
       url: "https://storage.googleapis.com/physical-social-norm/sampled_snippets_v2/cea9a5cc-6682-474f-bae4-483ca722ec43/cea9a5cc-6682-474f-bae4-483ca722ec43_359-69_prev.mp4",
       previewImage: "https://storage.googleapis.com/physical-social-norm/sampled_frames_v2/cea9a5cc-6682-474f-bae4-483ca722ec43_359-69/frame_0_prev.jpg",
       actions: [
@@ -151,13 +151,13 @@ const ExampleMCQ = () => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto p-4 lg:max-w-5xl xl:max-w-4xl">
-      {videos.map((video, index) => (
+    <div className="w-full my-8">
+      {videos.map((video) => (
         <React.Fragment key={video.id}>
-          <div className="mb-8">
+          <div className="mb-2">
             {/* Video Title */}
-            <h2 className="text-xl md:text-lg lg:text-base font-bold mb-2">{video.title}</h2>
-            
+            <details>
+            <summary>{video.title}</summary>
             {/* Video Row */}
             <div className="mb-4 md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto">
               <div className="border border-gray-600 relative">
@@ -192,7 +192,7 @@ const ExampleMCQ = () => {
                   </div>
                 )}
                 <div className="absolute bottom-3 left-3 bg-black bg-opacity-70 text-white px-2 py-1 text-sm">
-                  Video {video.id}
+                  Example {video.id}
                 </div>
               </div>
             </div>
@@ -266,12 +266,10 @@ const ExampleMCQ = () => {
                 </div>
               </div>
             </div>
+            </details>
           </div>
           
-          {/* Separator line */}
-          {index < videos.length - 1 && (
-            <hr className="my-10 border-t-2 border-gray-400 dark:border-gray-600" />
-          )}
+          
         </React.Fragment>
       ))}
     </div>
