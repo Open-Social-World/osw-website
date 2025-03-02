@@ -91,7 +91,7 @@ export default function PeopleGrid(): JSX.Element {
 
   useEffect(() => {
     shuffleArray();
-  }, []);
+  }, );
 
   return (
     <div className="container max-w-3xl mx-auto px-12 py-12">

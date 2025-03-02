@@ -64,6 +64,7 @@ export interface AbstractProps {
 
 export interface FigureProps {
   src: string;
+  darkSrc?: string;
   alt: string;
   width?: number;
   height?: number;

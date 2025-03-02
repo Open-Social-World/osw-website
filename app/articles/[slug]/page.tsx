@@ -30,6 +30,7 @@ import { Callout } from "@/components/callout";
 import Header from "@/components/header";
 import Image from "next/image";
 import { ArrowDown } from "lucide-react";
+import EmphasizedSpan from "@/components/article/emphasis";
 
 interface HTMLComponentProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
@@ -82,6 +83,7 @@ export default async function ArticlePage({
     Button,
     Callout,
     ArrowDown,
+    EmphasizedSpan,
     h1: ({ children, className, ...props }: HTMLComponentProps) => (
       <h1
         className={`text-2xl text-primary font-bold mt-8 mb-4 ${className || ""}`}
