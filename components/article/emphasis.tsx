@@ -27,7 +27,7 @@ const EmphasizedSpan: React.FC<EmphasizedSpanProps> = ({
 
       // Check if element is centered in viewport
       const elementCenter = rect.top + rect.height / 2;
-      const viewportLowerCenter = windowHeight * 2 / 3;
+      const viewportLowerCenter = windowHeight * 0.55;
 
       setIsInView(elementCenter < viewportLowerCenter);
     };
