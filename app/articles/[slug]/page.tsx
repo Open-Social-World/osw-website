@@ -29,6 +29,7 @@ import FloatingToolbar from "@/components/toolbar/floating-toolbar";
 import { Callout } from "@/components/callout";
 import Header from "@/components/header";
 import Image from "next/image";
+import { ArrowDown } from "lucide-react";
 
 interface HTMLComponentProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
@@ -80,9 +81,10 @@ export default async function ArticlePage({
     Link,
     Button,
     Callout,
+    ArrowDown,
     h1: ({ children, className, ...props }: HTMLComponentProps) => (
       <h1
-        className={`text-4xl font-bold mt-8 mb-4 ${className || ""}`}
+        className={`text-2xl text-primary font-bold mt-8 mb-4 ${className || ""}`}
         {...props}
       >
         {children}
@@ -90,7 +92,7 @@ export default async function ArticlePage({
     ),
     h2: ({ children, className, ...props }: HTMLComponentProps) => (
       <h2
-        className={`text-3xl font-bold mt-8 mb-4 ${className || ""}`}
+        className={`text-xl text-primary font-bold mt-8 mb-4 ${className || ""}`}
         {...props}
       >
         {children}
@@ -98,7 +100,7 @@ export default async function ArticlePage({
     ),
     h3: ({ children, className, ...props }: HTMLComponentProps) => (
       <h3
-        className={`text-2xl font-bold mt-6 mb-3 ${className || ""}`}
+        className={`text-lg text-primary mt-6 mb-3 ${className || ""}`}
         {...props}
       >
         {children}
@@ -106,7 +108,7 @@ export default async function ArticlePage({
     ),
     h4: ({ children, className, ...props }: HTMLComponentProps) => (
       <h4
-        className={`text-xl font-bold mt-4 mb-2 ${className || ""}`}
+        className={`text-md font-bold mt-4 mb-2 ${className || ""}`}
         {...props}
       >
         {children}
@@ -141,7 +143,7 @@ export default async function ArticlePage({
     <>
       <Header frontMatter={article.frontMatter} />
       <FootnotesProvider>
-        <div className="max-w-3xl mx-auto px-8 py-12">
+        <div className="max-w-2xl mx-auto px-8 py-12 text-muted-foreground">
           <MDXRemote
             source={article.content}
             components={{

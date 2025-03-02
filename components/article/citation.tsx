@@ -31,7 +31,7 @@ export function Citation({ id, citation, children }: CitationProps) {
     <span className="citation inline-flex items-center">
       <button 
         onClick={handleClick}
-        className="text-blue-600 hover:text-blue-800 cursor-pointer transition-colors px-0.5"
+        className="text-muted-foreground dark:hover:text-blue-300 hover:text-blue-800 cursor-pointer transition-colors px-0.5"
         aria-label={`Jump to reference ${id}`}
       >
         [{citation.authors[0].split(',')[0].trim()} et al., {citation.year}]

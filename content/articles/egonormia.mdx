@@ -1,11 +1,11 @@
 ---
 title: EgoNormia
 description: A challenging ego-centric video QA dataset for benchmarking embodied normative reasoning in AI models. 
-publishedDate: 2025-02-28
+publishedDate: 2025-03-03
 image:
   url: /images/psn/teaser.jpeg
   alt: Robot
-  caption: Integrating Robots into Social Norms, Waiting in Line with Humans
+  caption: An illustration of a robot waiting in line for checking out at a grocery store. 
 authors:
   - name: MohammadHossein Rezaei*
     personalURL: https://mhrezaei.com
@@ -43,18 +43,31 @@ code_url: https://github.com/Open-Social-World/EgoNormia
 data_url: https://huggingface.co/datasets/open-social-world/EgoNormia
 ---
 
+<Link href="#data" className="block w-full mb-4">
+  <Button className="w-full h-full text-left p-0" variant={"secondary"}>
+    <div className="p-4 w-full inline-flex items-center font-bold">
+      Try our data viewer
+      <ArrowDown className="ml-auto w-10 h-10 inline-block ml-2" />
+    </div>
+  </Button>
+</Link>
+
+
+<span className="text-primary">Humans have a long history of expecting AI or Robots to learn social norms.</span> Check out the following sci-fi literature <Citation id="asimov1985caves"/><Citation id="john2006android"/><Citation id="chiang2010lifecycle"/><Citation id="chambers2016closed"/>. This is because **norms** are so fundamental to our social world. Human babies surprisingly learn norms very quickly and enforce them in interactions <Citation id="fehr2004social"/><Citation id="chudek2011culture"/>.
+
 <Callout icon="🍃">
-    With EgoNormia, we challenge frontier AI models to perform *normative reasoning* in physical and social contexts.
+    With EgoNormia, we challenge frontier AI models to perform <span className="text-primary">*normative reasoning*</span> in physical and social contexts. Here is an example.
 </Callout>
 
+<TeaserVideo className="w-full md:w-3/4 lg:w-1/2 mx-auto"/>
+
+
 <Callout icon="📚">
-    To create this benchmark, we propose an <u>[efficient pipeline](#benchmark-generation)</u> to gather human consensus on normative actions under
-    ego-centric context by generating plausible actions through slightly tweaking the context.
+    To create this benchmark, we propose an <u>[efficient pipeline](#benchmark-generation)</u> through <span className="text-primary">asking VLMs what-if questions and multi-round human validation</span>.
 </Callout>
 
 <Callout icon="📹">
-    This results in a challenging (SoTA 45% vs Humans 92%) and large scale dataset with 1,853 ego-centric videos. You can check every data point
-    and model predictions <u>[here](#data)</u>.
+    This results in a <span className="text-primary">challenging (SoTA 45% vs Humans 92%)</span> and large scale dataset with 1,853 ego-centric videos.
 </Callout>
 
 <Callout icon="💡">
@@ -64,45 +77,28 @@ data_url: https://huggingface.co/datasets/open-social-world/EgoNormia
 
 
 
-
-
-<TeaserVideo className="w-full md:w-3/4 lg:w-1/2 mx-auto"/>
-
-<div className="text-center">
-    <Button className="mx-auto">
-        <Link href="#data">
-            See more examples at the end! 🚀
-        </Link>
-    </Button>
-</div>
-
 ## Introduction
 
 In the video example, a hiking partner is stuck in the mud; a safety-first norm (keeping one's distance) conflicts with the cooperative norm to help out. For humans, the right decision seems intuitive. But can Vision-Language Models (VLMs) navigate such dilemmas? Can they understand norms grounded in the physical world and make normative decisions similar to those of humans?
 
-<br />
+### Research Questions
 
-Humans have a long history of expecting AI to adhere to human-defined norms  <Citation id="asimov1985caves"/><Citation id="john2006android"/><Citation id="chiang2010lifecycle"/><Citation id="chambers2016closed"/>. This is because norms are fundamental to human interactions and cooperation <Citation id="fehr2004social"/><Citation id="chudek2011culture"/>, with even children being able to operate within a norm-regulated environment. Given the importance of norms to behavior moderation, and the popularity of model-driven embodied agents, we ask **whether Vision-Language Models (VLMs) can understand norms grounded in the physical world and make normative decisions similar to those of humans?**
-
-<br />
-
-To comprehensively measure VLM normative reasoning ability, we introduce <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>, a challenging QA benchmark that is physically grounded in 1k egocentric social interaction clips from [<u>Ego4D</u>](https://ego4d-data.org/) <Citation id="grauman2022ego4dworld3000hours"/>. <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> spans 100 distinct settings across a wide range of activities, cultures, and interactions.
+To comprehensively measure VLM normative reasoning ability, we introduce EgoNormia, a challenging QA benchmark that is physically grounded in 1k egocentric social interaction clips from [<u>Ego4D</u>](https://ego4d-data.org/) <Citation id="grauman2022ego4dworld3000hours"/>. EgoNormia spans 100 distinct settings across a wide range of activities, cultures, and interactions.
 
 <br />
 
 Unlike similarly visually-grounded spatiotemporal, predictive, or causal reasoning benchmarks <Citation id="chandrasegaran2024hourvideo1hourvideolanguageunderstanding"/><Citation id="zellers2019recognition"/>,
-<span style={{ fontVariant: "small-caps" }}>EgoNormia</span> evaluates models' ability to reason about what should be done under social norms. <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> highlights cases where these norm-related objectives conflict—the richest arena for evaluating normative decision-making.
+EgoNormia evaluates models' ability to reason about what should be done under social norms. EgoNormia highlights cases where these norm-related objectives conflict—the richest arena for evaluating normative decision-making.
 
 <br />
 
 Our investigation is guided by three fundamental research questions:
-* **RQ1:** Can VLMs make normative decisions that agree with human consensus?
 
-* **RQ2:** If VLMs do not agree, is this due to failures in perception (e.g., object recognition) or gaps in normative reasoning?
+* <span className="text-primary"> **RQ1:** Alignment</span> Can VLMs make normative decisions that agree with human consensus?
 
-* **RQ3:** Can we use <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> to improve the normative reasoning of VLMs?
+*  <span className="text-primary"> **RQ2:** Reasoning</span> If VLMs do not agree, is this due to failures in perception (e.g., object recognition) or gaps in normative reasoning?
 
-Our findings indicate **a significant gap** between current models and human understanding of physical social norms.
+* <span className="text-primary"> **RQ3:** Improvement</span> Can we use EgoNormia to improve the normative reasoning of VLMs?
 
 ## Physical Social Norms
 
@@ -113,29 +109,32 @@ Our findings indicate **a significant gap** between current models and human und
 
 
 
-To study physical social norms, we operationalize a taxonomy of PSN categories, which stand for the social objectives that inform them. Some norms explicitly serve the function of maximizing utility across multi-agent systems. We call these the Utility Norms. Other norms are more particular to human sociality, which can often stand at odds with group utility norms, and this tension provides a setting for evaluating agent decision-making under conflicting objectives.
+To study physical social norms, we operationalize a taxonomy of PSN categories, which stand for the social objectives that inform them. Some norms explicitly serve the function of maximizing utility across multi-agent systems. We call these the <span className="text-primary">utility norms</span>. Other norms are more particular to human sociality, which can often stand at odds with group utility norms, which are called <span className="text-primary">non-utility norms</span> This tension between utility and non-utility norms provides a setting for evaluating agent decision-making under conflicting objectives.
 
 
-* **Physical Social Norms** include
+{/* * **Physical Social Norms** include
     * *utility norms*: <span style={{ color: "#C65B4E" }}>cooperation</span> <Citation id="sunstein1996social"/>, <span style={{ color: "#EA772F" }}>communication/legibility</span> <Citation id="francis2023principlesguidelinesevaluatingsocial"/>, and <span style={{ color: "#E6A700" }}>coordination/proactivity</span> <Citation id="paternotte2013social"/>.
-    * *non-utility norms*: <span style={{ color: "#246D63" }}>safety</span> <Citation id="lasota2017survey"/>, <span style={{ color: "#356ABC" }}>politeness</span> <Citation id="mills2011politeness"/>, <span style={{ color: "#5C4C99" }}>privacy</span> <Citation id="altman1975environment"/>, and <span style={{ color: "#D87CA6" }}>proxemics</span> <Citation id="huang2022proxemics"/>.
+    * *non-utility norms*: <span style={{ color: "#246D63" }}>safety</span> <Citation id="lasota2017survey"/>, <span style={{ color: "#356ABC" }}>politeness</span> <Citation id="mills2011politeness"/>, <span style={{ color: "#5C4C99" }}>privacy</span> <Citation id="altman1975environment"/>, and <span style={{ color: "#D87CA6" }}>proxemics</span> <Citation id="huang2022proxemics"/>. */}
 
 <NormTaxonomy />
 
 ## Task
 
-We use a format of Multiple-Choice Questions (MCQs) for our task, including three subtasks: **Action Selection**, **Justification Selection**, and **Sensibility**. Three Example MCQs are shown below:
+We think a good benchmark for normative reasoning should have the following properties: 1. <span className="text-primary">verifiability</span> we can evaluate the high-level decision-making capabilities verifiably, 2. <span className="text-primary">diversity</span> across contexts and normative categories, 3. <span className="text-primary">high human consensus</span> via extensive manual validation requiring annotator agreement, and 4. <span className="text-primary">challenging</span> for models to not able to rely on spurious correlations or superficial reasoning.
+
+### Multiple-Choice Questions
+We use a format of Multiple-Choice Questions (MCQs) for our task to achieve high verifiability, including three subtasks: **Action Selection**, **Justification Selection**, and **Sensibility**.
 
 <ExampleMCQ />
 
-* **Subtask 1: Action Selection.** In this subtask, the model is provided with video frames of an activity and five candidate actions. Given these inputs, the model is asked to select the single most normatively appropriate action to perform in the context
+* <span className="text-primary">**Subtask 1:** Action Selection</span> In this subtask, the model is provided with video frames of an activity and five candidate actions. Given these inputs, the model is asked to select the single most normatively appropriate action to perform in the context
 
-* **Subtask 2: Justification Selection.** In this subtask, the model is provided with the same visual input as in Subtask 1 and is asked to select the best justification supporting its chosen normative action.
+* <span className="text-primary">**Subtask 2:** Justification Selection</span> In this subtask, the model is provided with the same visual input as in Subtask 1 and is asked to select the best justification supporting its chosen normative action.
 
-* **Subtask 3: Sensibility.** To measure whether models understand the features that make action normative in context, we evaluate whether they can select the sensible (i.e. normative, but not necessarily best) options from the given actions.
+* <span className="text-primary">**Subtask 3:** Sensibility</span> To measure whether models understand the features that make action normative in context, we evaluate whether they can select the sensible (i.e. normative, but not necessarily best) options from the given actions.
 
 
-<h2 className="text-3xl font-bold mt-8 mb-4" id="benchmark-generation"> Benchmark Generation </h2>
+<h3 className="text-lg text-primary mt-6 mb-3" id="benchmark-generation"> Benchmark Generation </h3>
 
 
 <Image
@@ -153,33 +152,32 @@ We use a format of Multiple-Choice Questions (MCQs) for our task, including thre
 />
 
 
-* **Phase I: Snippet Sampling.** We sourced video samples from [<u>Ego4D</u>](https://ego4d-data.org/) <Citation id="grauman2022ego4dworld3000hours"/>. To ensure diversity, we applied a multi-step filtering process, sampling each unique scenario-verb combination to select video snippets across a wide range of social and physical contexts.
+* <span className="text-primary">**Phase I:** Snippet Sampling</span> We sourced video samples from [<u>Ego4D</u>](https://ego4d-data.org/) <Citation id="grauman2022ego4dworld3000hours"/>. To ensure diversity, we applied a multi-step filtering process, sampling each unique scenario-verb combination to select video snippets across a wide range of social and physical contexts.
 
-* **Phase II: Answer Generation.** For each video sample, we generate four pairs of actions and justifications—one ground truth pair and three distractor pairs. To create challenging distractors, we systematically perturb the original context by altering key details that influence the interpretation of the action.
+* <span className="text-primary">**Phase II:** Answer Generation</span> For each video sample, we generate four pairs of actions and justifications—one ground truth pair and three distractor pairs. To create challenging distractors, we systematically perturb the original context by altering key details that influence the interpretation of the action.
 
-* **Phase III: Filtering.**  We perform normativity filtering by using chained LLMs to filter for answer feasibility and sensibility, then run blind filtering (i.e. no vision input) to remove questions answerable without context or through superficial reasoning, leaving only challenging,context-dependent questions.
+* <span className="text-primary">**Phase III:** Filtering</span>  We perform normativity filtering by using chained LLMs to filter for answer feasibility and sensibility, then run blind filtering (i.e. no vision input) to remove questions answerable without context or through superficial reasoning.
 
-* **Phase IV: Human Validation.** Finally, two human validators are employed to verify the correct behavior and justification, and to select the list of actions that are considered sensible. Two validators are used to ensure every datapoint receives independent agreement from two humans, ensuring that human agreement on <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> is replicable. The authors manually process datapoints where validators disagree on answers, ensuring that the benchmark remains challenging and achieves high human agreement.
+*  <span className="text-primary">**Phase IV:** Human Validation</span> Finally, two human validators are employed to verify the correct behavior and justification, and to select the list of actions that are considered sensible. Two validators are used to ensure every datapoint receives independent agreement from two humans, ensuring that human agreement on EgoNormia is replicable. The authors manually process datapoints where validators disagree on answers, ensuring that the benchmark remains challenging and achieves high human agreement.
 
 Through automatic clustering with GPT-4o, we categorize the final videos into 5 high-level and 23 low-level categories, highlighting the rich diversity of our dataset.
 
 ## Results
 
-We evaluated the following state-of-the-art foundation models: Gemini 1.5 Flash/Pro <Citation id="team2024gemini"/>, GPT-4o <Citation id="hurst2024gpt"/>, Claude 3.5 Sonnet <Citation id="anthropic2024claude"/>, o3-mini (medium reasoning setting) <Citation id="o3mini"/>, Deepseek R1 <Citation id="guo2025deepseek"/>, InternVL 2.5 <Citation id="chen2024expanding"/>, and Qwen 2.5 VL <Citation id="Qwen2.5-VL"/>. Results are in [<u>Leaderboard</u>](/leaderboard).
+We evaluated the following state-of-the-art foundation models: Gemini 1.5 Flash/Pro <Citation id="team2024gemini"/>, GPT-4o <Citation id="hurst2024gpt"/>, Claude 3.5 Sonnet <Citation id="anthropic2024claude"/>, o3-mini (medium reasoning setting) <Citation id="o3mini"/>, Deepseek R1 <Citation id="guo2025deepseek"/>, InternVL 2.5 <Citation id="chen2024expanding"/>, and Qwen 2.5 VL <Citation id="Qwen2.5-VL"/>. Gemini 1.5 Pro, the best-performing model in our evaluation, achieved a mean accuracy of 45.3%, suggesting that <span className="text-primary"> current models have limited ability to make embodied normative decisions (RQ1)</span>. Check out live [<u>leaderboard</u>](/leaderboard).
 
-In evaluation on <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>, most models obtain a mean accuracy lower than 40%, substantially exceeded by the average human score of 92.4%. Gemini 1.5 Pro, the best-performing model, evaluated under vision inputs, achieved a mean accuracy of 45.3%, suggesting that **current models have limited ability to make embodied normative decisions (RQ1)**.
+### Perception vs. reasoning
+To investigate causes for the limited normative reasoning ability of VLMs, We further categorize errors in normative reasoning by annotating the models' full CoT responses on 100 representative tasks of EgoNormia. Four
+failure modes were identified: (1) norm sensibility errors, (2) norm prioritization errors, (3) perception errors, and (4) answer refusal. For models, the majority of failures were due to sensibility errors instead of perception, suggesting that <span className="text-primary">foundation models are competent in processing the visual context of the video inputs but fail in performing sound normative reasoning on the parsed context</span>. 
 
 <FailureModeCharts />
 
-<br />
-
-To investigate **causes for the limited normative reasoning ability of VLMs (RQ2)**, We further categorize errors in normative reasoning by annotating the models' full CoT responses on 100 representative tasks of <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>. Four
-failure modes were identified: (1) Norm sensibility errors, (2) Norm prioritization errors, (3) Perception errors, and (4) Answer refusal. For models, the majority of failures were due to sensibility errors instead of perception, suggesting that foundation models are competent in processing the visual context of the video inputs but fail in performing sound normative reasoning on the parsed context. Furthermore, the ratio of norm prioritization errors grows as the overall performance increases (GPT-4o < Gemini 1.5 Pro < Human), suggesting more capable models struggle more with determining which norm should take precedence in ambiguous situations.
 
 
-## Augmenting Normative Reasoning with Retrieval over <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>
 
-To answer **can we use <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> to improve the normative reasoning of VLMs? (RQ3)** We propose performing retrieval <Citation id="lewis2020retrieval"/> over the context present in <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>, a strategy we call <span style={{ fontVariant: "small-caps" }}>NormThinker</span>, to guide VLMs in making contextually-grounded normative decisions.
+## Learning from human-annotated norms
+
+To answer **can we use EgoNormia to improve the normative reasoning of VLMs? (RQ3)** We propose performing retrieval over the context present in EgoNormia, a strategy we call <span className="text-primary">NormThinker</span>, to guide VLMs in making contextually-grounded normative decisions.
 
 <br />
 
@@ -187,7 +185,7 @@ We curate an out-of-domain test dataset based on egocentric robotic assistant fo
 
 <br />
 
-We further evaluate on held-out instances in <span style={{ fontVariant: "small-caps" }}>EgoNormia</span>. We demonstrate improvement relative to the best non-RAG model and base GPT-4o on unseen in-domain tasks, obtaining an <span style={{ fontVariant: "small-caps" }}>EgoNormia</span> bench 9.4% better than base GPT-4o, and 7.9% better than randomized retrieval. A visualization of the results is shown below:
+We further evaluate on held-out instances in EgoNormia. We demonstrate improvement relative to the best non-RAG model and base GPT-4o on unseen in-domain tasks, obtaining an EgoNormia bench 9.4% better than base GPT-4o, and 7.9% better than randomized retrieval. A visualization of the results is shown below:
 
 <NormThinkerResult />
 
