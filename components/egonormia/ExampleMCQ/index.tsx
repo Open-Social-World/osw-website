@@ -152,7 +152,7 @@ const ExampleMCQ = () => {
 
   return (
     <div className="w-full my-8">
-      {videos.map((video, index) => (
+      {videos.map((video) => (
         <React.Fragment key={video.id}>
           <div className="mb-2">
             {/* Video Title */}
