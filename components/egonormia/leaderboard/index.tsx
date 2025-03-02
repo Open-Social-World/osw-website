@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
+import { BookTextIcon, BookTextIconHandle } from "@/components/ui/book-text";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface Entry {
   model: string;
@@ -65,6 +68,7 @@ const organizationColors: Record<string, string> = {
   Deepseek: "#1E88E5",
   "Shanghai AI Lab": "#38B2AC",
   Human: "#718096",
+  Random: "#9CA3AF",
 };
 
 // Modality colors for badges
@@ -196,6 +200,14 @@ const rawData = {
       sens: 27.3,
       organization: "Deepseek",
     },
+    {
+      model: "Constant Choice",
+      both: 25.3,
+      act: 25.3,
+      jus: 25.3,
+      sens: 40.5,
+      organization: "Random",
+    }
   ],
   pipeline: [
     {
@@ -638,20 +650,50 @@ const CombinedLeaderboardTable = () => {
   );
 };
 
+export const ParentButton = () => {
+  const iconRef = useRef<BookTextIconHandle>(null);
+  
+  const handleMouseEnter = () => {
+    // Trigger the icon animation when the button is hovered
+    iconRef.current?.startAnimation();
+  };
+  
+  const handleMouseLeave = () => {
+    // Stop the animation when the hover ends
+    iconRef.current?.stopAnimation();
+  };
+  
+  return (
+    <Button 
+      variant="outline"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <Link
+        href="/articles/egonormia"
+        className="inline-flex items-center gap-2 text-lg font-bold"
+      >
+        <BookTextIcon ref={iconRef} />
+        <span>Learn More</span>
+      </Link>
+    </Button>
+  );
+};
+
 export default function CombinedLeaderboard() {
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="bg-[#1a1a1a] m-4 p-4 sm:p-6 rounded-t-lg">
+      <div className="m-4 p-4 sm:p-6 rounded-t-lg">
         <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 md:mb-8 text-white">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 md:mb-8">
             EgoNormia
           </h1>
 
-          <p className="text-xl sm:text-2xl md:text-3xl mb-6 text-white font-light">
+          <p className="text-xl font-serif italic sm:text-2xl md:text-3xl mb-6 font-light">
             Can VLMs make normative decisions in physical social interactions?
           </p>
 
-          <div className="text-white mb-4 sm:mb-6">
+          <div className="mb-4 sm:mb-6">
             <div className="mb-2 sm:mb-3 text-sm sm:text-base">
               <a
                 href="https://www2.cs.arizona.edu/~mhrezaei/"
@@ -677,7 +719,7 @@ export default function CombinedLeaderboard() {
                 rel="noopener noreferrer"
                 className="hover:underline"
               >
-                Philippe Cuvin
+                Phil Cuvin
               </a>
               *
             </div>
@@ -721,24 +763,12 @@ export default function CombinedLeaderboard() {
             </div>
           </div>
 
-          <div className="flex justify-center gap-4">
-            <a
-              href="/articles/egonormia"
-              className="inline-flex items-center gap-1 sm:gap-2 px-4 sm:px-6 md:px-8 py-2 sm:py-3 bg-white text-[#1a1a1a] rounded-lg text-base sm:text-lg md:text-xl font-semibold hover:bg-gray-100 transition-colors shadow-sm"
-            >
-              <span role="img" aria-label="blog" className="text-lg sm:text-xl">
-                📝
-              </span>
-              Blog
-            </a>
-          </div>
+          <ParentButton />
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-b-lg shadow-lg">
-        <div className="mt-4">
+      <div className="p-4 sm:p-6 rounded-b-lg">
           <CombinedLeaderboardTable />
-        </div>
       </div>
     </div>
   );

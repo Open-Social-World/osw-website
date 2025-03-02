@@ -84,7 +84,7 @@ export default function RootLayout({
             <AppSidebar />
             <div className="flex flex-col flex-1">
               {/* Sticky header with sidebar trigger and breadcrumb */}
-              <div className="sticky top-0 z-10 bg-background border-b flex items-center h-14 px-4 shadow-[0_1px_3px_-1px_rgba(0,0,0,0.1)]">
+              <div className="sticky top-0 z-10 bg-background opacity-95 border-b flex items-center h-14 px-4 shadow-[0_1px_3px_-1px_rgba(0,0,0,0.1)]">
                 <SidebarTrigger />
                 <AutoBreadcrumb />
               </div>
