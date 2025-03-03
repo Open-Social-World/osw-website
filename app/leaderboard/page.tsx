@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 // Export metadata for this page
 export const metadata: Metadata = {
-  title: "Egonormia Leaderboard",
+  title: "EgoNormia: Benchmarking Visual Frontier Models' Normative Reasoning",
   description:
     "A large scale video dataset and a benchmark for evaluating frontier models' understanding of physical social norms through videos.",
   openGraph: {
