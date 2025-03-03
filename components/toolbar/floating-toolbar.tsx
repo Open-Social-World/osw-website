@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Database, FileText } from "lucide-react";
+import { ArrowUpToLine, Database, FileText } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -14,6 +14,7 @@ import { GithubIcon } from "../ui/github";
 import { CopyIcon } from "../ui/copy";
 import { ChevronsDownUpIcon } from "../ui/chevrons-down-up";
 import { ChevronsUpDownIcon } from "../ui/chevrons-up-down";
+
 
 interface FloatingToolbarProps {
   leaderboard_url?: string;
@@ -63,6 +64,22 @@ const FloatingToolbar: React.FC<FloatingToolbarProps> = ({
 
             {isExpanded && (
               <div className="flex flex-col gap-2">
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="rounded-full"
+                        onClick={() => window.scrollTo(0, 0)}
+                      >
+                        <ArrowUpToLine className="w-4 h-4"/>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="left">
+                      <p>Scroll to top</p>
+                    </TooltipContent>
+                  </Tooltip>
+                
                 {leaderboard_url && (
                   <Tooltip>
                     <TooltipTrigger asChild>
