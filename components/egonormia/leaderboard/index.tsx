@@ -28,8 +28,8 @@ interface SortConfig {
 const organizationIcons: Record<string, { light: string; dark: string }> = {
   Google: {
     light:
-      "https://unpkg.com/@lobehub/icons-static-png@latest/light/google-color.png",
-    dark: "https://unpkg.com/@lobehub/icons-static-png@latest/dark/google-color.png",
+      "https://unpkg.com/@lobehub/icons-static-png@latest/light/gemini-color.png",
+    dark: "https://unpkg.com/@lobehub/icons-static-png@latest/dark/gemini-color.png",
   },
   OpenAI: {
     light:
@@ -38,8 +38,8 @@ const organizationIcons: Record<string, { light: string; dark: string }> = {
   },
   Anthropic: {
     light:
-      "https://unpkg.com/@lobehub/icons-static-png@latest/light/anthropic.png",
-    dark: "https://unpkg.com/@lobehub/icons-static-png@latest/dark/anthropic.png",
+      "https://unpkg.com/@lobehub/icons-static-png@latest/light/claude-color.png",
+    dark: "https://unpkg.com/@lobehub/icons-static-png@latest/dark/claude-color.png",
   },
   Meta: {
     light:
@@ -48,8 +48,8 @@ const organizationIcons: Record<string, { light: string; dark: string }> = {
   },
   Alibaba: {
     light:
-      "https://unpkg.com/@lobehub/icons-static-png@latest/light/alibaba-color.png",
-    dark: "https://unpkg.com/@lobehub/icons-static-png@latest/dark/alibaba-color.png",
+      "https://unpkg.com/@lobehub/icons-static-png@latest/light/qwen-color.png",
+    dark: "https://unpkg.com/@lobehub/icons-static-png@latest/dark/qwen-color.png",
   },
   Deepseek: {
     light:
