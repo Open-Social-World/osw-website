@@ -35,6 +35,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-syntax-highlighter": "^15.6.1",
+    "react-tweet": "^3.2.2",
     "recharts": "^2.15.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"

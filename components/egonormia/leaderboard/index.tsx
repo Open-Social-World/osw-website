@@ -5,6 +5,7 @@ import Image from "next/image";
 import { BookTextIcon, BookTextIconHandle } from "@/components/ui/book-text";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Tweet } from "react-tweet";
 
 interface Entry {
   model: string;
@@ -770,6 +771,16 @@ export default function CombinedLeaderboard() {
       <div className="p-4 sm:p-6 rounded-b-lg">
           <CombinedLeaderboardTable />
       </div>
+
+      <div className="w-full justify-center flex">
+      <Tweet id="1899151181534134648" />
+      </div>
+
+      <div className="w-full justify-center flex">
+      <Tweet id="1896743117845561488" />
+      </div>
+
+      
     </div>
   );
 }
