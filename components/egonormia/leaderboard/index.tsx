@@ -349,7 +349,7 @@ const rawData = {
       organization: "Shanghai AI Lab",
     },
     {
-      model: "Qwen2.5 VL",
+      model: "Qwen2.5 VL 72B",
       both: 41.5,
       act: 48.3,
       jus: 43.8,
