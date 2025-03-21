@@ -11,10 +11,9 @@ export function ArticleCitation({ frontMatter }: ArticleCitationProps) {
   const [showBibtex, setShowBibtex] = useState(false);
 
   const year = new Date(frontMatter.publishedDate).getFullYear();
-  const authors = frontMatter.authors?.map(author => author.name).join(', ');
   
   // Create bibtex entry
-  const bibtex = `@article{${frontMatter.doi?.split('/').pop() || 'citation'},
+  const bibtex = frontMatter.citation_bib? frontMatter.citation_bib: `@article{${frontMatter.doi?.split('/').pop() || 'citation'},
   title     = {${frontMatter.title}},
   author    = {${frontMatter.authors?.map(author => author.name).join(' and ')}},
   journal   = {Open Social World},
@@ -28,23 +27,7 @@ export function ArticleCitation({ frontMatter }: ArticleCitationProps) {
 
   return (
     <div className="mt-16 mb-16 border-t border-b border-gray-200 py-8">
-      <h2 className="text-2xl font-bold mb-4">Cite this article</h2>
-      <p className="text-gray-700 mb-2">
-        {authors} ({year}). {frontMatter.title}. Open Social World.
-        {frontMatter.doi && (
-          <>
-            {' '}DOI:{' '}
-            <a
-              href={`https://doi.org/${frontMatter.doi}`}
-              className="text-blue-600 hover:underline"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {frontMatter.doi}
-            </a>
-          </>
-        )}
-      </p>
+      <h2 className="text-xl text-primary font-bold mb-4">Cite this article</h2>
       
       <div className="mt-4">
         <button
