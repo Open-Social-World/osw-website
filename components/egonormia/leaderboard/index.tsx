@@ -14,6 +14,7 @@ interface Entry {
   sens: number;
   organization: string;
   modality: string; // Added modality field
+  date: string; 
 }
 
 type SortKey = keyof Entry;
@@ -159,6 +160,7 @@ const rawData = {
       jus: 14.1,
       sens: 46.6,
       organization: "Google",
+      date: "2025-02-15",
     },
     {
       model: "o3-mini",
@@ -167,6 +169,7 @@ const rawData = {
       jus: 17.1,
       sens: 51.9,
       organization: "OpenAI",
+      date: "2025-02-15",
     },
     {
       model: "GPT-4o",
@@ -175,6 +178,7 @@ const rawData = {
       jus: 19.9,
       sens: 55.9,
       organization: "OpenAI",
+      date: "2025-02-15",
     },
     {
       model: "Gemini 1.5 Pro",
@@ -183,6 +187,7 @@ const rawData = {
       jus: 23.6,
       sens: 54.0,
       organization: "Google",
+      date: "2025-02-15",
     },
     {
       model: "InternVL 2.5",
@@ -191,6 +196,7 @@ const rawData = {
       jus: 17.4,
       sens: 55.4,
       organization: "Shanghai AI Lab",
+      date: "2025-02-15",
     },
     {
       model: "Deepseek R1",
@@ -199,6 +205,7 @@ const rawData = {
       jus: 17.1,
       sens: 27.3,
       organization: "Deepseek",
+      date: "2025-02-15",
     },
     {
       model: "Constant Choice",
@@ -207,6 +214,7 @@ const rawData = {
       jus: 25.3,
       sens: 40.5,
       organization: "Random",
+      date: "2025-02-15",
     }
   ],
   pipeline: [
@@ -217,6 +225,7 @@ const rawData = {
       jus: 16.7,
       sens: 54.2,
       organization: "Google",
+      date: "2025-02-15",
     },
     {
       model: "GPT-4o",
@@ -225,6 +234,7 @@ const rawData = {
       jus: 23.5,
       sens: 66.0,
       organization: "OpenAI",
+      date: "2025-02-15",
     },
     {
       model: "Claude 3.5 Sonnet",
@@ -233,6 +243,7 @@ const rawData = {
       jus: 33.5,
       sens: 61.2,
       organization: "Anthropic",
+      date: "2025-02-15",
     },
     {
       model: "Gemini 1.5 Pro",
@@ -241,6 +252,7 @@ const rawData = {
       jus: 34.8,
       sens: 64.0,
       organization: "Google",
+      date: "2025-02-15",
     },
     {
       model: "Gemini 2.0 Thinking",
@@ -249,6 +261,7 @@ const rawData = {
       jus: 42.1,
       sens: 58.8,
       organization: "Google",
+      date: "2025-02-15",
     },
     {
       model: "o3-mini",
@@ -257,6 +270,7 @@ const rawData = {
       jus: 45.2,
       sens: 65.0,
       organization: "OpenAI",
+      date: "2025-02-15",
     },
     {
       model: "InternVL 2.5",
@@ -265,6 +279,7 @@ const rawData = {
       jus: 38.0,
       sens: 62.5,
       organization: "Shanghai AI Lab",
+      date: "2025-02-15",
     },
     {
       model: "Deepseek R1",
@@ -273,6 +288,7 @@ const rawData = {
       jus: 40.0,
       sens: 61.0,
       organization: "Deepseek",
+      date: "2025-02-15",
     },
   ],
   video: [
@@ -283,6 +299,7 @@ const rawData = {
       jus: 92.4,
       sens: 85.1,
       organization: "Human",
+      date: "2025-02-15",
     },
     {
       model: "Claude 3.5 Sonnet",
@@ -291,6 +308,7 @@ const rawData = {
       jus: 41.0,
       sens: 59.3,
       organization: "Anthropic",
+      date: "2025-02-15",
     },
     {
       model: "Gemini 2.0 Flash",
@@ -299,6 +317,7 @@ const rawData = {
       jus: 41.3,
       sens: 60.0,
       organization: "Google",
+      date: "2025-02-15",
     },
     {
       model: "GPT-4o",
@@ -307,6 +326,7 @@ const rawData = {
       jus: 44.8,
       sens: 59.6,
       organization: "OpenAI",
+      date: "2025-02-15",
     },
     {
       model: "Gemini 1.5 Flash",
@@ -315,6 +335,7 @@ const rawData = {
       jus: 44.3,
       sens: 54.4,
       organization: "Google",
+      date: "2025-02-15",
     },
     {
       model: "Gemini 2.0 Thinking",
@@ -323,6 +344,7 @@ const rawData = {
       jus: 45.3,
       sens: 57.3,
       organization: "Google",
+      date: "2025-02-15",
     },
     {
       model: "Gemini 1.5 Pro",
@@ -331,6 +353,7 @@ const rawData = {
       jus: 47.8,
       sens: 61.1,
       organization: "Google",
+      date: "2025-02-15",
     },
     {
       model: "Llama 3.2",
@@ -339,6 +362,7 @@ const rawData = {
       jus: 10.1,
       sens: 54.7,
       organization: "Meta",
+      date: "2025-02-15",
     },
     {
       model: "InternVL 2.5",
@@ -347,6 +371,7 @@ const rawData = {
       jus: 17.6,
       sens: 50.7,
       organization: "Shanghai AI Lab",
+      date: "2025-02-15",
     },
     {
       model: "Qwen2.5 VL 72B",
@@ -355,6 +380,52 @@ const rawData = {
       jus: 43.8,
       sens: 62.8,
       organization: "Alibaba",
+      date: "2025-02-15",
+    },
+    {
+      model: "QwQ-32B",
+      both: 37.8,
+      act: 46.7,
+      jus: 42.2,
+      sens: 44.6,
+      organization: "Alibaba",
+      date: "2025-04-27",
+    },
+    {
+      model: "Gemini 2.5 Pro",
+      both: 47.2,
+      act: 52.0,
+      jus: 48.4,
+      sens: 47.1,
+      organization: "Google",
+      date: "2025-04-27",
+    },
+    {
+      model: "🥇 Gemini 2.5 Flash",
+      both: 53.7,
+      act: 58.9,
+      jus: 56.8,
+      sens: 56.7,
+      organization: "Google",
+      date: "2025-04-27",
+    },
+    {
+      model: "🥉 GPT-4.1",
+      both: 49.8,
+      act: 55.5,
+      jus: 52.6,
+      sens: 55.2,
+      organization: "OpenAI",
+      date: "2025-04-27",
+    },
+    {
+      model: "🥈o4-mini",
+      both: 50.0,
+      act: 60.2,
+      jus: 52.3,
+      sens: 52.8,
+      organization: "OpenAI",
+      date: "2025-04-27",
     },
   ],
 };
@@ -606,6 +677,16 @@ const CombinedLeaderboardTable = () => {
                     {getSortIcon("sens")}
                   </div>
                 </th>
+                <th
+                  className="h-8 sm:h-10 px-2 text-left align-middle font-medium text-gray-500 dark:text-gray-400 cursor-pointer w-1/6"
+                  onClick={() => handleSort("date")}
+                >
+                  <div className="flex items-center gap-1">
+                    <span className="whitespace-nowrap">Date</span>
+                    {getSortIcon("date")}
+                  </div>
+                </th>
+
               </tr>
             </thead>
             <tbody className="[&_tr:last-child]:border-0">
@@ -640,6 +721,10 @@ const CombinedLeaderboardTable = () => {
                   <td className="p-1 sm:p-2 align-middle text-right dark:text-white font-mono">
                     {entry.sens.toFixed(1)}
                   </td>
+                  <td className="p-1 sm:p-2 align-middle text-right dark:text-white font-mono">
+                    {entry.date ?? "—"}
+                  </td>
+
                 </tr>
               ))}
             </tbody>

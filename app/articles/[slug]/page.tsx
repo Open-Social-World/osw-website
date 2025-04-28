@@ -49,9 +49,10 @@ function BibliographyWrapper({
 export default async function ArticlePage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const article = await getArticleBySlug(params.slug);
+  const { slug } = await params;
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     notFound();
@@ -178,9 +179,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const article = await getArticleBySlug(params.slug);
+  const { slug } = await params;
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     return {
@@ -200,7 +202,7 @@ export async function generateMetadata({
     openGraph: {
       title: frontMatter.title,
       description: frontMatter.description,
-      url: `https://opensocial.world/articles/${params.slug}`,
+      url: `https://opensocial.world/articles/${slug}`,
       type: "article",
       publishedTime: frontMatter.publishedDate,
       authors: frontMatter.authors?.map((author) => author.name),
@@ -227,7 +229,7 @@ export async function generateMetadata({
     },
     // Add any article-specific schema.org metadata
     alternates: {
-      canonical: `/articles/${params.slug}`,
+      canonical: `/articles/${slug}`,
     },
   };
 }
