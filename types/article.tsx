@@ -15,7 +15,7 @@ export interface FrontMatter {
   doi?: string;
   type?: ArticleType;
   katex?: {
-    [key: string]: any;
+    [key: string]: string;
   };
   leaderboard_url?: string;
   paper_url?: string;
