@@ -5,6 +5,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { LucideIcon } from "lucide-react";
 import Link from "next/link";
 
 export function Nav({
@@ -13,7 +14,7 @@ export function Nav({
   items: {
     title: string;
     url: string;
-    icon?: React.ComponentType<{ size?: number }>;
+    icon?: React.ComponentType<{ size?: number }> | LucideIcon;
     isActive?: boolean;
     items?: {
       title: string;
