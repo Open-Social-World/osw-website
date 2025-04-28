@@ -3,6 +3,20 @@ import { Calendar, Clock, MapPin } from "lucide-react";
 
 import naacl2025 from "@/public/images/naacl2025.png";
 
+export const metadata = {
+  openGraph: {
+    title: "NAACL 2025 Tutorial:Social Intelligence in the Age of LLMs",
+    description:
+      "What is social intelligence? Why you should start care about the social intelligence in this age of LLMs? How to do research on social intelligence?",
+    authors: [
+      "Hao Zhu",
+      "Bodhisattwa Prasad Majumder",
+      "Dirk Hovy",
+      "Diyi Yang",
+    ],
+  },
+};
+
 export default function TutorialPage() {
   return (
     <div className="max-w-2xl mx-auto">
