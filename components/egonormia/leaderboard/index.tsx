@@ -14,7 +14,7 @@ interface Entry {
   sens: number;
   organization: string;
   modality: string; // Added modality field
-  date?: string; 
+  date: string; 
 }
 
 type SortKey = keyof Entry;
