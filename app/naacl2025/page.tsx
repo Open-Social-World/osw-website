@@ -56,6 +56,9 @@ export default function TutorialPage() {
                 </div>
               </div>
             </div>
+            <div className="items-center text-md pb-8">
+              Tutorial slides will be available soon...
+            </div>
           </div>
           <div className="flex items-center justify-center">
             <Image

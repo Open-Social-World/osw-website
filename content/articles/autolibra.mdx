@@ -1,7 +1,7 @@
 ---
-title: AutoLibra
+title: AutoLibra ⚖️
 description: Agent metric induction method from open-ended human feedback
-publishedDate: 2025-03-30
+publishedDate: 2025-05-12
 authors:
   - name: Hao Zhu
     personalURL: https://zhuhao.me
@@ -15,8 +15,8 @@ authors:
     personalURL: https://scholar.google.com/citations?user=wbzAKWUAAAAJ&hl=en
     affiliation: University of Pennsylvania
     affiliationURL: https://www.upenn.edu
-  - name: Charlotte Ke Yee Yan
-    personalURL:
+  - name: Charlotte Ka Yee Yan
+    personalURL: https://profiles.stanford.edu/charlotte-yan
     affiliation: Stanford University
     affiliationURL: https://www.stanford.edu
   - name: Jason Zhang
@@ -27,16 +27,162 @@ authors:
     personalURL: https://cs.stanford.edu/~diyiy
     affiliation: Stanford University
     affiliationURL: https://www.stanford.edu
-
-doi: 10.1234/example.2023.001
+image:
+  url: /images/autolibra/autolibra_teaser.png
+  alt: Robot taking human feedback
+  caption: An illustration of a robot plumber sitting on the floor taking human feedback
+doi: 10.48550/arXiv.2505.02820
 type: preprint
+paper_url: https://arxiv.org/abs/2505.02820
+code_url: https://github.com/Open-Social-World/AutoLibra
+data_url: https://huggingface.co/datasets/open-social-world/AutoLibra
 citation_bib: |-
-  @misc{hao2025autolibra,
-      title={AutoLibra: Agent metric induction from open-ended human feedback},
-      author={Hao Zhu, Phil Cuvin, Xinkai Yu, Charlotte Ke Yee Yan, Jason Zhang, Diyi Yang},
-      year={2025},
-      url={https://opensocial.world/articles/autolibra},
+  @misc{zhu2025autolibraagentmetricinduction,
+    title={AutoLibra: Agent Metric Induction from Open-Ended Feedback},
+    author={Hao Zhu and Phil Cuvin and Xinkai Yu and Charlotte Ka Yee Yan and Jason Zhang and Diyi Yang},
+    year={2025},
+    eprint={2505.02820},
+    archivePrefix={arXiv},
+    primaryClass={cs.AI},
+    url={https://arxiv.org/abs/2505.02820},
   }
 ---
 
-# Introduction
+<Callout icon="💡">
+    To advance LLM agent research, we need <i>better</i> metrics than <EmphasizedSpan>end-to-end</EmphasizedSpan>
+    ones which evaluate the overall task completions but give few insights into what and how agents are doing.
+</Callout>
+
+<Callout icon="⚖️">
+    When given a few agent trajectories and corresponding <EmphasizedSpan>open-ended</EmphasizedSpan> human feedback,
+    AutoLibra ⚖️ turns them into a set of evaluation metrics which are <EmphasizedSpan>interpretable and concrete
+    and can be iteratively expandable like &ldquo;unit tests&rdquo;</EmphasizedSpan>, but built for AI agents.
+</Callout>
+
+# Inspired by human self-regulated learning
+
+In the learning interaction, children understand the adult regulation (instruction),
+but they do so in relation to their own task understanding, which requires a coordinating of the two
+perspectives. The cognitive representation that results,
+therefore, is not just of the instructions but of the inter-subjective dialogue.
+
+When human kids learn from instructions from adults, they coordinate two views
+from others during social or cultural learning <Citation id="tomasello1993cultural"/>.
+These instructions and feedback are internalized for self-regulation
+<Citation id="pintrich2002development"/><Citation id="nicol2006formative"/>,
+providing intrinsic rewards for continuous improvement using new experiences.
+That is, the feedback for the past experience, is generalized and rewards future experience.
+Drawing inspiration from this process, we introduce AutoLibra, which builds an evaluation system
+<EmphasizedSpan>from open-ended human feedback through induction of generalizable metrics</EmphasizedSpan>.
+
+
+<Callout icon="🔬">
+    AutoLibra can be used as a lens to provide grounded, behavior-salient insights into agent trajectories.
+    We find that it induces metrics which are <EmphasizedSpan> concrete than the metrics proposed by experts</EmphasizedSpan> and
+    the ones which <EmphasizedSpan>have been overlooked by experts</EmphasizedSpan>.
+</Callout>
+
+<Callout icon="🪜">
+    AutoLibra-derived metrics are also <EmphasizedSpan>great optimization targets</EmphasizedSpan> for both human prompt engineers and automatic agent finetuning.
+</Callout>
+
+The following figure shows the overall pipeline of AutoLibra.
+
+<br />
+
+<Image
+  src="/images/autolibra/autolibra_teaser_v2.jpg"
+  alt="AutoLibra Pipeline"
+  width={0}
+  height={0}
+  style={{
+    width: '100%',
+    height: 'auto',
+    maxWidth: '600px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto'
+  }}
+/>
+
+# Inducing metrics from feedback automatically
+
+AutoLibra is a <EmphasizedSpan>closed-loop</EmphasizedSpan> system which has two process: induction process and evaluation process.
+The induction process turns trajectory-feedback pairs into metrics, and the evaluation process evaluates
+
+<br />
+
+<div className="flex flex-col gap-8">
+<div className="flex gap-x-4">
+<Image
+  src="/images/autolibra/autolibra_step_1.png"
+  alt="AutoLibra Pipeline"
+  width={0}
+  height={0}
+  style={{
+    width: '45%',
+    height: 'auto',
+    maxWidth: '600px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto'
+  }}
+/>
+
+<Image
+  src="/images/autolibra/autolibra_step_2.png"
+  alt="AutoLibra Pipeline"
+  width={0}
+  height={0}
+  style={{
+    width: '45%',
+    height: 'auto',
+    maxWidth: '600px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto'
+  }}
+/>
+</div>
+
+# Similar to unit tests, we aim for max coverage
+
+<div className="flex gap-x-4">
+<Image
+  src="/images/autolibra/autolibra_step_3.png"
+  alt="AutoLibra Pipeline"
+  width={0}
+  height={0}
+  style={{
+    width: '45%',
+    height: 'auto',
+    maxWidth: '600px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto'
+  }}
+/>
+
+<Image
+  src="/images/autolibra/autolibra_step_4.png"
+  alt="AutoLibra Pipeline"
+  width={0}
+  height={0}
+  style={{
+    width: '45%',
+    height: 'auto',
+    maxWidth: '600px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto'
+  }}
+/>
+</div>
+</div>
+
+<Bibliography />
