@@ -77,6 +77,7 @@ const modalityColors: Record<string, string> = {
   Blind: "#6B7280", // Gray
   Pipeline: "#3B82F6", // Blue
   Video: "#EC4899", // Pink
+  Video_Verified: "#16A34A", // Green
 };
 
 // Simple fallback component with organization initials and brand colors
@@ -428,6 +429,53 @@ const rawData = {
       date: "2025-04-27",
     },
   ],
+  video_verified: [
+    {
+      model: "Gemini 1.5 Flash-V",
+      both: 48.0,
+      act: 53.0,
+      jus: 50.5,
+      sens: 56.8,
+      organization: "Google",
+      date: "2025-05-20",
+    },
+    {
+      model: "Gemini 1.5 Pro-V",
+      both: 49.0,
+      act: 56.5,
+      jus: 50.5,
+      sens: 61.8,
+      organization: "Google",
+      date: "2025-05-20",
+    },
+    {
+      model: "Gemini 2.5 Flash-V",
+      both: 58.0,
+      act: 65.4,
+      jus: 59.3,
+      sens: 58.1,
+      organization: "Google",
+      date: "2025-05-20",
+    },
+    {
+      model: "GPT-4o-V",
+      both: 45.5,
+      act: 53.0,
+      jus: 50.0,
+      sens: 62.7,
+      organization: "OpenAI",
+      date: "2025-05-20",
+    },
+    {
+      model: "GPT-4.1-V",
+      both: 46.4,
+      act: 50.0,
+      jus: 50.0,
+      sens: 57.7,
+      organization: "OpenAI",
+      date: "2025-05-20",
+    },
+  ],
 };
 
 // Create combined data with modality field
@@ -435,6 +483,7 @@ const combinedData: Entry[] = [
   ...rawData.blind.map((entry) => ({ ...entry, modality: "Blind" })),
   ...rawData.pipeline.map((entry) => ({ ...entry, modality: "Pipeline" })),
   ...rawData.video.map((entry) => ({ ...entry, modality: "Video" })),
+  ...rawData.video_verified.map((entry) => ({ ...entry, modality: "Video_Verified" })),
 ];
 
 const ModalityBadge = ({ modality }: { modality: string }) => {
@@ -577,6 +626,15 @@ const CombinedLeaderboardTable = () => {
               ></span>
               <strong>Video:</strong> Models receive both video input (1 fps,
               concatenated into a single image) and questions
+            </li>
+            <li className="flex items-center gap-2">
+              <span
+                className="inline-block w-3 h-3 rounded-full flex-shrink-0"
+                style={{ backgroundColor: modalityColors["Video_Verified"] }}
+              ></span>
+              <strong>Video Verified:</strong> Models receive video input (1 fps,
+              concatenated into a single image) and questions, from verified 
+              split of 200 samples
             </li>
           </ul>
         </div>
