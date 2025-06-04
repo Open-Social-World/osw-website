@@ -92,6 +92,7 @@ type Video = {
   correct_behavior?: number;
   justifications?: string[];
   prediction?: PredictionData;
+  verified?: boolean;
 };
 
 const NEXT_PUBLIC_SUPABASE_URL = "https://ockebqxgdcybuerqphqp.supabase.co";
@@ -147,6 +148,8 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
   const [lowLevelActivity, setLowLevelActivity] = useState("");
   const [highLevelSelectValue, setHighLevelSelectValue] = useState("all");
   const [lowLevelSelectValue, setLowLevelSelectValue] = useState("all");
+  const [splitFilter, setSplitFilter] = useState("");
+  const [splitSelectValue, setSplitSelectValue] = useState("all");
 
   const renderTaxonomyDisplay = (taxonomyList: string | string[] | null) => {
     if (!taxonomyList) return null;
@@ -179,6 +182,10 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
         }
       }
 
+      if (splitFilter === "verified") {
+        baseQuery = baseQuery.eq("verified", true);
+      }
+
       const {
         data,
         error: filteredError,
@@ -207,14 +214,14 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
     } finally {
       setIsLoading(false);
     }
-  }, [currentPage, highLevelActivity, lowLevelActivity, videos_per_page]);
+  }, [currentPage, highLevelActivity, lowLevelActivity, splitFilter, videos_per_page]);
 
   useEffect(() => {
     const fetchData = async () => {
       await fetchVideos();
     };
     fetchData();
-  }, [currentPage, highLevelActivity, lowLevelActivity, fetchVideos]);
+  }, [currentPage, highLevelActivity, lowLevelActivity, splitFilter, fetchVideos]);
 
   const handleVideoClick = (video: Video) => {
     setSelectedVideo(video);
@@ -233,11 +240,37 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
     setCurrentPage(1);
   };
 
+  // Handler for split filter change
+  const handleSplitChange = (value: string) => {
+    setSplitSelectValue(value);
+    setSplitFilter(value === "all" ? "" : value);
+    setCurrentPage(1);
+  };
+
+  // Check if any filters are active
+  const hasActiveFilters = () => {
+    return highLevelSelectValue !== "all" || splitSelectValue !== "all";
+  };
+
   return (
     <div className="container mx-auto px-4 py-4">
       <div className="mb-6 flex flex-col items-center gap-4">
         <h2 className="text-xl font-medium text-foreground mb-2">Show Videos of Activities:</h2>
         <div className="flex gap-2">
+          {/* Split Filter */}
+          <Select
+            value={splitSelectValue}
+            onValueChange={handleSplitChange}
+          >
+            <SelectTrigger className="w-[120px] bg-background text-foreground border-input">
+              <SelectValue placeholder="Split" />
+            </SelectTrigger>
+            <SelectContent className="bg-popover text-popover-foreground">
+              <SelectItem value="all">Full Dataset</SelectItem>
+              <SelectItem value="verified">Verified</SelectItem>
+            </SelectContent>
+          </Select>
+
           {/* High Level Activity Selector */}
           <Select
             value={highLevelSelectValue}
@@ -292,10 +325,12 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
               setLowLevelActivity("");
               setHighLevelSelectValue("all");
               setLowLevelSelectValue("all");
+              setSplitFilter("");
+              setSplitSelectValue("all");
               setCurrentPage(1);
             }}
             className="px-2 flex items-center justify-center text-muted-foreground hover:text-foreground border border-input rounded-md hover:bg-accent"
-            disabled={highLevelSelectValue === "all"}
+            disabled={!hasActiveFilters()}
           >
             <X size={16}/>
           </button>
@@ -444,6 +479,11 @@ const VideoGridVisualizer = ({ videos_per_page }: VideoGridVisualizerProps) => {
                   <p className="text-muted-foreground mb-2">
                     Video ID: {selectedVideo.id}
                   </p>
+                  {selectedVideo.verified !== undefined && (
+                    <p className="text-muted-foreground">
+                      Verified: {selectedVideo.verified ? 'Yes' : 'No'}
+                    </p>
+                  )}
                 </div>
 
                 <div className="border-b border-border pb-4">
