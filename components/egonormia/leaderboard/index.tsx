@@ -304,10 +304,10 @@ const rawData = {
     },
     {
       model: "Claude 3.5 Sonnet",
-      both: 36.0,
-      act: 43.5,
-      jus: 41.0,
-      sens: 59.3,
+      both: 25.5,
+      act: 32.0,
+      jus: 28.5,
+      sens: 39.4,
       organization: "Anthropic",
       date: "2025-02-15",
     },
@@ -432,10 +432,10 @@ const rawData = {
   video_verified: [
     {
       model: "Gemini 1.5 Flash",
-      both: 36.8,
-      act: 57.9,
-      jus: 36.8,
-      sens: 41.8,
+      both: 48.0,
+      act: 53.0,
+      jus: 50.5,
+      sens: 56.8,
       organization: "Google",
       date: "2025-05-20",
     },
@@ -459,10 +459,10 @@ const rawData = {
     },
     {
       model: "GPT-4.1",
-      both: 49.8,
-      act: 55.5,
-      jus: 52.6,
-      sens: 55.2,
+      both: 46.4,
+      act: 50.0,
+      jus: 50.0,
+      sens: 57.7,
       organization: "OpenAI",
       date: "2025-05-20",
     },
@@ -477,10 +477,10 @@ const rawData = {
     },
     {
       model: "Gemini 1.5 Pro",
-      both: 35.3,
-      act: 64.7,
-      jus: 41.2,
-      sens: 50.0,
+      both: 49.0,
+      act: 56.5,
+      jus: 50.5,
+      sens: 61.8,
       organization: "Google",
       date: "2025-05-20",
     },
@@ -516,7 +516,7 @@ const rawData = {
       both: 47.0,
       act: 57.5,
       jus: 48.0,
-      sens: 68.3,
+      sens: 68.2,
       organization: "Alibaba",
       date: "2025-05-20",
     },
@@ -531,10 +531,10 @@ const rawData = {
     },
     {
       model: "InternVL 2.5",
-      both: 15.1,
-      act: 18.7,
-      jus: 17.6,
-      sens: 50.7,
+      both: 13.0,
+      act: 16.5,
+      jus: 15.0,
+      sens: 52.1,
       organization: "Shanghai AI Lab",
       date: "2025-05-20",
     },
@@ -548,11 +548,11 @@ const rawData = {
       date: "2025-05-20",
     },
     { 
-      model: "GPT-4o", // Verified model with -V suffix
-      both: 46.9,
-      act: 62.5,
+      model: "GPT-4o",
+      both: 45.5,
+      act: 53.0,
       jus: 50.0,
-      sens: 46.4,
+      sens: 62.7,
       organization: "OpenAI",
       date: "2025-05-20",
     },
@@ -937,7 +937,7 @@ export default function CombinedLeaderboard() {
           </h1>
 
           <p className="text-xl font-serif italic sm:text-2xl md:text-3xl mb-6 font-light">
-            Can VLMs make normative decisions in physical social interactions?
+            Can large models make normative decisions in physical-social embodied situations?
           </p>
 
           {/* <div className="mb-4 sm:mb-6">
