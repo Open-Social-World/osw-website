@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 
 // Export metadata for this page
 export const metadata: Metadata = {
-  title: "EgoNormia: A Benchmark for Visual Frontier Models' Normative Reasoning",
+  title: "EgoNormia: A Benchmark for Embodied Normative Reasoning",
   description:
     "A large scale video dataset and a benchmark for evaluating frontier models' understanding of physical social norms through videos.",
   openGraph: {
-    title: "EgoNormia: A Benchmark for Visual Frontier Models' Normative Reasoning",
+    title: "EgoNormia: A Benchmark for Embodied Normative Reasoning",
     description:
       "A large scale video dataset and a benchmark for evaluating frontier models' understanding of physical social norms through videos.",
     url: "https://opensocial.world/leaderboard",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "EgoNormia: A Benchmark for Visual Frontier Models' Normative Reasoning",
+    title: "EgoNormia: A Benchmark for Embodied Normative Reasoning",
     description:
       "A large scale video dataset and a benchmark for evaluating frontier models' understanding of physical social norms through videos.",
     images: ["https://opensocial.world/images/psn/leaderboard-metadata.png"],
