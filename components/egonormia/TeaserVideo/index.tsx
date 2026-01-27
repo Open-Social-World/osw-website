@@ -134,7 +134,7 @@ const SocialInteractionScenario = () => {
                 muted
                 autoPlay
                 loop
-                src="https://storage.googleapis.com/physical-social-norm/sampled_snippets_new_new/19f2ea20-5041-4be2-bdc9-714473f16236/19f2ea20-5041-4be2-bdc9-714473f16236_1915-00_prev.mp4"
+                src="https://huggingface.co/datasets/open-social-world/EgoNormia/resolve/bc43d57b09af2ee694cb99a555e101ef197cfa83/video/19f2ea20-5041-4be2-bdc9-714473f16236_5269-91/video_prev.mp4"
               >
                 Your browser does not support the video tag.
               </video>
